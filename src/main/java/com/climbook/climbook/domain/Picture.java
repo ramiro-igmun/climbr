@@ -1,4 +1,4 @@
-package com.climbook.climbook;
+package com.climbook.climbook.domain;
 
 import lombok.Data;
 import org.springframework.data.jpa.domain.AbstractPersistable;
@@ -11,6 +11,7 @@ public class Picture extends AbstractPersistable<Long> {
 
   private String name;
   private String mediaType;
+  private String description;
   private Long size;
 
   @ManyToOne
