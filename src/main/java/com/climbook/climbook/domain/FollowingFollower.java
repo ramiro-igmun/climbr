@@ -11,14 +11,14 @@ import java.time.Instant;
 
 @Entity
 @Data
-public class AccountFollower {
+public class FollowingFollower {
 
   @EmbeddedId
   AccountFollowerKey id;
 
   @ManyToOne
   @MapsId("accountId")
-  Account account;
+  Account following;
   @ManyToOne
   @MapsId("followerId")
   Account follower;

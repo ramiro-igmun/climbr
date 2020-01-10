@@ -27,9 +27,9 @@ public class Account extends AbstractPersistable<Long> {
   private Set<Comment> comments;
 
   @OneToMany(mappedBy = "follower")
-  private Set<AccountFollower> followers;
-  @OneToMany(mappedBy = "account")
-  private Set<AccountFollower> following;
+  private Set<FollowingFollower> followers;
+  @OneToMany(mappedBy = "following")
+  private Set<FollowingFollower> following;
 
   @ManyToMany
   private Set<Comment> likedComments;

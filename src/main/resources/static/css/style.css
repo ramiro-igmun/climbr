@@ -1,0 +1,141 @@
+
+html, body{
+    margin:0;
+    padding:0;
+    min-height: 98vh;
+}
+
+body{
+    position:relative;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 300;
+}
+
+body > header{
+    border-bottom: solid 1px  #dedede;
+    background-clip: border-box;
+}
+
+header > h1{
+    max-width:800px;
+    margin: 20px auto 0;
+}
+
+.cabecera{
+    max-width:800px;
+    margin: 0 auto;
+    color: lightslategray
+}
+
+nav{
+    max-width: 800px;
+    margin:auto;
+    height:30px;
+    padding-top: 10px;    
+}
+
+nav a {
+    text-decoration: unset;
+    color: firebrick;
+    padding: 0 20px 0 5px;
+}
+
+a{
+   text-decoration: unset;
+    color: firebrick; 
+}
+
+a:hover {
+    color: black;
+    text-decoration:underline
+}
+
+main{
+    padding-bottom:35px;
+}
+
+
+article{
+    min-width: 400px;
+    max-width: 800px;
+    margin: 0px auto;
+}
+
+figure{
+    margin: 0px;
+    font-size: 70%;
+    color: gray;
+    text-align: right;
+}
+
+img{
+    width: 800px;
+}
+
+article > header{
+    position: relative;
+    top: -60px;
+    left: 10px;
+    color: white;
+}
+
+header+p{
+    margin: 0px;
+    font-weight: bold;
+    color: firebrick;
+}
+
+h2, h3{
+    margin: 0;
+}
+
+hr{
+    width: 300px;
+    border-style: dashed;
+    border-color: lightslategrey;
+    margin: 30px auto;
+}
+
+.firstLetter{
+    font-size: 200%;
+    font-weight: 700;
+}
+
+.form{
+    max-width: 800px;
+    margin: 0px auto;
+}
+
+form{
+    margin-top:50px;
+    width: 400px;
+    border-radius: 10px;
+    padding: 20px;
+    display: inline-block;
+    background-color:  #dedede;
+}
+
+input{
+    float: right;
+    width: 300px;
+}
+
+textarea{
+    resize:none;
+    width:100%;
+    margin-bottom: 10px;
+}
+
+footer{
+    width:100%;
+    border-top:solid 1px  #dedede;
+    height: 30px;
+    text-align: center;
+    padding-top:15px;
+    color:lightslategrey;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: small;
+    position:absolute;
+    bottom: 0;
+    
+}
