@@ -3,9 +3,7 @@ package com.climbook.climbook.domain;
 import lombok.Data;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +31,11 @@ public class Account extends AbstractPersistable<Long> {
   @OneToMany(mappedBy = "account")
   private Set<AccountFollower> following;
 
-
+  @ManyToMany
+  private Set<Comment> likedComments;
+  @ManyToMany
+  private Set<Picture> likedPictures;
+  @ManyToMany
+  private Set<WallPost> likedWallPosts;
 
 }

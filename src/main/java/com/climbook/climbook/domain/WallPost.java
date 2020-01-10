@@ -3,10 +3,7 @@ package com.climbook.climbook.domain;
 import lombok.Data;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.Set;
@@ -20,7 +17,10 @@ public class WallPost extends AbstractPersistable<Long> {
   private Date postDate = new Date(Instant.now().toEpochMilli());
   @Column(length = 1000)
   private String message;
+
   @OneToMany(mappedBy = "parentPost")
   private Set<Comment> comments;
 
+  @ManyToMany(mappedBy = "likedWallPosts")
+  Set<Account> likes;
 }

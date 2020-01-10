@@ -4,19 +4,24 @@ import lombok.Data;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import java.sql.Date;
 import java.time.Instant;
+import java.util.Set;
 
 @Entity
 @Data
 public class Comment extends AbstractPersistable<Long> {
 
   @ManyToOne
-  Account author;
+  private Account author;
   @ManyToOne
-  WallPost parentPost;
-  Date date = new Date(Instant.now().toEpochMilli());
+  private WallPost parentPost;
+  private Date date = new Date(Instant.now().toEpochMilli());
 
-  String commentContent;
+  private String commentContent;
+
+  @ManyToMany(mappedBy = "likedComments")
+  private Set<Account> likes;
 }
