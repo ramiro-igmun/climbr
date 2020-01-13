@@ -1,141 +1,102 @@
-
-html, body{
-    margin:0;
-    padding:0;
-    min-height: 98vh;
+*{
+  box-sizing: border-box;
 }
 
-body{
-    position:relative;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 300;
+html, body{
+  margin:0;
+  padding:0;
+  min-height: 98vh;
 }
 
 body > header{
-    border-bottom: solid 1px  #dedede;
-    background-clip: border-box;
-}
-
-header > h1{
-    max-width:800px;
-    margin: 20px auto 0;
-}
-
-.cabecera{
-    max-width:800px;
-    margin: 0 auto;
-    color: lightslategray
-}
-
-nav{
-    max-width: 800px;
-    margin:auto;
-    height:30px;
-    padding-top: 10px;    
-}
-
-nav a {
-    text-decoration: unset;
-    color: firebrick;
-    padding: 0 20px 0 5px;
-}
-
-a{
-   text-decoration: unset;
-    color: firebrick; 
-}
-
-a:hover {
-    color: black;
-    text-decoration:underline
+  border-bottom: solid 1px  #dedede;
+  max-width: 900px;
+  margin: 0px auto;
 }
 
 main{
-    padding-bottom:35px;
+  display: grid;
+  grid-template-columns: 150px auto 200px;
+  gap: 5px 15px;
+  max-width: 900px;
+  margin: 0px auto;
 }
 
-
-article{
-    min-width: 400px;
-    max-width: 800px;
-    margin: 0px auto;
+.mainColumn{
 }
 
-figure{
-    margin: 0px;
-    font-size: 70%;
-    color: gray;
-    text-align: right;
+#asideLeft{
+
 }
 
-img{
-    width: 800px;
+.sideMenuItem{
+  width: 95%;
+  margin: 10px 0;
+  height: 30px;
+  display: block;
+  text-decoration: unset;
+  color: black;
 }
 
-article > header{
-    position: relative;
-    top: -60px;
-    left: 10px;
-    color: white;
+.sideMenuItem:hover{
+  border: 1px dashed gray;
+  border-radius: 10px;
 }
 
-header+p{
-    margin: 0px;
-    font-weight: bold;
-    color: firebrick;
+.icon{
+  height: 90%;
+  margin-left: 5%;
 }
 
-h2, h3{
-    margin: 0;
+.sideMenuItem > span {
+  margin: auto 10px;
+  vertical-align: super;
 }
 
-hr{
-    width: 300px;
-    border-style: dashed;
-    border-color: lightslategrey;
-    margin: 30px auto;
+#profilePicture{
+  border: 1px solid gray;
+  width: 95%;
+  height: auto;
+  margin: 5px auto;
 }
 
-.firstLetter{
-    font-size: 200%;
-    font-weight: 700;
+#buscarCuenta{
+  border-radius: 10px;
+  display: block;
+  margin: 5px auto;
+  padding-left: 5px;
 }
 
-.form{
-    max-width: 800px;
-    margin: 0px auto;
+.post{
+  border-radius: 10px;
+  border: 1px solid gray;
+  padding: 10px 10px 10px 20px;
+  display: grid;
+  grid-template-rows: 30px auto 20px;
+  margin: 5px 0;
+  width: 1fr;
+  background-color: white;
 }
 
-form{
-    margin-top:50px;
-    width: 400px;
-    border-radius: 10px;
-    padding: 20px;
-    display: inline-block;
-    background-color:  #dedede;
+.postMessage{
+  padding: 5px 0;
+
 }
 
-input{
-    float: right;
-    width: 300px;
+.post > footer{
+  padding: 5px 0;
 }
 
 textarea{
-    resize:none;
-    width:100%;
-    margin-bottom: 10px;
+  width: 100%;
+  border-style: none;
+  resize: none;
+} 
+
+#wall{
+  max-width: 600px;
 }
 
-footer{
-    width:100%;
-    border-top:solid 1px  #dedede;
-    height: 30px;
-    text-align: center;
-    padding-top:15px;
-    color:lightslategrey;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: small;
-    position:absolute;
-    bottom: 0;
-    
+#asideRight{
+  
 }

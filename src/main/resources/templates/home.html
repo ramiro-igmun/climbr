@@ -1,57 +1,79 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="Ramiro Iglesias">
-  <meta name="description" content="climbook application home page">
-  <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}">
-  <title>Inicio</title>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" th:href="@{css/style.css}">
+  <link rel="icon" type="image/png" href=icons/favicon.ico/>
+  <title>Climbook</title>
 </head>
 
 <body>
   <header>
-    <h1>INICIO</h1>
-    <section class="cabecera">Presentacion personal</section>
+    <h1 style="margin-bottom: 0;">Climbook</h1>
+    <h3 style="margin-top: 0;">Ramiro@irami007</h3>
   </header>
-  <nav>
-    <a href="index.html">Inicio</a>
-    <a href="articulos.html">Artículos</a>
-    <a href="contacto.html">Contacto</a>
-  </nav>
   <main>
-    <section class="mainText">
-      <article>
-        <figure>
-          <img src="img/urkiola.jpg" alt="Las motañas de Atxarte">
-          <figcaption>
-            El parque natural de Urkiola en Bizkaia
-          </figcaption>
-        </figure>
+    <aside class="mainColumn" id="asideLeft">
+      <img id="profilePicture" src="img/1.jpg" alt="profile picture">
+
+      <nav>
+        <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/home.svg" alt="home"><span>Home</span></a>
+        <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/profile.svg" alt="profile"><span>Profile</span></a>
+        <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/picture.svg" alt="picture"><span>Picture</span></a>
+        <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/likes.svg" alt="likes"><span>Likes</span></a>
+      </nav>
+    </aside>
+
+    <section class="mainColumn" id="wall">
+
+      <article class="post">
         <header>
-          <h3>Hola! Soy Ramiro,</h3>
+          Ramiro@irami007
         </header>
-        <br>
-        <p>
-          Arquitecto de estudios y gestor de proyectos de profesión.
-          Estoy estudiando DAM para redireccinar mi carrera hacia el desarrollo de software,
-          campo por el que siempre he tenido interes y afición.
-          </br>
-          Soy además un enamorado de la montaña.
-          Mi familia y yo dedicamos práticamente todo (el poco) tiempo libre a escalar las paredes de las
-          preciosas montañas que tenemos la suerte de tener en Euskadi.
-        </p>
-        <aside>
-          En la sección de <a href="articulos.html">artículos</a> puedes ver algunas noticias relacionadas con el mundo
-          de la escalada.
-        </aside>
+        <form id="newPostForm" action="/home" method="post">
+          <textarea name="message" id="newPostMessage" rows="5" placeholder="¿Qué te cuentas?"></textarea>
+        </form>
+        <footer>
+          <input form="newPostForm" type="submit" value="Post">
+        </footer>
       </article>
+
+      <article class="post">
+        <header>
+          Leticia@laetitia
+          <time style="float: right;" datetime="11-12-2019">11/12/2019</time>
+        </header>
+        <section class="postMessage">
+          Ayer fui a escalar a Atxarte!
+        </section>
+        <footer>
+          likes: 30
+        </footer>
+      </article>
+
+      <article class="post">
+        <header>
+          Ramiro@irami007
+          <time style="float: right;" datetime="12-12-2019">12/12/2019</time>
+        </header>
+        <section class="postMessage">
+          Quién va a sako mañana?<br>
+          A ver si me saco la trave rosa pronto!!
+        </section>
+        <footer>
+          likes: 15
+        </footer>
+      </article>
+
     </section>
+    <aside class="mainColumn" id="asideRight">
+      <input type="text" name="cuenta" id="buscarCuenta" placeholder="Buscar cuenta">
+    </aside>
   </main>
-  <footer>
-    Ramiro Iglesias Munitiz / DNI: 78915427N / LMSG Tarea03
-  </footer>
+  <footer></footer>
 </body>
 
 </html>
