@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import java.sql.Date;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -23,5 +24,5 @@ public class FollowingFollower {
   @MapsId("followerId")
   Account follower;
 
-  Date followingStartingDate = new Date(Instant.now().toEpochMilli());
+  LocalDateTime followingStartingDate = LocalDateTime.now();
 }

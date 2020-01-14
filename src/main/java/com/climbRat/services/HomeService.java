@@ -32,7 +32,7 @@ public class HomeService {
   }
 
   public List<WallPost> getHomePageWallPosts(){
-    Pageable pageable = PageRequest.of(0,25, Sort.by("postDate").descending());
+    Pageable pageable = PageRequest.of(0,25, Sort.by("postDateTime").descending());
     return wallPostRepository.findCurrentUserHomePageWallPosts(getUserDetails().getCurrentUser(),pageable);
   }
 

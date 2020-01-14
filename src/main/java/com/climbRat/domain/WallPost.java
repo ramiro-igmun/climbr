@@ -1,11 +1,13 @@
 package com.climbRat.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -14,7 +16,7 @@ public class WallPost extends AbstractPersistable<Long> {
 
   @ManyToOne
   private Account author;
-  private Date postDate = new Date(Instant.now().toEpochMilli());
+  private LocalDateTime postDateTime = LocalDateTime.now();
   @Column(length = 1000)
   private String message;
 

@@ -83,7 +83,10 @@ main{
 
 .postMessage{
   padding: 5px 0;
+}
 
+time{
+  float: right;
 }
 
 .post > footer{
