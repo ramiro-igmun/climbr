@@ -13,7 +13,7 @@
 <body>
   <header>
     <h1 style="margin-bottom: 0;">ClimbRat</h1>
-    <h3 style="margin-top: 0;"><span th:text="${currentUser.getUsername()}"></span><span class="alias" th:text="${'@' + currentUser.profileString}"></span></h3>
+    <h3 style="margin-top: 0;"><span th:text="${currentUser.username}"></span><span class="alias" th:text="${'@' + currentUser.profileString}"></span></h3>
   </header>
   <main>
     <aside class="mainColumn" id="asideLeft">
@@ -38,6 +38,19 @@
         </form>
         <footer>
           <input form="newPostForm" type="submit" value="Post">
+        </footer>
+      </article>
+
+      <article class="post" th:each="wallpost: ${wallPosts}">
+        <header>
+          <span th:text="${wallpost.author.userName}">Name</span><span class="alias" th:text="'@' + ${wallpost.author.profileString}">@alias</span>
+          <time  style="float: right;" datetime="11-12-2019">11/12/2019</time>
+        </header>
+        <section th:text="${wallpost.message}" class="postMessage">
+          Ayer fui a escalar a Atxarte!
+        </section>
+        <footer>
+          likes: 30
         </footer>
       </article>
 

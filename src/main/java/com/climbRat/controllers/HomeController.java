@@ -1,7 +1,6 @@
 package com.climbRat.controllers;
 
 import com.climbRat.services.HomeService;
-import com.climbRat.domain.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -22,8 +21,8 @@ public class HomeController {
 
   @GetMapping
   public String climbookHome(Model model) {
-    System.out.println(homeService.getUserDetails().getProfileString());
     model.addAttribute("currentUser", homeService.getUserDetails());
+    model.addAttribute("wallPosts", homeService.getHomePageWallPosts());
     return "home";
   }
 
