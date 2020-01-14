@@ -31,7 +31,7 @@
 
       <article class="post">
         <header>
-          Ramiro@irami007
+          <span th:text="${currentUser.username}"></span><span class="alias" th:text="${'@' + currentUser.profileString}"></span>
         </header>
         <form id="newPostForm" th:action="@{/home}" method="post">
           <textarea name="message" id="newPostMessage" rows="5" placeholder="¿Qué te cuentas?"></textarea>
@@ -51,33 +51,6 @@
         </section>
         <footer>
           likes: 30
-        </footer>
-      </article>
-
-      <article class="post">
-        <header>
-          Leticia@laetitia
-          <time style="float: right;" datetime="11-12-2019">11/12/2019</time>
-        </header>
-        <section class="postMessage">
-          Ayer fui a escalar a Atxarte!
-        </section>
-        <footer>
-          likes: 30
-        </footer>
-      </article>
-
-      <article class="post">
-        <header>
-          Ramiro@irami007
-          <time style="float: right;" datetime="12-12-2019">12/12/2019</time>
-        </header>
-        <section class="postMessage">
-          Quién va a sako mañana?<br>
-          A ver si me saco la trave rosa pronto!!
-        </section>
-        <footer>
-          likes: 15
         </footer>
       </article>
 

@@ -5,6 +5,9 @@ import com.climbRat.repositories.WallPostRepository;
 import com.climbRat.domain.WallPost;
 import com.climbRat.security.ClimbRatUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -25,12 +28,12 @@ public class HomeService {
 
   public ClimbRatUserDetails getUserDetails(){
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    ClimbRatUserDetails currentUser = (ClimbRatUserDetails) auth.getPrincipal();
-    return currentUser;
+    return (ClimbRatUserDetails) auth.getPrincipal();
   }
 
   public List<WallPost> getHomePageWallPosts(){
-    return wallPostRepository.findByAuthor(getUserDetails().getCurrentUser());
+    Pageable pageable = PageRequest.of(0,25, Sort.by("postDate").descending());
+    return wallPostRepository.findCurrentUserHomePageWallPosts(getUserDetails().getCurrentUser(),pageable);
   }
 
   public void saveWallPost(String message){
