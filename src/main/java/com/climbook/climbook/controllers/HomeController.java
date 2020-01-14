@@ -1,16 +1,43 @@
 package com.climbook.climbook.controllers;
 
+import com.climbook.climbook.Services.HomeService;
+import com.climbook.climbook.domain.Account;
+import com.climbook.climbook.domain.WallPost;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
 
 @Controller
 @RequestMapping("/home")
 public class HomeController {
 
+  private HomeService homeService;
+
+  @Autowired
+  public HomeController(HomeService homeService) {
+    this.homeService = homeService;
+  }
+
   @GetMapping
-  public String climbookHome(Model model){
+  public String climbookHome(Model model) {
+    Account currentUser = homeService.setCurrentUserAccount();
+    System.out.println(currentUser.getProfileString());
+    model.addAttribute("currentUser", currentUser);
     return "home";
+  }
+
+  @GetMapping(value = "/profilePicture", produces = MediaType.IMAGE_JPEG_VALUE)
+  @ResponseBody
+  public byte[] getProfileImage() {
+    return homeService.getCurrentUserAccount().getProfilePicture().getContent();
+  }
+
+  @PostMapping
+  public String newWallPost(@RequestParam String message) {
+    homeService.saveWallPost(message);
+    return "redirect:/home";
   }
 }

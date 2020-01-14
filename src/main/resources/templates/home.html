@@ -13,11 +13,11 @@
 <body>
   <header>
     <h1 style="margin-bottom: 0;">Climbook</h1>
-    <h3 style="margin-top: 0;">Ramiro@irami007</h3>
+    <h3 style="margin-top: 0;"><span th:text="${currentUser.userName}"></span><span class="alias" th:text="${'@' + currentUser.profileString}"></span></h3>
   </header>
   <main>
     <aside class="mainColumn" id="asideLeft">
-      <img id="profilePicture" src="img/1.jpg" alt="profile picture">
+      <img id="profilePicture" src="img/1.jpg" th:src="@{/home/profilePicture}" alt="profile picture">
 
       <nav>
         <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/home.svg" alt="home"><span>Home</span></a>
@@ -33,7 +33,7 @@
         <header>
           Ramiro@irami007
         </header>
-        <form id="newPostForm" action="/home" method="post">
+        <form id="newPostForm" th:action="@{/home}" method="post">
           <textarea name="message" id="newPostMessage" rows="5" placeholder="¿Qué te cuentas?"></textarea>
         </form>
         <footer>

@@ -14,6 +14,7 @@ public class Account extends AbstractPersistable<Long> {
   private String userName;
   private String password;
   private String profileString;
+
   @OneToOne
   private Picture profilePicture;
 
