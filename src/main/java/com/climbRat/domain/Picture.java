@@ -1,10 +1,9 @@
-package com.climbook.climbook.domain;
+package com.climbRat.domain;
 
 import lombok.Data;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Set;
 
 @Entity

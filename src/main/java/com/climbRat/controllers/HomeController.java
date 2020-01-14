@@ -1,8 +1,7 @@
-package com.climbook.climbook.controllers;
+package com.climbRat.controllers;
 
-import com.climbook.climbook.Services.HomeService;
-import com.climbook.climbook.domain.Account;
-import com.climbook.climbook.domain.WallPost;
+import com.climbRat.services.HomeService;
+import com.climbRat.domain.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -23,16 +22,15 @@ public class HomeController {
 
   @GetMapping
   public String climbookHome(Model model) {
-    Account currentUser = homeService.setCurrentUserAccount();
-    System.out.println(currentUser.getProfileString());
-    model.addAttribute("currentUser", currentUser);
+    System.out.println(homeService.getUserDetails().getProfileString());
+    model.addAttribute("currentUser", homeService.getUserDetails());
     return "home";
   }
 
   @GetMapping(value = "/profilePicture", produces = MediaType.IMAGE_JPEG_VALUE)
   @ResponseBody
   public byte[] getProfileImage() {
-    return homeService.getCurrentUserAccount().getProfilePicture().getContent();
+    return homeService.getUserDetails().getCurrentUser().getProfilePicture().getContent();
   }
 
   @PostMapping

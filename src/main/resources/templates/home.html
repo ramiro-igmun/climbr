@@ -7,13 +7,13 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" th:href="@{css/style.css}">
   <link rel="icon" type="image/png" href=icons/favicon.ico/>
-  <title>Climbook</title>
+  <title>ClimbRat</title>
 </head>
 
 <body>
   <header>
-    <h1 style="margin-bottom: 0;">Climbook</h1>
-    <h3 style="margin-top: 0;"><span th:text="${currentUser.userName}"></span><span class="alias" th:text="${'@' + currentUser.profileString}"></span></h3>
+    <h1 style="margin-bottom: 0;">ClimbRat</h1>
+    <h3 style="margin-top: 0;"><span th:text="${currentUser.getUsername()}"></span><span class="alias" th:text="${'@' + currentUser.profileString}"></span></h3>
   </header>
   <main>
     <aside class="mainColumn" id="asideLeft">

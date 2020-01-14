@@ -1,12 +1,14 @@
-package com.climbook.climbook.Services;
+package com.climbRat.services;
 
-import com.climbook.climbook.Repositories.AccountRepository;
-import com.climbook.climbook.Repositories.WallPostRepository;
-import com.climbook.climbook.domain.Account;
-import com.climbook.climbook.domain.WallPost;
+import com.climbRat.repositories.AccountRepository;
+import com.climbRat.repositories.WallPostRepository;
+import com.climbRat.domain.Account;
+import com.climbRat.domain.WallPost;
+import com.climbRat.security.ClimbRatUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +16,6 @@ public class HomeService {
 
   private AccountRepository accountRepository;
   private WallPostRepository wallPostRepository;
-  private Account currentUserAccount;
 
   @Autowired
   public HomeService(AccountRepository accountRepository, WallPostRepository wallPostRepository) {
@@ -22,20 +23,16 @@ public class HomeService {
     this.wallPostRepository = wallPostRepository;
   }
 
-  public Account setCurrentUserAccount(){
+  public ClimbRatUserDetails getUserDetails(){
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    currentUserAccount = accountRepository.findByUserName(auth.getName());
-    return currentUserAccount;
-  }
-
-  public Account getCurrentUserAccount(){
-    return currentUserAccount;
+    ClimbRatUserDetails currentUser = (ClimbRatUserDetails) auth.getPrincipal();
+    return currentUser;
   }
 
   public void saveWallPost(String message){
     WallPost wallPost = new WallPost();
     wallPost.setMessage(message);
-    wallPost.setAuthor(currentUserAccount);
+    wallPost.setAuthor(accountRepository.findByUserName(getUserDetails().getUsername()).get());
 
     wallPostRepository.save(wallPost);
   }
