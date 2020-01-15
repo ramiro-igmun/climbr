@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" th:href="@{css/style.css}">
+  <link rel="stylesheet" href="css/style.css" th:href="@{css/style.css}">
   <link rel="icon" type="image/png" href=icons/favicon.ico/>
   <title>ClimbRat</title>
 </head>
@@ -17,7 +17,7 @@
   </header>
   <main>
     <aside class="mainColumn" id="asideLeft">
-      <img id="profilePicture" src="img/1.jpg" th:src="@{/home/profilePicture}" alt="profile picture">
+      <img id="profilePicture" src="img/defaultProfile.jpg" th:src="@{/home/profilePicture}" alt="profile picture">
 
       <nav>
         <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/home.svg" alt="home"><span>Home</span></a>
@@ -50,7 +50,10 @@
           Ayer fui a escalar a Atxarte!
         </section>
         <footer>
-          likes: 30
+          <form class="likeForm" th:action="@{/home/like}" method="post">
+          <input type="hidden" id="likeInput" name="likedWallPost" th:value="${wallPost.id}">
+          <input class="inputLikeImage" type="image" src="icons/likes%20black.svg" alt="submit"><span class="numberOfLikes" th:text="${1}"></span>
+        </form>
         </footer>
       </article>
 

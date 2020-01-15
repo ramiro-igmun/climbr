@@ -70,15 +70,25 @@ main{
   padding-left: 5px;
 }
 
+#wall{
+  max-width: 600px;
+}
+
 .post{
   border-radius: 10px;
   border: 1px solid gray;
   padding: 10px 10px 10px 20px;
   display: grid;
-  grid-template-rows: 30px auto 20px;
+  grid-template-rows: 30px auto 30px;
   margin: 5px 0;
   width: 1fr;
   background-color: white;
+}
+
+textarea{
+  width: 100%;
+  border-style: none;
+  resize: none;
 }
 
 .postMessage{
@@ -93,14 +103,18 @@ time{
   padding: 5px 0;
 }
 
-textarea{
-  width: 100%;
-  border-style: none;
-  resize: none;
-} 
+form.likeForm{
+  height: 100%;
+}
 
-#wall{
-  max-width: 600px;
+.inputLikeImage{
+  height: 100%;
+}
+
+.numberOfLikes{
+  margin-left: 5px;
+  display: inline-block;
+  vertical-align: text-bottom;
 }
 
 #asideRight{

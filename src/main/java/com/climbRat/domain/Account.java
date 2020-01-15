@@ -1,11 +1,12 @@
 package com.climbRat.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Data
@@ -22,7 +23,7 @@ public class Account extends AbstractPersistable<Long> {
   private List<Picture> pictures;
 
   @OneToMany(mappedBy = "author")
-  private Set<WallPost> wallPosts;
+  private List<WallPost> wallPosts;
 
   @OneToMany(mappedBy = "author")
   private Set<Comment> comments;
@@ -33,10 +34,10 @@ public class Account extends AbstractPersistable<Long> {
   private Set<FollowingFollower> following;
 
   @ManyToMany
-  private Set<Comment> likedComments;
+  private Set<Comment> likedComments = new HashSet<>();
   @ManyToMany
-  private Set<Picture> likedPictures;
-  @ManyToMany
-  private Set<WallPost> likedWallPosts;
+  private Set<Picture> likedPictures = new HashSet<>();
+  @ManyToMany(mappedBy = "likes")
+  private List<WallPost> likedWallPosts = new ArrayList<>();
 
 }

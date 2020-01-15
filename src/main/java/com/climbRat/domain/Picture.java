@@ -1,6 +1,7 @@
 package com.climbRat.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;

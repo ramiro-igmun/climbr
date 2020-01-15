@@ -5,9 +5,10 @@ import lombok.EqualsAndHashCode;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,8 +22,8 @@ public class WallPost extends AbstractPersistable<Long> {
   private String message;
 
   @OneToMany(mappedBy = "parentPost")
-  private Set<Comment> comments;
+  private List<Comment> comments;
 
-  @ManyToMany(mappedBy = "likedWallPosts")
-  Set<Account> likes;
+  @ManyToMany
+  List<Account> likes = new ArrayList<>();
 }
