@@ -52,7 +52,7 @@
         <footer>
           <form class="likeForm" th:action="@{/home/like}" method="post">
           <input type="hidden" id="likeInput" name="likedWallPost" th:value="${wallPost.id}">
-          <input class="inputLikeImage" type="image" src="icons/likes%20black.svg" alt="submit"><span class="numberOfLikes" th:text="${1}"></span>
+          <input class="inputLikeImage" type="image" src="icons/likes%20black.svg" alt="submit"><span class="numberOfLikes" th:text="${#lists.size(wallPost.likes)}"></span>
         </form>
         </footer>
       </article>
@@ -60,6 +60,16 @@
     </section>
     <aside class="mainColumn" id="asideRight">
       <input type="text" name="cuenta" id="buscarCuenta" placeholder="Buscar cuenta">
+      <section>
+        <ul>
+          <li th:each="follower: ${followers}"><span th:text="${follower.follower.profileString}"></span></li>
+        </ul>
+      </section>
+      <section>
+        <ul>
+          <li th:each="following: ${followed}"><span th:text="${following.following.profileString}"></span></li>
+        </ul>
+      </section>
     </aside>
   </main>
   <footer></footer>

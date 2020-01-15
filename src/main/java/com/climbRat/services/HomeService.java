@@ -1,6 +1,8 @@
 package com.climbRat.services;
 
+import com.climbRat.domain.FollowingFollower;
 import com.climbRat.repositories.AccountRepository;
+import com.climbRat.repositories.FollowingFollowerRepository;
 import com.climbRat.repositories.PictureRepository;
 import com.climbRat.repositories.WallPostRepository;
 import com.climbRat.domain.WallPost;
@@ -22,12 +24,15 @@ public class HomeService {
   private AccountRepository accountRepository;
   private WallPostRepository wallPostRepository;
   private PictureRepository pictureRepository;
+  private FollowingFollowerRepository followingFollowerRepository;
 
   @Autowired
-  public HomeService(AccountRepository accountRepository, WallPostRepository wallPostRepository, PictureRepository pictureRepository) {
+  public HomeService(AccountRepository accountRepository, WallPostRepository wallPostRepository,
+                     PictureRepository pictureRepository, FollowingFollowerRepository followingFollowerRepository) {
     this.accountRepository = accountRepository;
     this.wallPostRepository = wallPostRepository;
     this.pictureRepository = pictureRepository;
+    this.followingFollowerRepository = followingFollowerRepository;
   }
 
   public ClimbRatUserDetails getUserDetails(){
@@ -63,6 +68,7 @@ public class HomeService {
     if(!checkLikeExists(wallPostId,currentUserId)
             && wallPostRepository.getOne(wallPostId).getAuthor().getId().intValue() != currentUserId.intValue()){
     wallPostRepository.setWallPostLike(wallPostId, currentUserId);}
+    System.out.println(wallPostRepository.getOne(wallPostId).getLikes().size());
   }
 
   private boolean checkLikeExists(Long wallPostId, Long currentUserId) {
@@ -70,4 +76,11 @@ public class HomeService {
   }
 
 
+  public List<FollowingFollower> getFollowers() {
+    return followingFollowerRepository.findByFollowing(getUserDetails().getCurrentUser());
+  }
+
+  public List<FollowingFollower> getFollowedAccounts(){
+    return followingFollowerRepository.findByFollower(getUserDetails().getCurrentUser());
+  }
 }

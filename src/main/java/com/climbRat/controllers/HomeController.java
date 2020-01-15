@@ -23,6 +23,9 @@ public class HomeController {
   public String climbookHome(Model model) {
     model.addAttribute("currentUser", homeService.getUserDetails());
     model.addAttribute("wallPosts", homeService.getHomePageWallPosts());
+    model.addAttribute("followers",homeService.getFollowers());
+    model.addAttribute("followed",homeService.getFollowedAccounts());
+
     return "home";
   }
 
