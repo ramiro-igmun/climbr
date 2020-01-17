@@ -1,12 +1,10 @@
 package com.climbRat.domain;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
@@ -17,7 +15,7 @@ public class Picture extends AbstractPersistable<Long> {
   private String description;
   private Long size;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   private Account account;
 
   @Lob

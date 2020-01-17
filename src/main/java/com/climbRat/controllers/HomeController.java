@@ -46,4 +46,11 @@ public class HomeController {
     homeService.addLikeToWallPost(likedWallPost);
     return "redirect:/home";
   }
+
+  @ResponseBody
+  @GetMapping("/test")
+  public String test(){
+    homeService.getHomePageWallPosts();
+    return "test";
+  }
 }
