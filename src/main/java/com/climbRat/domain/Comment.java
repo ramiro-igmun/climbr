@@ -9,7 +9,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import java.sql.Date;
 import java.time.Instant;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,5 +24,5 @@ public class Comment extends AbstractPersistable<Long> {
   private String commentContent;
 
   @ManyToMany(mappedBy = "likedComments")
-  private Set<Account> likes;
+  private List<Account> likes;
 }

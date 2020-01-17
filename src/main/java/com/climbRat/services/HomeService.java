@@ -1,6 +1,7 @@
 package com.climbRat.services;
 
 import com.climbRat.domain.FollowingFollower;
+import com.climbRat.domain.Picture;
 import com.climbRat.repositories.AccountRepository;
 import com.climbRat.repositories.FollowingFollowerRepository;
 import com.climbRat.repositories.PictureRepository;
@@ -46,9 +47,9 @@ public class HomeService {
   }
 
   public byte[] getProfilePicture(){
-     Optional<Long> optionalPictureId = pictureRepository.getDefaultPictureId(getUserDetails().getCurrentUser().getId());
-     if (optionalPictureId.isPresent()){
-       return pictureRepository.getOne(optionalPictureId.get()).getContent();
+    Optional<Picture> optionalPicture = pictureRepository.getDefaultPicture(getUserDetails().getCurrentUser().getId());
+     if (optionalPicture.isPresent()){
+       return optionalPicture.get().getContent();
      }else{
        return pictureRepository.getByName("Default").getContent();
      }

@@ -14,7 +14,7 @@ public class Account extends AbstractPersistable<Long> {
   private String password;
   private String profileString;
 
-  @OneToOne
+  @OneToOne(fetch = FetchType.LAZY)
   private Picture profilePicture;
 
   @OneToMany(mappedBy = "account")
@@ -24,18 +24,18 @@ public class Account extends AbstractPersistable<Long> {
   private List<WallPost> wallPosts;
 
   @OneToMany(mappedBy = "author")
-  private Set<Comment> comments;
+  private List<Comment> comments;
 
   @OneToMany(mappedBy = "follower")
-  private Set<FollowingFollower> followers;
+  private List<FollowingFollower> followers;
   @OneToMany(mappedBy = "following")
-  private Set<FollowingFollower> following;
+  private List<FollowingFollower> following;
 
   @ManyToMany
-  private Set<Comment> likedComments = new HashSet<>();
+  private List<Comment> likedComments;
   @ManyToMany
-  private Set<Picture> likedPictures = new HashSet<>();
+  private List<Picture> likedPictures ;
   @ManyToMany(mappedBy = "likes")
-  private List<WallPost> likedWallPosts = new ArrayList<>();
+  private List<WallPost> likedWallPosts;
 
 }

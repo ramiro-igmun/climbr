@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,5 +25,5 @@ public class Picture extends AbstractPersistable<Long> {
   private byte[] content;
 
   @ManyToMany(mappedBy = "likedPictures")
-  private Set<Account> likes;
+  private List<Account> likes;
 }

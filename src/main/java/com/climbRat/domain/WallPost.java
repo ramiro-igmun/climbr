@@ -22,5 +22,5 @@ public class WallPost extends AbstractPersistable<Long> {
   private List<Comment> comments;
 
   @ManyToMany
-  List<Account> likes = new ArrayList<>();
+  List<Account> likes;
 }
