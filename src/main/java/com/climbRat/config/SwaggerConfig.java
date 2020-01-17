@@ -25,7 +25,7 @@ public class SwaggerConfig {
 
     private ApiInfo metaData() {
         return new ApiInfoBuilder()
-                .title("com.climbRat")
+                .title("climbRat")
                 .build();
     }
 }
