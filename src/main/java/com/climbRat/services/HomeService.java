@@ -1,13 +1,12 @@
 package com.climbRat.services;
 
 import com.climbRat.domain.FollowingFollower;
+import com.climbRat.domain.WallPost;
 import com.climbRat.repositories.AccountRepository;
 import com.climbRat.repositories.FollowingFollowerRepository;
 import com.climbRat.repositories.PictureRepository;
 import com.climbRat.repositories.WallPostRepository;
-import com.climbRat.domain.WallPost;
 import com.climbRat.security.ClimbRatUserDetails;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,17 +15,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class HomeService {
 
-  private AccountRepository accountRepository;
-  private WallPostRepository wallPostRepository;
-  private PictureRepository pictureRepository;
-  private FollowingFollowerRepository followingFollowerRepository;
+  private final AccountRepository accountRepository;
+  private final WallPostRepository wallPostRepository;
+  private final PictureRepository pictureRepository;
+  private final FollowingFollowerRepository followingFollowerRepository;
 
-  @Autowired
   public HomeService(AccountRepository accountRepository, WallPostRepository wallPostRepository,
                      PictureRepository pictureRepository, FollowingFollowerRepository followingFollowerRepository) {
     this.accountRepository = accountRepository;
@@ -66,9 +66,8 @@ public class HomeService {
   public void addLikeToWallPost(Long wallPostId){
     Long currentUserId = getUserDetails().getCurrentUser().getId();
     if(!checkLikeExists(wallPostId,currentUserId)
-            && wallPostRepository.getOne(wallPostId).getAuthor().getId().intValue() != currentUserId.intValue()){
+            && Objects.requireNonNull(wallPostRepository.getOne(wallPostId).getAuthor().getId()).intValue() != Objects.requireNonNull(currentUserId).intValue()){
     wallPostRepository.setWallPostLike(wallPostId, currentUserId);}
-    System.out.println(wallPostRepository.getOne(wallPostId).getLikes().size());
   }
 
   private boolean checkLikeExists(Long wallPostId, Long currentUserId) {
