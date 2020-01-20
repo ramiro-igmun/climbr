@@ -3,7 +3,6 @@ package com.climbRat.repositories;
 import com.climbRat.domain.Account;
 import com.climbRat.domain.FollowingFollower;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 

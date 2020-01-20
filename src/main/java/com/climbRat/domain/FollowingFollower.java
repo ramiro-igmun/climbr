@@ -6,8 +6,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
-import java.sql.Date;
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity

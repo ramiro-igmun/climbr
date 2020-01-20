@@ -56,7 +56,7 @@ main{
   vertical-align: super;
 }
 
-#profilePicture{
+.profilePicture{
   border: 1px solid gray;
   width: 95%;
   height: auto;

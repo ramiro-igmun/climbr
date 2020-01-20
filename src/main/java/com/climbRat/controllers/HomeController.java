@@ -21,7 +21,7 @@ public class HomeController {
 
   @GetMapping
   public String climbookHome(Model model) {
-    model.addAttribute("currentUser", homeService.getUserDetails());
+    model.addAttribute("currentUser", homeService.getCurrentUserAccount());
     model.addAttribute("wallPosts", homeService.getHomePageWallPosts());
     model.addAttribute("followers",homeService.getFollowers());
     model.addAttribute("followed",homeService.getFollowedAccounts());
@@ -29,10 +29,10 @@ public class HomeController {
     return "home";
   }
 
-  @GetMapping(value = "/profilePicture", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+  @GetMapping(value = "/picture/{pictureId}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
   @ResponseBody
-  public byte[] profilePicture() {
-    return homeService.getProfilePicture();
+  public byte[] profilePicture(@PathVariable Long pictureId) {
+    return homeService.getPicture(pictureId);
   }
 
   @PostMapping
@@ -50,7 +50,7 @@ public class HomeController {
   @ResponseBody
   @GetMapping("/test")
   public String test(){
-    homeService.getHomePageWallPosts();
+    homeService.getCurrentUserAccount().getProfilePicture().getId();
     return "test";
   }
 }

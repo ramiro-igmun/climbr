@@ -1,5 +1,6 @@
 package com.climbRat.services;
 
+import com.climbRat.domain.Account;
 import com.climbRat.domain.FollowingFollower;
 import com.climbRat.domain.Picture;
 import com.climbRat.repositories.AccountRepository;
@@ -36,36 +37,33 @@ public class HomeService {
     this.followingFollowerRepository = followingFollowerRepository;
   }
 
-  public ClimbRatUserDetails getUserDetails(){
+  public Account getCurrentUserAccount(){
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    return (ClimbRatUserDetails) auth.getPrincipal();
+    ClimbRatUserDetails currentUserDetails = (ClimbRatUserDetails) auth.getPrincipal();
+    return currentUserDetails.getCurrentUser();
   }
 
   public List<WallPost> getHomePageWallPosts(){
     Pageable pageable = PageRequest.of(0,25, Sort.by("postDateTime").descending());
-    return wallPostRepository.findCurrentUserHomePageWallPosts(getUserDetails().getCurrentUser(),pageable);
+    return wallPostRepository.findCurrentUserHomePageWallPosts(getCurrentUserAccount(),pageable);
   }
 
-  public byte[] getProfilePicture(){
-    Optional<Picture> optionalPicture = pictureRepository.getDefaultPicture(getUserDetails().getCurrentUser().getId());
-     if (optionalPicture.isPresent()){
-       return optionalPicture.get().getContent();
-     }else{
-       return pictureRepository.getByName("Default").getContent();
-     }
+  public byte[] getPicture(Long id){
+    Optional<Picture> picture = pictureRepository.findById(id);
+    return picture.map(Picture::getContent).orElse(pictureRepository.getByName("Default").getContent());
   }
 
   public void saveWallPost(String message){
     WallPost wallPost = new WallPost();
     wallPost.setMessage(message);
-    wallPost.setAuthor(accountRepository.findByUserName(getUserDetails().getUsername()).get());
+    wallPost.setAuthor(accountRepository.getOne(getCurrentUserAccount().getId()));
 
     wallPostRepository.save(wallPost);
   }
 
   @Transactional
   public void addLikeToWallPost(Long wallPostId){
-    Long currentUserId = getUserDetails().getCurrentUser().getId();
+    Long currentUserId = getCurrentUserAccount().getId();
     if(!checkLikeExists(wallPostId,currentUserId)
             && wallPostRepository.getOne(wallPostId).getAuthor().getId().intValue() != currentUserId.intValue()){
     wallPostRepository.setWallPostLike(wallPostId, currentUserId);}
@@ -78,10 +76,10 @@ public class HomeService {
 
 
   public List<FollowingFollower> getFollowers() {
-    return followingFollowerRepository.findByFollowing(getUserDetails().getCurrentUser());
+    return followingFollowerRepository.findByFollowing(getCurrentUserAccount());
   }
 
   public List<FollowingFollower> getFollowedAccounts(){
-    return followingFollowerRepository.findByFollower(getUserDetails().getCurrentUser());
+    return followingFollowerRepository.findByFollower(getCurrentUserAccount());
   }
 }
