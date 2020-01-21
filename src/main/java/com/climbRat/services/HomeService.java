@@ -25,48 +25,39 @@ import java.util.Optional;
 @Service
 public class HomeService {
 
-  private final AccountRepository accountRepository;
   private final WallPostRepository wallPostRepository;
   private final PictureRepository pictureRepository;
-  private final FollowingFollowerRepository followingFollowerRepository;
 
-  public HomeService(AccountRepository accountRepository, WallPostRepository wallPostRepository,
-                     PictureRepository pictureRepository, FollowingFollowerRepository followingFollowerRepository) {
-    this.accountRepository = accountRepository;
+  public HomeService(WallPostRepository wallPostRepository,
+                     PictureRepository pictureRepository) {
     this.wallPostRepository = wallPostRepository;
     this.pictureRepository = pictureRepository;
-    this.followingFollowerRepository = followingFollowerRepository;
   }
 
-  public Account getCurrentUserAccount(){
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    ClimbRatUserDetails currentUserDetails = (ClimbRatUserDetails) auth.getPrincipal();
-    return currentUserDetails.getCurrentUser();
-  }
-
-  public List<WallPost> getHomePageWallPosts(){
+  public List<WallPost> getHomePageWallPosts(Account currentUser){
     Pageable pageable = PageRequest.of(0,25, Sort.by("postDateTime").descending());
-    return wallPostRepository.findCurrentUserHomePageWallPosts(getCurrentUserAccount(),pageable);
+    return wallPostRepository.findCurrentUserHomePageWallPosts(currentUser,pageable);
   }
 
   public byte[] getPicture(Long id){
     Optional<Picture> picture = pictureRepository.findById(id);
-    return picture.map(Picture::getContent).orElse(pictureRepository.getByName("Default").getContent());
+    return picture.map(Picture::getContent).orElse(null);
   }
 
-  public void saveWallPost(String message){
+  public void saveWallPost(String message, Account currentUser){
     WallPost wallPost = new WallPost();
     wallPost.setMessage(message);
-    wallPost.setAuthor(accountRepository.getOne(getCurrentUserAccount().getId()));
+    wallPost.setAuthor(currentUser);
 
     wallPostRepository.save(wallPost);
   }
 
-  @Transactional
-  public void addLikeToWallPost(Long wallPostId){
-    Long currentUserId = getCurrentUserAccount().getId();
+  @Transactional//TODO is this annotation necessary??
+  public void addLikeToWallPost(Long wallPostId, Account currentUser){
+    Long currentUserId = currentUser.getId();
     if(!checkLikeExists(wallPostId,currentUserId)
-            && Objects.requireNonNull(wallPostRepository.getOne(wallPostId).getAuthor().getId()).intValue() != Objects.requireNonNull(currentUserId).intValue()){
+            && Objects.requireNonNull(wallPostRepository
+            .getOne(wallPostId).getAuthor().getId()).intValue() != Objects.requireNonNull(currentUserId).intValue()){
     wallPostRepository.setWallPostLike(wallPostId, currentUserId);}
   }
 
@@ -74,14 +65,4 @@ public class HomeService {
     return (wallPostRepository.checkIfLikeExists(wallPostId,currentUserId) == 1);
   }
 
-
-  public List<Account> getFollowers() {
-    return followingFollowerRepository.findByFollowing(getCurrentUserAccount()).stream()
-            .map(FollowingFollower::getFollower).collect(Collectors.toList());
-  }
-
-  public List<Account> getFollowing(){
-    return followingFollowerRepository.findByFollower(getCurrentUserAccount()).stream()
-            .map(FollowingFollower::getFollowing).collect(Collectors.toList());
-  }
 }
