@@ -1,7 +1,6 @@
 package com.climbRat.controllers;
 
 import com.climbRat.services.HomeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,9 +11,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/home")
 public class HomeController {
 
-  private HomeService homeService;
+  private final HomeService homeService;
 
-  @Autowired
   public HomeController(HomeService homeService) {
     this.homeService = homeService;
   }
