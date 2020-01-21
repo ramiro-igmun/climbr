@@ -24,7 +24,7 @@ public class HomeController {
     model.addAttribute("currentUser", homeService.getCurrentUserAccount());
     model.addAttribute("wallPosts", homeService.getHomePageWallPosts());
     model.addAttribute("followers",homeService.getFollowers());
-    model.addAttribute("followed",homeService.getFollowedAccounts());
+    model.addAttribute("followed",homeService.getFollowing());
 
     return "home";
   }

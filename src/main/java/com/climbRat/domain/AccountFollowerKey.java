@@ -6,7 +6,7 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-@Data
+@Data //TODO do we need this annotation? test it
 public class AccountFollowerKey implements Serializable {
 
   Long followerId;

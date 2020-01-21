@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class HomeService {
@@ -67,7 +69,6 @@ public class HomeService {
     if(!checkLikeExists(wallPostId,currentUserId)
             && wallPostRepository.getOne(wallPostId).getAuthor().getId().intValue() != currentUserId.intValue()){
     wallPostRepository.setWallPostLike(wallPostId, currentUserId);}
-    System.out.println(wallPostRepository.getOne(wallPostId).getLikes().size());
   }
 
   private boolean checkLikeExists(Long wallPostId, Long currentUserId) {
@@ -75,11 +76,13 @@ public class HomeService {
   }
 
 
-  public List<FollowingFollower> getFollowers() {
-    return followingFollowerRepository.findByFollowing(getCurrentUserAccount());
+  public List<Account> getFollowers() {
+    return followingFollowerRepository.findByFollowing(getCurrentUserAccount()).stream()
+            .map(FollowingFollower::getFollower).collect(Collectors.toList());
   }
 
-  public List<FollowingFollower> getFollowedAccounts(){
-    return followingFollowerRepository.findByFollower(getCurrentUserAccount());
+  public List<Account> getFollowing(){
+    return followingFollowerRepository.findByFollower(getCurrentUserAccount()).stream()
+            .map(FollowingFollower::getFollowing).collect(Collectors.toList());
   }
 }

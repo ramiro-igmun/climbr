@@ -65,12 +65,13 @@
       <input type="text" name="cuenta" id="buscarCuenta" placeholder="Buscar cuenta">
       <section>
         <ul>
-          <li th:each="follower: ${followers}"><span th:text="${follower.follower.profileString}"></span></li>
+          <li th:each="follower: ${followers}">
+          <span th:text="${follower.profileString}"></span></li>
         </ul>
       </section>
       <section>
         <ul>
-          <li th:each="following: ${followed}"><span th:text="${following.following.profileString}"></span></li>
+          <li th:each="following: ${followed}"><span th:text="${following.profileString}"></span></li>
         </ul>
       </section>
     </aside>
