@@ -1,7 +1,8 @@
 package com.climbRat.controllers;
 
+import com.climbRat.domain.Account;
+import com.climbRat.services.AccountService;
 import com.climbRat.services.HomeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,19 +13,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/home")
 public class HomeController {
 
-  private HomeService homeService;
+  private final HomeService homeService;
+  private final AccountService accountService;
 
-  @Autowired
-  public HomeController(HomeService homeService) {
+  public HomeController(HomeService homeService, AccountService accountService) {
     this.homeService = homeService;
+    this.accountService = accountService;
   }
 
   @GetMapping
   public String climbookHome(Model model) {
-    model.addAttribute("currentUser", homeService.getCurrentUserAccount());
-    model.addAttribute("wallPosts", homeService.getHomePageWallPosts());
-    model.addAttribute("followers",homeService.getFollowers());
-    model.addAttribute("followed",homeService.getFollowing());
+    Account currentUser = accountService.getCurrentUserAccount();
+    model.addAttribute("currentUser", currentUser);
+    model.addAttribute("wallPosts", homeService.getHomePageWallPosts(currentUser));
+    model.addAttribute("followers",accountService.getFollowers(currentUser));
+    model.addAttribute("followed",accountService.getFollowing(currentUser));
 
     return "home";
   }
@@ -37,20 +40,20 @@ public class HomeController {
 
   @PostMapping
   public String newWallPost(@RequestParam String message) {
-    homeService.saveWallPost(message);
+    homeService.saveWallPost(message, accountService.getCurrentUserAccount());
     return "redirect:/home";
   }
 
   @PostMapping("/like")
   public String addLike(@RequestParam Long likedWallPost){
-    homeService.addLikeToWallPost(likedWallPost);
+    homeService.addLikeToWallPost(likedWallPost, accountService.getCurrentUserAccount());
     return "redirect:/home";
   }
 
   @ResponseBody
   @GetMapping("/test")
   public String test(){
-    homeService.getCurrentUserAccount().getProfilePicture().getId();
+    accountService.getCurrentUserAccount().getProfilePicture().getId();
     return "test";
   }
 }
