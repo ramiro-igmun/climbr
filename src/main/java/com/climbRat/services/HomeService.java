@@ -52,7 +52,7 @@ public class HomeService {
 
   public byte[] getPicture(Long id){
     Optional<Picture> picture = pictureRepository.findById(id);
-    return picture.map(Picture::getContent).orElse(pictureRepository.getByName("Default").getContent());
+    return picture.map(Picture::getContent).orElse(null);
   }
 
   public void saveWallPost(String message){
