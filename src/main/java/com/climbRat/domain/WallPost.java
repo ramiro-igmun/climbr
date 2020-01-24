@@ -14,8 +14,10 @@ public class WallPost extends AbstractPersistable<Long> {
   @ManyToOne
   private Account author;
   private LocalDateTime postDateTime = LocalDateTime.now();
-  @Column(length = 1000)
+  @Column(length = 300)
   private String message;
+  @OneToOne
+  private Picture picture;
 
   @OneToMany(mappedBy = "parentPost")
   private List<Comment> comments;

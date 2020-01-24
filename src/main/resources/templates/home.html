@@ -64,14 +64,19 @@
     <aside class="mainColumn" id="asideRight">
       <input type="text" name="cuenta" id="buscarCuenta" placeholder="Buscar cuenta">
       <section>
+        <h3>Followers:</h3>
         <ul>
           <li th:each="follower: ${followers}">
-          <span th:text="${follower.profileString}"></span></li>
+          <span th:text="${follower.userName}"></span>
+          <span class="alias" th:text="${'@' + follower.profileString}"></span></li>
         </ul>
       </section>
       <section>
+        <h3>Following:</h3>
         <ul>
-          <li th:each="following: ${followed}"><span th:text="${following.profileString}"></span></li>
+          <li th:each="following: ${followed}">
+            <span th:text="${following.userName}"></span>
+            <span class="alias" th:text="${'@' + following.profileString}"></span></li>
         </ul>
       </section>
     </aside>
