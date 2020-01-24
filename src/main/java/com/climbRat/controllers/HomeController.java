@@ -1,11 +1,9 @@
 package com.climbRat.controllers;
 
 import com.climbRat.domain.Account;
-import com.climbRat.repositories.WallPostRepository;
 import com.climbRat.services.AccountService;
 import com.climbRat.services.PictureService;
 import com.climbRat.services.WallPostService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

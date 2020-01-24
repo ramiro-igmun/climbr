@@ -2,7 +2,6 @@ package com.climbRat.services;
 
 import com.climbRat.domain.Account;
 import com.climbRat.domain.WallPost;
-import com.climbRat.repositories.PictureRepository;
 import com.climbRat.repositories.WallPostRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

@@ -10,5 +10,5 @@ import java.io.Serializable;
 public class AccountFollowerKey implements Serializable {
 
   Long followerId;
-  Long accountId;
+  Long followingId;
 }

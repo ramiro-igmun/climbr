@@ -9,19 +9,22 @@ import java.util.List;
 
 @Entity
 @Data
+
 public class WallPost extends AbstractPersistable<Long> {
 
-  @ManyToOne
-  private Account author;
-  private LocalDateTime postDateTime = LocalDateTime.now();
-  @Column(length = 300)
-  private String message;
-  @OneToOne
-  private Picture picture;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Account author;
+    private LocalDateTime postDateTime = LocalDateTime.now();
+    @Column(length = 300)
+    private String message;
+    @OneToOne(mappedBy = "parentPost", fetch = FetchType.LAZY)
+    private Picture picture;
 
-  @OneToMany(mappedBy = "parentPost")
-  private List<Comment> comments;
+    @OneToMany(mappedBy = "parentPost")
+    private List<WallPost> comments;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private WallPost parentPost;
 
-  @ManyToMany
-  List<Account> likes;
+    @ManyToMany
+    private List<Account> likes;
 }

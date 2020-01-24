@@ -16,11 +16,11 @@ public class FollowingFollower {
   AccountFollowerKey id;
 
   @ManyToOne
-  @MapsId("accountId")
-  Account following;
+  @MapsId("followingId")
+  private Account following;
   @ManyToOne
   @MapsId("followerId")
-  Account follower;
+  private Account follower;
 
-  LocalDateTime followingStartingDate = LocalDateTime.now();
+  private LocalDateTime followingStartingDate = LocalDateTime.now();
 }
