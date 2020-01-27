@@ -5,21 +5,22 @@
 html, body{
   margin:0;
   padding:0;
-  min-height: 98vh;
+  min-height: 90vh;
 }
 
 body > header{
   border-bottom: solid 1px  #dedede;
   max-width: 900px;
-  margin: 0px auto;
+  margin: 0 auto;
 }
 
 main{
   display: grid;
   grid-template-columns: 150px auto 200px;
   gap: 5px 15px;
+  height: 90vh;
   max-width: 900px;
-  margin: 0px auto;
+  margin: 0 auto;
 }
 
 .alias{
@@ -27,6 +28,11 @@ main{
 }
 
 .mainColumn{
+  overflow: auto;
+}
+
+.mainColumn::-webkit-scrollbar{
+  display: none;
 }
 
 #asideLeft{
@@ -57,6 +63,7 @@ main{
 }
 
 .profilePicture{
+  display: block;
   border: 1px solid gray;
   width: 95%;
   height: auto;
@@ -95,6 +102,12 @@ textarea{
   padding: 5px 0;
 }
 
+.postPicture{
+  display: block;
+  width: 90%;
+  margin: 0 auto;
+}
+
 time{
   float: right;
 }
@@ -108,7 +121,7 @@ form.likeForm{
 }
 
 .inputLikeImage{
-  height: 100%;
+  height: 1.5em;
 }
 
 .numberOfLikes{

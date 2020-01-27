@@ -56,6 +56,7 @@ public class HomeController {
   @ResponseBody
   @GetMapping("/test")
   public String test(){
+    wallPostService.getHomePageWallPosts(accountService.getCurrentUserAccount());
     return "test";
   }
 }

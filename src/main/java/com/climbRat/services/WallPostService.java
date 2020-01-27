@@ -21,9 +21,18 @@ public class WallPostService {
     this.wallPostRepository = wallPostRepository;
   }
 
+  /*
+  Gets the last wallPosts of the current user and the users being followed by him.
+  JPA doesn't allow database pagination on queries that use more than one JOIN FETCH,
+  so two Queries have to be done, one to page the wallPosts that returns only the ids
+  and one to sort and get the wallPosts using more than one JOIN FETCH.
+   */
   public List<WallPost> getHomePageWallPosts(Account currentUser){
-    Pageable pageable = PageRequest.of(0,25, Sort.by("postDateTime").descending());
-    return wallPostRepository.findCurrentUserHomePageWallPosts(currentUser,pageable);
+    Sort sort = Sort.by("postDateTime").descending();
+    Pageable pageable = PageRequest.of(0,25, sort);
+    List<Long> wallPostsIds = wallPostRepository.pageHomeWallPosts(currentUser,pageable);
+    List<WallPost> wallPosts = wallPostRepository.getSortedWallPostsWithLikes(wallPostsIds, sort);
+    return wallPostRepository.getSortedWallPostsWithComments(wallPosts,sort);
   }
 
   public void saveWallPost(String message, Account currentUser){
@@ -37,14 +46,17 @@ public class WallPostService {
   @Transactional//TODO is this annotation necessary??
   public void addLikeToWallPost(Long wallPostId, Account currentUser){
     Long currentUserId = currentUser.getId();
-    if(!checkLikeExists(wallPostId,currentUserId)
-            && Objects.requireNonNull(wallPostRepository
-            .getOne(wallPostId).getAuthor().getId()).intValue() != Objects.requireNonNull(currentUserId).intValue()){
-    wallPostRepository.setWallPostLike(wallPostId, currentUserId);}
+    if(!likeExists(wallPostId,currentUserId)
+            && isLikeOfCurrentUser(wallPostId, currentUserId)){
+    wallPostRepository.setWallPostLike(wallPostId, currentUserId);
+    }
   }
 
-  private boolean checkLikeExists(Long wallPostId, Long currentUserId) {
+  private boolean isLikeOfCurrentUser(Long wallPostId, Long currentUserId) {
+    return wallPostRepository.getOne(wallPostId).getAuthor().getId().intValue() != currentUserId.intValue();
+  }
+
+  private boolean likeExists(Long wallPostId, Long currentUserId) {
     return (wallPostRepository.checkIfLikeExists(wallPostId,currentUserId) == 1);
   }
-
-}
+ }

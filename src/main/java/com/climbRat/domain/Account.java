@@ -1,13 +1,19 @@
 package com.climbRat.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Data
+@NoArgsConstructor
+@Setter
+@Getter
 public class Account extends AbstractPersistable<Long> {
 
     private String userName;
@@ -29,6 +35,14 @@ public class Account extends AbstractPersistable<Long> {
     private List<FollowingFollower> following;
 
     @ManyToMany(mappedBy = "likes")
-    private List<WallPost> likedWallPosts;
+    private Set<WallPost> likedWallPosts;
 
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + getId() +
+                ", userName='" + userName + '\'' +
+                ", profileString='" + profileString + '\'' +
+                '}';
+    }
 }

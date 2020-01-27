@@ -32,12 +32,10 @@ public class AccountService {
   }
 
   public List<Account> getFollowers(Account user) {
-    return followingFollowerRepository.findByFollowing(user).stream()
-            .map(FollowingFollower::getFollower).collect(Collectors.toList());
+    return followingFollowerRepository.getFollowers(user);
   }
 
   public List<Account> getFollowing(Account user){
-    return followingFollowerRepository.findByFollower(user).stream()
-            .map(FollowingFollower::getFollowing).collect(Collectors.toList());
+    return followingFollowerRepository.getFollowing(user);
   }
 }

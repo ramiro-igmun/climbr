@@ -1,6 +1,6 @@
 package com.climbRat.domain;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -9,7 +9,10 @@ import javax.persistence.MapsId;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
 public class FollowingFollower {
 
   @EmbeddedId

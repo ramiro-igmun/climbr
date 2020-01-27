@@ -12,5 +12,4 @@ public interface PictureRepository extends JpaRepository<Picture, Long> {
   @Query("SELECT p FROM Picture p JOIN Account a ON p.id = a.profilePicture.id WHERE a.id = ?1")
   Optional<Picture> getDefaultPicture(Long accountId);
 
-  Picture getByName(String name);
 }

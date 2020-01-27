@@ -17,6 +17,8 @@ public class PictureService {
 
   public byte[] getPicture(Long id){
     Optional<Picture> picture = pictureRepository.findById(id);
+
     return picture.map(Picture::getContent).orElse(null);
   }
+
 }
