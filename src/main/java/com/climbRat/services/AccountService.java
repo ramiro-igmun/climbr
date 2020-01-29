@@ -1,7 +1,6 @@
 package com.climbRat.services;
 
 import com.climbRat.domain.Account;
-import com.climbRat.domain.FollowingFollower;
 import com.climbRat.repositories.AccountRepository;
 import com.climbRat.repositories.FollowingFollowerRepository;
 import com.climbRat.security.ClimbRatUserDetails;
@@ -9,33 +8,39 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AccountService {
 
   private final AccountRepository accountRepository;
-  private FollowingFollowerRepository followingFollowerRepository;
+  private final FollowingFollowerRepository followingFollowerRepository;
+  private HttpSession httpSession;
 
-  public AccountService(AccountRepository accountRepository, FollowingFollowerRepository followingFollowerRepository) {
+  public AccountService(AccountRepository accountRepository, FollowingFollowerRepository followingFollowerRepository, HttpSession session, HttpSession httpSession) {
     this.accountRepository = accountRepository;
     this.followingFollowerRepository = followingFollowerRepository;
+    this.httpSession = httpSession;
   }
 
 
-  public Account getCurrentUserAccount(){
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    ClimbRatUserDetails currentUserDetails = (ClimbRatUserDetails) auth.getPrincipal();
-    return currentUserDetails.getCurrentUser();
-
+  public Account getCurrentUserAccount() {
+    if (httpSession.getAttribute("currentUser") == null) {
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      ClimbRatUserDetails currentUserDetails = (ClimbRatUserDetails) auth.getPrincipal();
+      Account currentUser = currentUserDetails.getCurrentUser();
+      httpSession.setAttribute("currentUser", currentUser);
+      return currentUser;
+    }
+    return (Account) httpSession.getAttribute("currentUser");
   }
 
   public List<Account> getFollowers(Account user) {
     return followingFollowerRepository.getFollowers(user);
   }
 
-  public List<Account> getFollowing(Account user){
+  public List<Account> getFollowing(Account user) {
     return followingFollowerRepository.getFollowing(user);
   }
 }

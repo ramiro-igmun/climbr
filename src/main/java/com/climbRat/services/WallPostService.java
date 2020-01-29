@@ -35,12 +35,8 @@ public class WallPostService {
     return wallPostRepository.getSortedWallPostsWithComments(wallPosts,sort);
   }
 
-  public void saveWallPost(String message, Account currentUser){
-    WallPost wallPost = new WallPost();
-    wallPost.setMessage(message);
-    wallPost.setAuthor(currentUser);
-
-    wallPostRepository.save(wallPost);
+  public void saveWallPost(WallPost wallPost){
+        wallPostRepository.save(wallPost);
   }
 
   @Transactional//TODO is this annotation necessary??

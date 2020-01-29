@@ -32,7 +32,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     http.cors().disable();
     http.headers().frameOptions().sameOrigin();
     http.authorizeRequests()
-            .antMatchers("/**").authenticated().and()
+            .antMatchers("/test").permitAll()
+            .antMatchers("/home").authenticated().and()
             .formLogin().permitAll().and()
             .logout().permitAll();
   }
@@ -53,7 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
   @Bean
-  public PasswordEncoder passwordEncoder(){
+  public PasswordEncoder passwordEncoder() {
     return NoOpPasswordEncoder.getInstance();
   }
 

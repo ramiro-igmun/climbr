@@ -37,11 +37,12 @@
           <span th:text="${currentUser.userName}"></span><span class="alias"
                                                                th:text="${'@' + currentUser.profileString}"></span>
         </header>
-        <form id="newPostForm" th:action="@{/home}" method="post">
+        <form id="newPostForm" th:action="@{/home}" method="post" enctype="multipart/form-data">
           <textarea name="message" id="newPostMessage" rows="5" placeholder="¿Qué te cuentas?"></textarea>
         </form>
         <footer>
-          <input form="newPostForm" type="submit" value="Post">
+          <input type="submit" value="Post" form="newPostForm">
+          <input accept="image/png, image/jpeg" form="newPostForm" id="postImageUpload" name="postImage" type="file">
         </footer>
       </article>
 
@@ -59,9 +60,13 @@
         <footer>
           <form class="likeForm" th:action="@{/home/like}" method="post">
             <input type="hidden" id="likeInput" name="likedWallPost" th:value="${wallPost.id}">
-            <input class="inputLikeImage" type="image" src="icons/likes.svg" alt="submit">
-            <span class="numberOfLikes" th:text="${#lists.size(wallPost.likes)}"></span>
+            <input class="smallIcon" type="image" src="icons/likes.svg" alt="submit">
+            <span class="counter" th:text="${#lists.size(wallPost.likes)}"></span>
           </form>
+          <div class="commentCount">
+            <a href="/home"><img class="smallIcon" src="/icons/dialogue.svg" alt="comments"></a>
+            <span class="counter" th:text="${#lists.size(wallPost.comments)}"></span>
+          </div>
         </footer>
       </article>
 

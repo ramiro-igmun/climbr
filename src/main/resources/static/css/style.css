@@ -62,6 +62,7 @@ main{
   vertical-align: super;
 }
 
+/*TODO make it of a fixed size and apply mask*/
 .profilePicture{
   display: block;
   border: 1px solid gray;
@@ -118,13 +119,18 @@ time{
 
 form.likeForm{
   height: 100%;
+  display: inline-block;
 }
 
-.inputLikeImage{
+.smallIcon{
   height: 1.5em;
 }
 
-.numberOfLikes{
+.commentCount{
+  display: inline-block;
+}
+
+.counter{
   margin-left: 5px;
   display: inline-block;
   vertical-align: text-bottom;
