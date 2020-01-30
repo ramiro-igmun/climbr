@@ -35,6 +35,10 @@ public class WallPostService {
     return wallPostRepository.getSortedWallPostsWithComments(wallPosts,sort);
   }
 
+  public List<WallPost> getAccountWallPosts(Account account){
+    return wallPostRepository.findByAuthor(account);
+  }
+
   public void saveWallPost(WallPost wallPost){
         wallPostRepository.save(wallPost);
   }
@@ -55,4 +59,5 @@ public class WallPostService {
   private boolean likeExists(Long wallPostId, Long currentUserId) {
     return (wallPostRepository.checkIfLikeExists(wallPostId,currentUserId) == 1);
   }
- }
+
+}

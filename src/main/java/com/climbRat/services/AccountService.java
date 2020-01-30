@@ -6,10 +6,12 @@ import com.climbRat.repositories.FollowingFollowerRepository;
 import com.climbRat.security.ClimbRatUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountService {
@@ -18,7 +20,7 @@ public class AccountService {
   private final FollowingFollowerRepository followingFollowerRepository;
   private HttpSession httpSession;
 
-  public AccountService(AccountRepository accountRepository, FollowingFollowerRepository followingFollowerRepository, HttpSession session, HttpSession httpSession) {
+  public AccountService(AccountRepository accountRepository, FollowingFollowerRepository followingFollowerRepository, HttpSession httpSession) {
     this.accountRepository = accountRepository;
     this.followingFollowerRepository = followingFollowerRepository;
     this.httpSession = httpSession;
@@ -34,6 +36,11 @@ public class AccountService {
       return currentUser;
     }
     return (Account) httpSession.getAttribute("currentUser");
+  }
+
+  public Account findByProfileString(String profileString){
+    Optional<Account> optionalAccount = accountRepository.findByProfileString(profileString);
+    return optionalAccount.orElseThrow(() -> new UsernameNotFoundException("not found:" + profileString));
   }
 
   public List<Account> getFollowers(Account user) {

@@ -12,6 +12,36 @@ body > header{
   border-bottom: solid 1px  #dedede;
   max-width: 900px;
   margin: 0 auto;
+  height: 3em;
+}
+
+a{
+  text-decoration:unset;
+  color:black;
+}
+
+.climbRat{
+  margin-bottom: 0;
+  display: inline-block;
+  font-size: 39px;
+}
+
+#currentUser{
+  display: inline-flex;
+  font-size: large;
+  margin-right: 1em;
+  float: right;
+  height: 100%;
+  align-items: flex-end;
+}
+
+#currentUser > .alias{
+  margin-right: 2em;
+}
+
+.topMenuIcon{
+  height: 1em;
+  margin-right: 0.5em;
 }
 
 main{
@@ -43,13 +73,11 @@ main{
   margin: 10px 0;
   height: 30px;
   display: block;
-  text-decoration: unset;
-  color: black;
 }
 
 .sideMenuItem:hover{
-  border: 1px dashed gray;
   border-radius: 10px;
+  background-color: lightgrey;
 }
 
 .icon{

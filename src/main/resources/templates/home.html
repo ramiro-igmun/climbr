@@ -12,20 +12,24 @@
 
 <body>
   <header>
-    <h1 style="margin-bottom: 0;">ClimbRat</h1>
-    <h3 style="margin-top: 0;"><span th:text="${currentUser.userName}"></span>
-      <span class="alias" th:text="${'@' + currentUser.profileString}"></span></h3>
+    <div class="climbRat">ClimbRat</div>
+    <div id="currentUser">
+      <span th:text="${currentUser.userName}"></span>
+      <span class="alias" th:text="${'@' + currentUser.profileString}"></span>
+      <nav class="userNav">
+        <a class="topMenu" href="/home"><img class="topMenuIcon" src="/icons/home.svg" alt="home"><span>Home</span></a>
+        <a class="topMenu" href="/home"><img class="topMenuIcon" src="/icons/profile.svg"
+                                                  alt="profile"><span>Profile</span></a>
+      </nav>
+    </div>
   </header>
   <main>
     <aside class="mainColumn" id="asideLeft">
       <img class="profilePicture" alt="profile picture" src="img/defaultProfile.jpg"
-           th:src="@{{url}(url=${currentUser.profilePicture==null?'img/defaultProfile.jpg':'home/picture/' + currentUser.profilePicture.id})}">
+           th:src="@{{url}(url=${currentUser.profilePicture==null?'img/defaultProfile.jpg':'picture/' + currentUser.profilePicture.id})}">
       <nav>
-        <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/home.svg" alt="home"><span>Home</span></a>
-        <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/profile.svg"
-                                                  alt="profile"><span>Profile</span></a>
         <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/picture.svg"
-                                                  alt="picture"><span>Picture</span></a>
+                                                  alt="picture"><span>Pictures</span></a>
         <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/likes.svg" alt="likes"><span>Likes</span></a>
       </nav>
     </aside>
@@ -54,11 +58,11 @@
         </header>
         <div th:if="${wallPost.picture != null}">
           <img class="postPicture" alt="Post picture" src=""
-               th:src="@{/home/picture/{id}(id=${wallPost.picture.id})}">
+               th:src="@{/picture/{id}(id=${wallPost.picture.id})}">
         </div>
         <section th:text="${wallPost.message}" class="postMessage"></section>
         <footer>
-          <form class="likeForm" th:action="@{/home/like}" method="post">
+          <form class="likeForm" th:action="@{/wallpost/like}" method="post">
             <input type="hidden" id="likeInput" name="likedWallPost" th:value="${wallPost.id}">
             <input class="smallIcon" type="image" src="icons/likes.svg" alt="submit">
             <span class="counter" th:text="${#lists.size(wallPost.likes)}"></span>

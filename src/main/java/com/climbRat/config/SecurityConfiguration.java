@@ -32,8 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     http.cors().disable();
     http.headers().frameOptions().sameOrigin();
     http.authorizeRequests()
-            .antMatchers("/test").permitAll()
-            .antMatchers("/home").authenticated().and()
+            .antMatchers("/home/**","/wallpost/**").authenticated().and()
             .formLogin().permitAll().and()
             .logout().permitAll();
   }

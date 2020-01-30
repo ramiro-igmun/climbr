@@ -1,13 +1,10 @@
 package com.climbRat.controllers;
 
 import com.climbRat.domain.Account;
-import com.climbRat.domain.Picture;
 import com.climbRat.domain.WallPost;
 import com.climbRat.services.AccountService;
 import com.climbRat.services.PictureService;
 import com.climbRat.services.WallPostService;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,12 +38,6 @@ public class HomeController {
     return "home";
   }
 
-  @GetMapping(value = "/picture/{pictureId}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
-  @ResponseBody
-  public byte[] profilePicture(@PathVariable Long pictureId) {
-    return pictureService.getPicture(pictureId);
-  }
-
   @PostMapping("/home")
   public String newWallPost(@RequestParam("message") String message, @RequestParam("postImage") MultipartFile image) throws IOException {
     WallPost post = new WallPost(accountService.getCurrentUserAccount(), message);
@@ -54,12 +45,6 @@ public class HomeController {
     if (!image.isEmpty()) {
       pictureService.savePicture(image, post, accountService.getCurrentUserAccount());
     }
-    return "redirect:/home";
-  }
-
-  @PostMapping("/like")
-  public String addLike(@RequestParam Long likedWallPost) {
-    wallPostService.addLikeToWallPost(likedWallPost, accountService.getCurrentUserAccount());
     return "redirect:/home";
   }
 

@@ -32,6 +32,10 @@ public interface WallPostRepository extends JpaRepository<WallPost, Long> {
 
   @Query(value = "SELECT COUNT(1) FROM WALL_POST_LIKES WHERE LIKED_WALL_POSTS_ID = ?1 AND LIKES_ID = ?2" ,nativeQuery = true)
   int checkIfLikeExists(Long wallPostId, Long accountId);
+
+  List<WallPost> findByAuthor(Account author);
   }
+
+
 
 
