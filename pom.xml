@@ -8,10 +8,10 @@
         <version>2.2.2.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.climbook</groupId>
-    <artifactId>climbook</artifactId>
+    <groupId>com.climbr</groupId>
+    <artifactId>climbr</artifactId>
     <version>0.0.1</version>
-    <name>climbook</name>
+    <name>climbr</name>
     <description>Social Network Project</description>
 
     <properties>

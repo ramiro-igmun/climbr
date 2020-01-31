@@ -1,48 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="css/style.css" th:href="@{css/style.css}">
-  <link rel="icon" type="image/png" href=icons/favicon.ico/>
-  <title>ClimbRat</title>
+<head th:replace="fragments/template :: head">
+  <title>Title</title>
 </head>
 
 <body>
-  <header th:if="${currentUser!=null}">
-    <div class="climbRat">ClimbRat</div>
-    <div id="currentUser">
-      <span th:text="${currentUser.userName}"></span>
-      <span class="alias" th:text="${'@' + currentUser.profileString}"></span>
-      <nav class="userNav">
-        <a class="topMenu" href="/home"><img class="topMenuIcon" src="/icons/home.svg" alt="home"><span>Home</span></a>
-        <a class="topMenu" href="/home"><img class="topMenuIcon" src="/icons/profile.svg"
-                                                  alt="profile"><span>Profile</span></a>
-      </nav>
-    </div>
-  </header>
-  <header th:if="${currentUser==null}">
-    <div class="climbRat">ClimbRat</div>
-  </header>
+  <header th:replace="fragments/template :: header(currentUser = ${currentUser})"></header>
+
   <main>
-    <aside class="mainColumn" id="asideLeft">
-      <img class="profilePicture" alt="profile picture" src="img/defaultProfile.jpg"
-           th:src="@{{url}(url=${account.profilePicture==null?'img/defaultProfile.jpg':'picture/' + account.profilePicture.id})}">
-      <nav>
-        <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/picture.svg"
-                                                  alt="picture"><span>Pictures</span></a>
-        <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/likes.svg" alt="likes"><span>Likes</span></a>
-      </nav>
-    </aside>
+    <aside th:replace="fragments/template :: asideLeft(account = ${account})"></aside>
 
     <section class="mainColumn" id="wall">
 
       <article class="post" th:each="wallPost: ${wallPosts}">
         <header>
           <span th:text="${wallPost.author.userName}">Name</span>
-          <span class="alias" th:text="'@' + ${wallPost.author.profileString}">@alias</span>
+          <a class="alias" th:href="@{/{profileString}(profileString = ${wallPost.author.profileString})}"
+             th:text="'@' + ${wallPost.author.profileString}">@alias</a>
           <time th:text="${#temporals.format(wallPost.postDateTime, 'dd/MM/yyyy HH:mm')}">11/12/2019</time>
         </header>
         <div th:if="${wallPost.picture != null}">
@@ -64,25 +39,10 @@
       </article>
 
     </section>
-    <aside class="mainColumn" id="asideRight">
-      <input type="text" name="cuenta" id="buscarCuenta" placeholder="Buscar cuenta">
-      <section>
-        <h3>Followers:</h3>
-        <ul>
-          <li th:each="follower: ${followers}">
-            <span th:text="${follower.userName}"></span>
-            <span class="alias" th:text="${'@' + follower.profileString}"></span></li>
-        </ul>
-      </section>
-      <section>
-        <h3>Following:</h3>
-        <ul>
-          <li th:each="following: ${followed}">
-            <span th:text="${following.userName}"></span>
-            <span class="alias" th:text="${'@' + following.profileString}"></span></li>
-        </ul>
-      </section>
+
+    <aside th:replace="fragments/template :: asideRight(${followers}, ${followed})" >
     </aside>
+
   </main>
   <footer></footer>
 </body>
