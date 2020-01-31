@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="css/style.css" th:href="@{css/style.css}">
+  <link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}">
   <link rel="icon" type="image/png" href=icons/favicon.ico/>
   <title>climbr</title>
 </head>
@@ -26,8 +26,8 @@
   </header>
 
   <aside class="mainColumn" id="asideLeft" th:fragment="asideLeft(account)">
-    <img class="profilePicture" alt="profile picture" src="img/defaultProfile.jpg"
-         th:src="@{{url}(url=${account.profilePicture==null?'img/defaultProfile.jpg':'picture/' + account.profilePicture.id})}">
+    <img class="profilePicture" alt="profile picture" src="/img/defaultProfile.jpg"
+         th:src="@{{url}(url=${account.profilePicture==null?'/img/defaultProfile.jpg':'/picture/' + account.profilePicture.id})}">
     <nav>
       <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/picture.svg"
                                                 alt="picture"><span>Pictures</span></a>

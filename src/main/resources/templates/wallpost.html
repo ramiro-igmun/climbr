@@ -1,20 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="css/style.css" th:href="@{css/style.css}">
-  <link rel="icon" type="image/png" href=icons/favicon.ico/>
-  <title>climbr</title>
+<head th:replace="/fragments/template :: head">
+  <title>Title</title>
 </head>
 
 <body>
-  <header th:replace="fragments/template :: header(currentUser = ${currentUser})"></header>
+  <header th:replace="/fragments/template :: header(currentUser = ${currentUser})"></header>
 
   <main>
-    <aside th:replace="fragments/template :: asideLeft(account = ${account})"></aside>
+    <aside th:replace="/fragments/template :: asideLeft(account = ${account})"></aside>
 
     <section class="mainColumn" id="wall">
 
@@ -33,13 +28,20 @@
         <footer>
           <form class="likeForm" th:action="@{/wallpost/like}" method="post">
             <input type="hidden" class="likeInput" name="likedWallPost" th:value="${mainWallPost.id}">
-            <input class="smallIcon" type="image" src="icons/likes.svg" alt="submit">
+            <input class="smallIcon" type="image" src="/icons/likes.svg" alt="submit">
             <span class="counter" th:text="${#lists.size(mainWallPost.likes)}"></span>
           </form>
           <div class="commentCount">
             <a href="/home"><img class="smallIcon" src="/icons/dialogue.svg" alt="comments"></a>
             <span class="counter" th:text="${#lists.size(comments)}"></span>
           </div>
+        </footer>
+        <form id="newPostForm" th:action="@{/home}" method="post" enctype="multipart/form-data">
+          <textarea name="message" id="newPostMessage" rows="5" placeholder="Comentario"></textarea>
+        </form>
+        <footer>
+          <input type="submit" value="Post" form="newPostForm">
+          <input accept="image/png, image/jpeg" form="newPostForm" id="postImageUpload" name="postImage" type="file">
         </footer>
       </article>
 
@@ -58,7 +60,7 @@
         <footer>
           <form class="likeForm" th:action="@{/wallpost/like}" method="post">
             <input type="hidden" class="likeInput" name="likedWallPost" th:value="${wallPost.id}">
-            <input class="smallIcon" type="image" src="icons/likes.svg" alt="submit">
+            <input class="smallIcon" type="image" src="/icons/likes.svg" alt="submit">
             <span class="counter" th:text="${#lists.size(wallPost.likes)}"></span>
           </form>
           <div class="commentCount">
@@ -70,7 +72,7 @@
 
     </section>
 
-    <aside th:replace="fragments/template :: asideRight(${followers}, ${followed})" >
+    <aside th:replace="/fragments/template :: asideRight(${followers}, ${followed})" >
     </aside>
 
   </main>

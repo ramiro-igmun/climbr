@@ -23,7 +23,7 @@ public class WallPostController {
     this.accountService = accountService;
   }
 
-  @GetMapping("{userProfileString}/wallpost/{wallPostId}")
+  @GetMapping("/{userProfileString}/wallpost/{wallPostId}")
   public String wallPostPage(Model model, @PathVariable("wallPostId") Long wallPostId, @PathVariable("userProfileString") String userProfileString) {
     Account account = accountService.findByProfileString(userProfileString);
     WallPost wallPost = wallPostService.getWallPost(wallPostId);

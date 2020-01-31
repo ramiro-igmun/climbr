@@ -42,7 +42,7 @@
         <footer>
           <form class="likeForm" th:action="@{/wallpost/like}" method="post">
             <input type="hidden" id="likeInput" name="likedWallPost" th:value="${wallPost.id}">
-            <input class="smallIcon" type="image" src="icons/likes.svg" alt="submit">
+            <input class="smallIcon" type="image" src="/icons/likes.svg" alt="submit">
             <span class="counter" th:text="${#lists.size(wallPost.likes)}"></span>
           </form>
           <div class="commentCount">
