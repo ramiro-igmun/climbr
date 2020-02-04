@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<section th:fragment="wallPosts(wallPosts, account)">
+  <article class="post" th:each="wallPost: ${wallPosts}">
+    <header>
+      <a th:href="@{/{profileString}(profileString = ${wallPost.author.profileString})}">
+        <span th:text="${wallPost.author.userName}">Name</span>
+        <span class="alias" th:text="'@' + ${wallPost.author.profileString}">@alias</span>
+      </a>
+      <span th:if="${wallPost.parentPost != null}">
+            <a th:href="@{/{profileString}/wallpost/{wallpostId}(profileString = ${account.profileString},
+            wallpostId = ${wallPost.parentPost.id})}">
+              <span th:text="${'> ' + wallPost.parentPost.author.userName}"></span>
+              <span class="alias" th:text="'@' + ${wallPost.parentPost.author.profileString}">@alias</span>
+            </a>
+          </span>
+      <time th:text="${#temporals.format(wallPost.postDateTime, 'dd/MM/yyyy HH:mm')}">11/12/2019</time>
+    </header>
+    <div th:if="${wallPost.picture != null}">
+      <img class="postPicture" alt="Post picture" src=""
+           th:src="@{/picture/{id}(id=${wallPost.picture.id})}">
+    </div>
+    <section th:text="${wallPost.message}" class="postMessage"></section>
+    <footer>
+      <form class="likeForm" th:action="@{/wallpost/like}" method="post">
+        <input type="hidden" id="likeInput" name="likedWallPost" th:value="${wallPost.id}">
+        <input type="hidden" name="currentURL" th:value="${#httpServletRequest.requestURI}">
+        <input class="smallIcon" type="image" src="/icons/likes.svg" alt="submit">
+        <span class="counter" th:text="${#lists.size(wallPost.likes)}"></span>
+      </form>
+      <div class="commentCount">
+        <a th:href="@{/{profileString}/wallpost/{wallpostId}(profileString = ${wallPost.author.profileString},
+            wallpostId = ${wallPost.id})}">
+          <img class="smallIcon" src="/icons/dialogue.svg" alt="comments">
+        </a>
+        <span class="counter" th:text="${#lists.size(wallPost.comments)}"></span>
+      </div>
+    </footer>
+  </article>
+</section>

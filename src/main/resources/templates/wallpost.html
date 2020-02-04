@@ -28,16 +28,18 @@
         <footer>
           <form class="likeForm" th:action="@{/wallpost/like}" method="post">
             <input type="hidden" class="likeInput" name="likedWallPost" th:value="${mainWallPost.id}">
+            <input type="hidden" name="currentURL" th:value="${#httpServletRequest.requestURI}">
             <input class="smallIcon" type="image" src="/icons/likes.svg" alt="submit">
             <span class="counter" th:text="${#lists.size(mainWallPost.likes)}"></span>
           </form>
           <div class="commentCount">
-            <a href="/home"><img class="smallIcon" src="/icons/dialogue.svg" alt="comments"></a>
+            <img class="smallIcon" src="/icons/dialogue.svg" alt="comments">
             <span class="counter" th:text="${#lists.size(comments)}"></span>
           </div>
         </footer>
-        <form id="newPostForm" th:action="@{/home}" method="post" enctype="multipart/form-data">
+        <form id="newPostForm" th:action="@{/wallpost/new}" method="post" enctype="multipart/form-data">
           <textarea name="message" id="newPostMessage" rows="5" placeholder="Comentario"></textarea>
+          <input type="hidden" name="parentPost" th:value="${mainWallPost.id}">
         </form>
         <footer>
           <input type="submit" value="Post" form="newPostForm">
@@ -45,34 +47,12 @@
         </footer>
       </article>
 
-      <article class="post" th:each="wallPost: ${comments}">
-        <header>
-          <span th:text="${wallPost.author.userName}">Name</span>
-          <a class="alias" th:href="@{/{profileString}(profileString = ${wallPost.author.profileString})}"
-             th:text="'@' + ${wallPost.author.profileString}">@alias</a>
-          <time th:text="${#temporals.format(wallPost.postDateTime, 'dd/MM/yyyy HH:mm')}">11/12/2019</time>
-        </header>
-        <div th:if="${wallPost.picture != null}">
-          <img class="postPicture" alt="Post picture" src=""
-               th:src="@{/picture/{id}(id=${wallPost.picture.id})}">
-        </div>
-        <section th:text="${wallPost.message}" class="postMessage"></section>
-        <footer>
-          <form class="likeForm" th:action="@{/wallpost/like}" method="post">
-            <input type="hidden" class="likeInput" name="likedWallPost" th:value="${wallPost.id}">
-            <input class="smallIcon" type="image" src="/icons/likes.svg" alt="submit">
-            <span class="counter" th:text="${#lists.size(wallPost.likes)}"></span>
-          </form>
-          <div class="commentCount">
-            <a href="/home"><img class="smallIcon" src="/icons/dialogue.svg" alt="comments"></a>
-            <span class="counter" th:text="${#lists.size(wallPost.comments)}"></span>
-          </div>
-        </footer>
-      </article>
+      <section th:replace="fragments/WallPostsFragment :: wallPosts(wallPosts = ${comments}, account = ${account})">
+      </section>
 
     </section>
 
-    <aside th:replace="/fragments/template :: asideRight(${followers}, ${followed})" >
+    <aside th:replace="/fragments/template :: asideRight(${followers}, ${followed}, ${users})" >
     </aside>
 
   </main>

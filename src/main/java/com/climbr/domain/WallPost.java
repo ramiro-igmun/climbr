@@ -32,9 +32,10 @@ public class WallPost extends AbstractPersistable<Long> {
     @ManyToMany
     private Set<Account> likes;
 
-    public WallPost(Account author, String message) {
+    public WallPost(Account author, String message, WallPost parentPost) {
         this.author = author;
         this.message = message;
+        this.parentPost = parentPost;
     }
 
     @Override

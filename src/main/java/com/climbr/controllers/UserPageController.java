@@ -21,7 +21,7 @@ public class UserPageController {
   }
 
   @GetMapping("/{userProfileString}")
-  public String climbookUserPage(Model model, HttpSession httpSession, @PathVariable String userProfileString) {
+  public String getUserPage(Model model, HttpSession httpSession, @PathVariable String userProfileString) {
     Account account = accountService.findByProfileString(userProfileString);
     Account currentUser = (Account) httpSession.getAttribute("currentUser");
     if (account == null){
@@ -29,11 +29,17 @@ public class UserPageController {
     }
     model.addAttribute("account", account);
     model.addAttribute("currentUser", currentUser);
+    model.addAttribute("users", accountService.getAllUsers());
     model.addAttribute("wallPosts", wallPostService.getAccountWallPosts(account));
     model.addAttribute("followers", accountService.getFollowers(account));
     model.addAttribute("followed", accountService.getFollowing(account));
 
     return "userpage";
+  }
+
+  @GetMapping("/user")
+  public String findUserPage(@RequestParam("profileString") String profileString){
+    return "redirect:/" + profileString;
   }
 
 }

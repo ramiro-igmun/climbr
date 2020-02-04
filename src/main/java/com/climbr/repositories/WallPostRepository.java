@@ -14,9 +14,15 @@ import java.util.List;
 
 public interface WallPostRepository extends JpaRepository<WallPost, Long> {
 
-  @Query("SELECT w.id FROM WallPost w " +
-          "WHERE w.author = :currentUser OR w.author IN " +
-          "(SELECT f.following FROM FollowingFollower f WHERE f.follower = :currentUser)")
+  /*
+  Selects the Posts (including any comments to a post of the current user)
+  where the author is the current user or the author is being followed by the current user
+  */
+
+  @Query("SELECT w.id FROM WallPost w LEFT JOIN WallPost ww ON w.parentPost = ww " +
+          "WHERE w.author = :currentUser OR (w.author IN " +
+          "(SELECT f.following FROM FollowingFollower f WHERE f.follower = :currentUser) AND ww IS NULL ) " +
+          "OR (ww.author = :currentUser)")
   List<Long> getPageHomeWallPostIds(@Param("currentUser") Account currentUser, Pageable pageable);
 
   @Query("SELECT w.id FROM WallPost w WHERE w.author = ?1")

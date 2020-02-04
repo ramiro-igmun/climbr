@@ -78,4 +78,7 @@ public class WallPostService {
     return (wallPostRepository.checkIfLikeExists(wallPostId,currentUserId) == 1);
   }
 
+  public WallPost getParentPost(Long parentPostId) {
+    return wallPostRepository.getById(parentPostId);
+  }
 }

@@ -26,6 +26,10 @@ public class AccountService {
     this.httpSession = httpSession;
   }
 
+  public List<Account> getAllUsers(){
+    return accountRepository.findAll();
+  }
+
   public Account getCurrentUserAccount() {
     if (httpSession.getAttribute("currentUser") == null) {
       Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -12,8 +12,9 @@
 
 <body>
 
+  <!--Header-->
   <header th:fragment="header(currentUser)">
-    <div class="climbr">climbr</div>
+    <a th:href="@{/home}"><div class="climbr">climbr</div></a>
     <div id="currentUser" th:if="${currentUser!=null}">
       <span th:text="${currentUser.userName}"></span>
       <span class="alias" th:text="${'@' + currentUser.profileString}"></span>
@@ -25,6 +26,7 @@
     </div>
   </header>
 
+  <!--  Left column: user profile picture and options-->
   <aside class="mainColumn" id="asideLeft" th:fragment="asideLeft(account)">
     <img class="profilePicture" alt="profile picture" src="/img/defaultProfile.jpg"
          th:src="@{{url}(url=${account.profilePicture==null?'/img/defaultProfile.jpg':'/picture/' + account.profilePicture.id})}">
@@ -35,22 +37,36 @@
     </nav>
   </aside>
 
-  <aside class="mainColumn" id="asideRight" th:fragment="asideRight(followers, followed)">
-    <input type="text" name="cuenta" id="buscarCuenta" placeholder="Buscar cuenta">
+  <!--Right column find account and list followers and following-->
+  <aside class="mainColumn" id="asideRight" th:fragment="asideRight(followers, followed, users)">
+    <form th:action="@{/user}" method="get">
+      <input type="text" name="profileString" id="findUser" placeholder="Find User" list="users" autocomplete="off">
+      <datalist id="users">
+        <option th:each="user: ${users}" th:text="${user.userName} + '@' + ${user.profileString}" th:value="${user.userName}"></option>
+      </datalist>
+      <input type="submit" style="display: none">
+    </form>
     <section>
       <h3>Followers:</h3>
       <ul>
         <li th:each="follower: ${followers}">
-          <span th:text="${follower.userName}"></span>
-          <a class="alias" th:href="@{/{alias}(alias=${follower.profileString})}" th:text="${'@' + follower.profileString}"></a></li>
+          <a th:href="@{/{alias}(alias=${follower.profileString})}">
+            <span th:text="${follower.userName}"></span>
+            <span class="alias" th:href="@{/{alias}(alias=${follower.profileString})}"
+                  th:text="${'@' + follower.profileString}"></span>
+          </a>
+        </li>
       </ul>
     </section>
     <section>
       <h3>Following:</h3>
       <ul>
         <li th:each="following: ${followed}">
-          <span th:text="${following.userName}"></span>
-          <a class="alias" th:href="@{/{alias}(alias=${following.profileString})}" th:text="${'@' + following.profileString}"></a></li>
+          <a th:href="@{/{alias}(alias=${following.profileString})}">
+            <span th:text="${following.userName}"></span>
+            <span class="alias" th:text="${'@' + following.profileString}"></span>
+          </a>
+        </li>
       </ul>
     </section>
   </aside>
