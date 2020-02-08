@@ -1,6 +1,8 @@
 package com.climbr.services;
 
 import com.climbr.domain.Account;
+import com.climbr.domain.FollowingFollower;
+import com.climbr.domain.FollowingFollowerKey;
 import com.climbr.repositories.AccountRepository;
 import com.climbr.repositories.FollowingFollowerRepository;
 import com.climbr.security.ClimbRatUserDetails;
@@ -8,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -52,5 +55,27 @@ public class AccountService {
 
   public List<Account> getFollowing(Account user) {
     return followingFollowerRepository.getFollowing(user);
+  }
+
+  public boolean isFollowerOfCurrentUser(Account account){
+    return followingFollowerRepository.isFollowerOfUser(getCurrentUserAccount(),account);
+  }
+
+  public boolean isCurrentUserFollowing(Account account){
+    return followingFollowerRepository.isFollowerOfUser(account,getCurrentUserAccount());
+  }
+
+  @Transactional
+  public void deleteFollowerFollowing(Long accountId, Long currentUserId){
+    followingFollowerRepository.deleteFollowerFollowing(accountId,currentUserId);
+  }
+
+  @Transactional
+  public void startFollowing(Long accountId) {
+    FollowingFollower followingFollower = new FollowingFollower();
+    followingFollower.setFollower(getCurrentUserAccount());
+    followingFollower.setFollowing(accountRepository.getOne(accountId));
+    followingFollower.setId(new FollowingFollowerKey(getCurrentUserAccount().getId(),accountId));
+    followingFollowerRepository.save(followingFollower);
   }
 }

@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href=icons/favicon.ico/>
   <title>climbr</title>
 </head>
@@ -20,8 +21,9 @@
       <span class="alias" th:text="${'@' + currentUser.profileString}"></span>
       <nav class="userNav">
         <a class="topMenu" href="/home"><img class="topMenuIcon" src="/icons/home.svg" alt="home"><span>Home</span></a>
-        <a class="topMenu" href="/home"><img class="topMenuIcon" src="/icons/profile.svg"
-                                             alt="profile"><span>Profile</span></a>
+        <a class="topMenu" th:href="@{/{currentUser}(currentUser = ${currentUser.profileString})}">
+          <img class="topMenuIcon" src="/icons/profile.svg" alt="profile"><span>Profile</span>
+        </a>
       </nav>
     </div>
   </header>
@@ -42,7 +44,8 @@
     <form th:action="@{/user}" method="get">
       <input type="text" name="profileString" id="findUser" placeholder="Find User" list="users" autocomplete="off">
       <datalist id="users">
-        <option th:each="user: ${users}" th:text="${user.userName} + '@' + ${user.profileString}" th:value="${user.userName}"></option>
+        <option th:each="user: ${users}" th:text="${user.userName} + '@' + ${user.profileString}"
+                th:value="${user.profileString}"></option>
       </datalist>
       <input type="submit" style="display: none">
     </form>

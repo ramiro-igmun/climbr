@@ -33,6 +33,8 @@ public class UserPageController {
     model.addAttribute("wallPosts", wallPostService.getAccountWallPosts(account));
     model.addAttribute("followers", accountService.getFollowers(account));
     model.addAttribute("followed", accountService.getFollowing(account));
+    model.addAttribute("isCurrentUserFollowing",accountService.isCurrentUserFollowing(account));
+    model.addAttribute("isFollowerOfCurrentUser",accountService.isFollowerOfCurrentUser(account));
 
     return "userpage";
   }
@@ -42,4 +44,19 @@ public class UserPageController {
     return "redirect:/" + profileString;
   }
 
+  @PostMapping("/{profileString}/unfollow")
+  public String deleteFollowerFollowing(
+          @RequestParam("accountId") Long accountId,
+          @PathVariable("profileString") String profileString){
+    accountService.deleteFollowerFollowing(accountId,accountService.getCurrentUserAccount().getId());
+    return "redirect:/" + profileString;
+  }
+
+  @PostMapping("/{profileString}/follow")
+  public String saveFollowerFollowing(
+          @RequestParam("accountId") Long accountId,
+          @PathVariable("profileString") String profileString) {
+    accountService.startFollowing(accountId);
+    return "redirect:/" + profileString;
+  }
 }

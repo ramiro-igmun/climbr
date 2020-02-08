@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class FollowingFollower {
 
   @EmbeddedId
-  AccountFollowerKey id;
+  FollowingFollowerKey id;
 
   @ManyToOne
   @MapsId("followingId")

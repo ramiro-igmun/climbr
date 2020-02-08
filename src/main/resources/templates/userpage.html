@@ -12,6 +12,35 @@
     <aside th:replace="fragments/template :: asideLeft(account = ${account})"></aside>
 
     <section class="mainColumn" id="wall">
+      <article class="post presentation">
+        <header>
+          <div class="userName">
+            <span th:text="${account.userName}"></span>
+            <span class="alias" th:text="${'@' + account.profileString}"></span>
+          </div>
+          <section class="followingFollower" th:if="${currentUser != null && currentUser != account}">
+            <form class="followForm" th:if="${isCurrentUserFollowing}"
+                  th:action="@{/{profileString}/unfollow (profileString = ${account.profileString})}" method="post">
+              <input type="hidden" name="accountId" th:value="${account.id}"/>
+              <button class="followButton following" type="submit">Following</button>
+            </form>
+            <form class="followForm" th:if="${!isCurrentUserFollowing}"
+                  th:action="@{/{profileString}/follow (profileString = ${account.profileString})}" method="post">
+              <input type="hidden" name="accountId" th:value="${account.id}"/>
+              <button class="followButton follow" type="submit">Follow</button>
+            </form>
+          </section>
+          <div class="following_you" th:if="${isFollowerOfCurrentUser}">Following you</div>
+        </header>
+        <section class="userInfo">
+          <div th:text="'Joined on ' + ${#temporals.monthName(account.joinDateTime) + ', '
+          + #temporals.year(account.joinDateTime)}"></div>
+        </section>
+        <footer class="userInfo">
+          <span>Followers: <strong style="color: black" th:text="${#lists.size(followers)}+'&ensp;'"></strong></span>
+          <span>Following: <strong style="color: black" th:text="${#lists.size(followed)}"></strong></span>
+        </footer>
+      </article>
       <section th:replace="fragments/WallPostsFragment :: wallPosts(wallPosts = ${wallPosts}, account = ${account})">
       </section>
     </section>

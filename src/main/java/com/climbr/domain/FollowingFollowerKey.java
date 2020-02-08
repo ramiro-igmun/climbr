@@ -8,12 +8,12 @@ import java.io.Serializable;
 @Embeddable
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class AccountFollowerKey implements Serializable {
+public class FollowingFollowerKey implements Serializable {
 
   Long followerId;
   Long followingId;
-
 
 }

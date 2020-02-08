@@ -1,169 +1,228 @@
-*{
-  box-sizing: border-box;
+* {
+    box-sizing: border-box;
+    font-family: Roboto, Arial, serif;
 }
 
-html, body{
-  margin:0;
-  padding:0;
-  min-height: 90vh;
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 90vh;
 }
 
-body > header{
-  border-bottom: solid 1px  #dedede;
-  max-width: 900px;
-  margin: 0 auto;
-  height: 3em;
+body > header {
+    border-bottom: solid 1px #dedede;
+    max-width: 900px;
+    margin: 0 auto;
+    height: 3em;
 }
 
-a{
-  text-decoration:unset;
-  color:black;
+a {
+    text-decoration: unset;
+    color: black;
 }
 
-.climbr{
-  margin-bottom: 0;
-  display: inline-block;
-  font-size: 39px;
+.climbr {
+    font-family: 'Quicksand', SansSerif, serif;
+    font-weight: 700;
+    margin-bottom: 0px;
+    display: inline-block;
+    font-size: 39px;
+    /* margin-top: 0px; */
+    color: #5f5f5f;
 }
 
-#currentUser{
-  display: inline-flex;
-  font-size: large;
-  margin-right: 1em;
-  float: right;
-  height: 100%;
-  align-items: flex-end;
+#currentUser {
+    display: inline-flex;
+    font-size: large;
+    margin-right: 1em;
+    float: right;
+    height: 100%;
+    align-items: flex-end;
 }
 
-#currentUser > .alias{
-  margin-right: 2em;
+#currentUser > .alias {
+    margin-right: 2em;
 }
 
-.topMenuIcon{
-  height: 1em;
-  margin-right: 0.5em;
+.topMenuIcon {
+    height: 1em;
+    margin-right: 0.5em;
 }
 
-main{
-  display: grid;
-  grid-template-columns: 150px auto 200px;
-  gap: 5px 15px;
-  height: 90vh;
-  max-width: 900px;
-  margin: 0 auto;
+main {
+    display: grid;
+    grid-template-columns: 150px auto 200px;
+    gap: 5px 15px;
+    height: 90vh;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
-.alias{
-  color: #858585;
+.alias {
+    color: #858585;
 }
 
-.mainColumn{
-  overflow: auto;
+.mainColumn {
+    overflow: auto;
 }
 
-.mainColumn::-webkit-scrollbar{
-  display: none;
+.mainColumn::-webkit-scrollbar {
+    display: none;
 }
 
-#asideLeft{
+#asideLeft {
 }
 
-.sideMenuItem{
-  width: 95%;
-  margin: 10px 0;
-  height: 30px;
-  display: block;
+.sideMenuItem {
+    width: 95%;
+    margin: 10px 0;
+    height: 30px;
+    display: block;
 }
 
-.sideMenuItem:hover{
-  border-radius: 10px;
-  background-color: lightgrey;
+.sideMenuItem:hover {
+    border-radius: 10px;
+    background-color: lightgrey;
 }
 
-.icon{
-  height: 90%;
-  margin-left: 5%;
+.icon {
+    height: 90%;
+    margin-left: 5%;
 }
 
 .sideMenuItem > span {
-  margin: auto 10px;
-  vertical-align: super;
+    margin: auto 10px;
+    vertical-align: super;
 }
 
 /*TODO make it of a fixed size and apply mask*/
-.profilePicture{
-  display: block;
-  border: 1px solid gray;
-  width: 95%;
-  height: auto;
-  margin: 5px auto;
+.profilePicture {
+    display: block;
+    border: 1px solid gray;
+    width: 95%;
+    height: auto;
+    margin: 5px auto;
 }
 
-#findUser{
-  border-radius: 10px;
-  display: block;
-  margin: 5px auto;
-  padding-left: 5px;
+#findUser {
+    border-radius: 10px;
+    display: block;
+    margin: 5px auto;
+    padding-left: 5px;
 }
 
-#wall{
-  max-width: 600px;
+#wall {
+    max-width: 600px;
 }
 
-.post{
-  border-radius: 10px;
-  border: 1px solid gray;
-  padding: 10px 10px 10px 20px;
-  display: grid;
-  grid-template-rows: 30px auto 30px;
-  margin: 5px 0;
-  width: 1fr;
-  background-color: white;
+.post {
+    border-radius: 10px;
+    border: 1px solid gray;
+    padding: 10px 10px 10px 20px;
+    display: grid;
+    grid-template-rows: 30px auto 30px;
+    margin: 5px 0;
+    width: 1fr;
+    background-color: white;
 }
 
-textarea{
-  width: 100%;
-  border-style: none;
-  resize: none;
+.presentation {
+    grid-template-rows: auto auto auto;
 }
 
-.postMessage{
-  padding: 5px 0;
+.userName {
+    display: contents;
+    font-size: 1.5em;
 }
 
-.postPicture{
-  display: block;
-  width: 90%;
-  margin: 0 auto;
+.following_you {
+    font-size: 0.8em;
+    color: gray;
 }
 
-time{
-  float: right;
+.followingFollower {
+    display: inline-block;
+    float: right;
 }
 
-.post > footer{
-  padding: 5px 0;
+.followButton {
+    float: right;
+    border-radius: 19px;
+    font-weight: 600;
+    padding: 0.4em;
+    border-style: solid;
+    border-width: thin;
+    display: inline-block;
+    background-color: white;
 }
 
-form.likeForm{
-  height: 100%;
-  display: inline-block;
+.following {
+    border-color: green;
+    color: green;
+
 }
 
-.smallIcon{
-  height: 1.5em;
+.following:hover {
+    background-color: #cce6cc;
 }
 
-.commentCount{
-  display: inline-block;
+.follow {
+    border-color: royalblue;
+    color: royalblue;
 }
 
-.counter{
-  margin-left: 5px;
-  display: inline-block;
-  vertical-align: text-bottom;
+.follow:hover {
+    background-color: #c8dbff;
 }
 
-#asideRight{
-  
+.userInfo {
+    margin-top: 3%;
+    color: gray;
+}
+
+textarea {
+    width: 100%;
+    border-style: none;
+    resize: none;
+}
+
+.postMessage {
+    padding: 5px 0;
+}
+
+.postPicture {
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+}
+
+time {
+    float: right;
+}
+
+.post > footer {
+    padding: 5px 0;
+}
+
+form.likeForm {
+    height: 100%;
+    display: inline-block;
+}
+
+.smallIcon {
+    height: 1.5em;
+}
+
+.commentCount {
+    display: inline-block;
+}
+
+.counter {
+    margin-left: 5px;
+    display: inline-block;
+    vertical-align: text-bottom;
+}
+
+#asideRight {
+
 }

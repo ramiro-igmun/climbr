@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ public class Account extends AbstractPersistable<Long> {
     private String userName;
     private String password;
     private String profileString;
+    private LocalDateTime joinDateTime = LocalDateTime.now();
 
     @OneToOne(fetch = FetchType.LAZY)
     private Picture profilePicture;
