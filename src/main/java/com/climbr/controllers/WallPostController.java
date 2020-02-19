@@ -37,7 +37,7 @@ public class WallPostController {
     model.addAttribute("account", account);
     model.addAttribute("mainWallPost", wallPost);
     model.addAttribute("users", accountService.getAllUsers());
-    model.addAttribute("currentUser", accountService.getCurrentUserAccount());
+    model.addAttribute("currentUser", accountService.getCurrentUserAccountInSecuredContext());
     model.addAttribute("comments", wallPostService.getWallPostComments(wallPost));
     model.addAttribute("followers", accountService.getFollowers(account));
     model.addAttribute("followed", accountService.getFollowing(account));
@@ -46,7 +46,7 @@ public class WallPostController {
 
   @PostMapping("/wallpost/like")
   public String addLike(@RequestParam("likedWallPost") Long likedWallPost, HttpServletRequest httpServletRequest){
-    wallPostService.addLikeToWallPost(likedWallPost, accountService.getCurrentUserAccount());
+    wallPostService.addLikeToWallPost(likedWallPost, accountService.getCurrentUserAccountInSecuredContext());
     return "redirect:" + httpServletRequest.getHeader("referer");
   }
 
@@ -62,10 +62,10 @@ public class WallPostController {
     }else{
       parentPost = null;
     }
-    WallPost post = new WallPost(accountService.getCurrentUserAccount(), message, parentPost);
+    WallPost post = new WallPost(accountService.getCurrentUserAccountInSecuredContext(), message, parentPost);
     wallPostService.saveWallPost(post);
     if (!image.isEmpty()) {
-      pictureService.savePicture(image, post, accountService.getCurrentUserAccount());
+      pictureService.savePicture(image, post, accountService.getCurrentUserAccountInSecuredContext());
     }
     return "redirect:" + httpServletRequest.getHeader("referer");
   }

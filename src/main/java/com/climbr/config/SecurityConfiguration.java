@@ -32,11 +32,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     http.cors().disable();
     http.headers().frameOptions().sameOrigin();
     http.authorizeRequests()
-            .antMatchers("/home/**","/*/wallpost/**","/wallpost/**").authenticated().and()
+            .antMatchers("/home/**","/*/wallpost/**","/wallpost/**","/*/profile").authenticated().and()
             .formLogin().permitAll().and()
             .logout().permitAll();
   }
-
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {

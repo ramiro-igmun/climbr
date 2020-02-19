@@ -18,18 +18,22 @@
             <span th:text="${account.userName}"></span>
             <span class="alias" th:text="${'@' + account.profileString}"></span>
           </div>
-          <section class="followingFollower" th:if="${currentUser != null && currentUser != account}">
+          <section class="buttonRight" th:if="${currentUser != null && currentUser != account}">
             <form class="followForm" th:if="${isCurrentUserFollowing}"
                   th:action="@{/{profileString}/unfollow (profileString = ${account.profileString})}" method="post">
               <input type="hidden" name="accountId" th:value="${account.id}"/>
-              <button class="followButton following" type="submit">Following</button>
+              <button class="roundButton following" type="submit">Following</button>
             </form>
             <form class="followForm" th:if="${!isCurrentUserFollowing}"
                   th:action="@{/{profileString}/follow (profileString = ${account.profileString})}" method="post">
               <input type="hidden" name="accountId" th:value="${account.id}"/>
-              <button class="followButton follow" type="submit">Follow</button>
+              <button class="roundButton follow" type="submit">Follow</button>
             </form>
           </section>
+          <a th:if="${currentUser == account}"
+             th:href="@{/{profileString}/profile (profileString = ${currentUser.profileString})}">
+            <button class="roundButton editButton">Edit</button>
+          </a>
           <div class="following_you" th:if="${isFollowerOfCurrentUser}">Following you</div>
         </header>
         <section class="userInfo">

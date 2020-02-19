@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/template :: head">
+  <title>Title</title>
+</head>
+
+<body>
+  <header th:replace="fragments/template :: header(currentUser = ${currentUser})"></header>
+
+  <main>
+    <aside th:replace="fragments/template :: asideLeft(account = ${currentUser})"></aside>
+
+    <section class="mainColumn" id="wall">
+      <article class="post presentation">
+        <header>
+          <div class="userName">
+            <span th:text="${currentUser.userName}"></span>
+            <span class="alias" th:text="${'@' + currentUser.profileString}"></span>
+          </div>
+        </header>
+        <section class="userInfo">
+          <form id="profileForm" th:action="@{/{userProfile}/profile(userProfile = ${currentUser.profileString})}"
+                method="post" th:object="${editedProfile}">
+
+            <label for="userName">New User Name:</label>
+            <input id="userName" type="text" th:field="*{userName}" th:placeholder="${currentUser.userName}">
+            <span class="error" th:if="${#fields.hasErrors('userName')}" th:errors = "*{userName}"></span>
+
+            <label for="profileString">New Nickname:</label>
+            <input id="profileString" type="text" name="profileString" th:placeholder="${currentUser.profileString}">
+            <span class="error" th:if="${#fields.hasErrors('profileString')}" th:errors = "*{profileString}"></span>
+            <br/>
+            <input type="submit">
+          </form>
+        </section>
+        <footer class="userInfo">
+
+        </footer>
+      </article>
+    </section>
+
+  </main>
+  <footer></footer>
+</body>
+
+</html>

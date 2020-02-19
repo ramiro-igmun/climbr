@@ -3,17 +3,11 @@ package com.climbr.controllers;
 import com.climbr.domain.Account;
 import com.climbr.domain.WallPost;
 import com.climbr.services.AccountService;
-import com.climbr.services.PictureService;
 import com.climbr.services.WallPostService;
-import org.apache.tomcat.util.http.fileupload.RequestContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.stream.Collectors;
 
 
@@ -31,7 +25,7 @@ public class HomeController {
 
   @GetMapping("/home")
   public String climbookHome(Model model) {
-    Account currentUser = accountService.getCurrentUserAccount();
+    Account currentUser = accountService.getCurrentUserAccountInSecuredContext();
     model.addAttribute("currentUser", currentUser);
     model.addAttribute("users", accountService.getAllUsers());
     model.addAttribute("wallPosts", wallPostService.getHomePageWallPosts(currentUser));

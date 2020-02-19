@@ -1,10 +1,13 @@
 package com.climbr.controllers;
 
 import com.climbr.domain.Account;
+import com.climbr.domain.Validators.ProfileEditValidator;
 import com.climbr.services.AccountService;
 import com.climbr.services.WallPostService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -48,7 +51,7 @@ public class UserPageController {
   public String deleteFollowerFollowing(
           @RequestParam("accountId") Long accountId,
           @PathVariable("profileString") String profileString){
-    accountService.deleteFollowerFollowing(accountId,accountService.getCurrentUserAccount().getId());
+    accountService.deleteFollowerFollowing(accountId,accountService.getCurrentUserAccountInSecuredContext().getId());
     return "redirect:/" + profileString;
   }
 
@@ -59,4 +62,5 @@ public class UserPageController {
     accountService.startFollowing(accountId);
     return "redirect:/" + profileString;
   }
+
 }

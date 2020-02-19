@@ -1,11 +1,15 @@
 package com.climbr.domain;
 
+import com.climbr.domain.Validators.AccountCreationValidator;
+import com.climbr.domain.Validators.ProfileEditValidator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -16,10 +20,22 @@ import java.util.Set;
 @Getter
 public class Account extends AbstractPersistable<Long> {
 
+    @NotBlank(message = "You must enter a user name",
+            groups = {AccountCreationValidator.class})
+    @Size(max = 20,message = "The user name must have less than 20 characters",
+            groups = {AccountCreationValidator.class,ProfileEditValidator.class})
     private String userName;
-    private String password;
+    @NotBlank(message = "You must enter a valid Nick name",
+            groups = {AccountCreationValidator.class})
+    @Size(max = 20, message = "The Nickname must have less than 20 characters",
+            groups = {AccountCreationValidator.class,ProfileEditValidator.class})
     private String profileString;
+    @NotBlank
+    @Size(min = 4, max = 10, message = "The password must be between 4 and 10 characters long",
+            groups = {AccountCreationValidator.class})
+    private String password;
     private LocalDateTime joinDateTime = LocalDateTime.now();
+
 
     @OneToOne(fetch = FetchType.LAZY)
     private Picture profilePicture;

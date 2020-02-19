@@ -115,6 +115,24 @@ main {
     max-width: 600px;
 }
 
+#profileForm label {
+    display: block;
+    margin-top: 1em;
+}
+
+#profileForm input {
+    width: 98%;
+}
+
+#profileForm input[type="submit"] {
+    width: auto;
+    margin-top: 1em;
+}
+
+.error{
+    color: red;
+}
+
 .post {
     border-radius: 10px;
     border: 1px solid gray;
@@ -140,12 +158,12 @@ main {
     color: gray;
 }
 
-.followingFollower {
+.buttonRight {
     display: inline-block;
     float: right;
 }
 
-.followButton {
+.roundButton {
     float: right;
     border-radius: 19px;
     font-weight: 600;
@@ -154,6 +172,16 @@ main {
     border-width: thin;
     display: inline-block;
     background-color: white;
+    cursor: pointer;
+}
+
+.editButton{
+    border-color: gray;
+    color: gray;
+}
+
+.editButton:hover{
+    background-color: lightgrey;
 }
 
 .following {
