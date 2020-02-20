@@ -2,6 +2,7 @@ package com.climbr.controllers;
 
 import com.climbr.domain.Account;
 import com.climbr.domain.WallPost;
+import com.climbr.repositories.WallPostRepository;
 import com.climbr.services.AccountService;
 import com.climbr.services.PictureService;
 import com.climbr.services.WallPostService;
@@ -22,7 +23,9 @@ public class WallPostController {
   private AccountService accountService;
   private PictureService pictureService;
 
-  public WallPostController(WallPostService wallPostService, AccountService accountService, PictureService pictureService) {
+  public WallPostController(WallPostService wallPostService,
+                            AccountService accountService,
+                            PictureService pictureService) {
     this.wallPostService = wallPostService;
     this.accountService = accountService;
     this.pictureService = pictureService;
@@ -37,16 +40,22 @@ public class WallPostController {
     model.addAttribute("account", account);
     model.addAttribute("mainWallPost", wallPost);
     model.addAttribute("users", accountService.getAllUsers());
-    model.addAttribute("currentUser", accountService.getCurrentUserAccountInSecuredContext());
+    model.addAttribute("currentUser", accountService.getCurrentUserAccountIfAuthenticated());
     model.addAttribute("comments", wallPostService.getWallPostComments(wallPost));
     model.addAttribute("followers", accountService.getFollowers(account));
     model.addAttribute("followed", accountService.getFollowing(account));
     return "wallpost";
   }
 
+  @PostMapping("/wallpost/{wallpostId}")
+  public String deleteWallpost(@PathVariable Long wallpostId, HttpServletRequest httpServletRequest){
+    wallPostService.deleteWallPost(wallpostId);
+    return "redirect:" + httpServletRequest.getHeader("referer");
+  }
+
   @PostMapping("/wallpost/like")
   public String addLike(@RequestParam("likedWallPost") Long likedWallPost, HttpServletRequest httpServletRequest){
-    wallPostService.addLikeToWallPost(likedWallPost, accountService.getCurrentUserAccountInSecuredContext());
+    wallPostService.addLikeToWallPost(likedWallPost, accountService.getCurrentUserAccountIfAuthenticated());
     return "redirect:" + httpServletRequest.getHeader("referer");
   }
 
@@ -62,10 +71,10 @@ public class WallPostController {
     }else{
       parentPost = null;
     }
-    WallPost post = new WallPost(accountService.getCurrentUserAccountInSecuredContext(), message, parentPost);
+    WallPost post = new WallPost(accountService.getCurrentUserAccountIfAuthenticated(), message, parentPost);
     wallPostService.saveWallPost(post);
     if (!image.isEmpty()) {
-      pictureService.savePicture(image, post, accountService.getCurrentUserAccountInSecuredContext());
+      pictureService.savePicture(image, post, accountService.getCurrentUserAccountIfAuthenticated());
     }
     return "redirect:" + httpServletRequest.getHeader("referer");
   }

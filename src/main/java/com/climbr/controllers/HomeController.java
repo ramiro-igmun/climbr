@@ -25,7 +25,7 @@ public class HomeController {
 
   @GetMapping("/home")
   public String climbookHome(Model model) {
-    Account currentUser = accountService.getCurrentUserAccountInSecuredContext();
+    Account currentUser = accountService.getCurrentUserAccountIfAuthenticated();
     model.addAttribute("currentUser", currentUser);
     model.addAttribute("users", accountService.getAllUsers());
     model.addAttribute("wallPosts", wallPostService.getHomePageWallPosts(currentUser));

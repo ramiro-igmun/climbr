@@ -34,19 +34,33 @@ a {
 #currentUser {
     display: inline-flex;
     font-size: large;
-    margin-right: 1em;
+    margin-right: 0em;
     float: right;
     height: 100%;
     align-items: flex-end;
 }
 
 #currentUser > .alias {
-    margin-right: 2em;
+    margin-right: 1em;
 }
 
-.topMenuIcon {
-    height: 1em;
-    margin-right: 0.5em;
+a.topMenu {
+    font-size: 0.8em;
+    color: gray;
+    height: 100%;
+    display: inline-flex;
+    margin-bottom: 2px;
+    float: right;
+    align-items: flex-end;
+}
+
+nav.userNav {
+    display: inline-flex;
+    font-size: large;
+    margin-right: 1em;
+    float: right;
+    height: 100%;
+    align-items: flex-end;
 }
 
 main {
@@ -249,6 +263,11 @@ form.likeForm {
     margin-left: 5px;
     display: inline-block;
     vertical-align: text-bottom;
+}
+
+.makeProfilePicture {
+    display: inline-flex;
+    float: right;
 }
 
 #asideRight {

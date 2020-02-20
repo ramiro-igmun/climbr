@@ -9,7 +9,7 @@
   <header th:replace="fragments/template :: header(currentUser = ${currentUser})"></header>
 
   <main>
-    <aside th:replace="fragments/template :: asideLeft(account = ${account})"></aside>
+    <aside th:replace="fragments/template :: asideLeft(currentUser = ${currentUser}, account = ${account})"></aside>
 
     <section class="mainColumn" id="wall">
       <article class="post presentation">
@@ -45,7 +45,7 @@
           <span>Following: <strong style="color: black" th:text="${#lists.size(followed)}"></strong></span>
         </footer>
       </article>
-      <section th:replace="fragments/WallPostsFragment :: wallPosts(wallPosts = ${wallPosts}, account = ${account})">
+      <section th:replace="fragments/WallPostsFragment :: wallPosts(wallPosts = ${wallPosts}, account = ${account}, currentUser = ${currentUser})">
       </section>
     </section>
 

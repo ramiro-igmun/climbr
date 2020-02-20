@@ -1,7 +1,7 @@
 package com.climbr.domain;
 
-import com.climbr.domain.Validators.AccountCreationValidator;
-import com.climbr.domain.Validators.ProfileEditValidator;
+import com.climbr.domain.Validators.AccountCreationValidationGroup;
+import com.climbr.domain.Validators.ProfileEditValidationGroup;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,18 +21,18 @@ import java.util.Set;
 public class Account extends AbstractPersistable<Long> {
 
     @NotBlank(message = "You must enter a user name",
-            groups = {AccountCreationValidator.class})
+            groups = {AccountCreationValidationGroup.class})
     @Size(max = 20,message = "The user name must have less than 20 characters",
-            groups = {AccountCreationValidator.class,ProfileEditValidator.class})
+            groups = {AccountCreationValidationGroup.class, ProfileEditValidationGroup.class})
     private String userName;
     @NotBlank(message = "You must enter a valid Nick name",
-            groups = {AccountCreationValidator.class})
+            groups = {AccountCreationValidationGroup.class})
     @Size(max = 20, message = "The Nickname must have less than 20 characters",
-            groups = {AccountCreationValidator.class,ProfileEditValidator.class})
+            groups = {AccountCreationValidationGroup.class, ProfileEditValidationGroup.class})
     private String profileString;
     @NotBlank
     @Size(min = 4, max = 10, message = "The password must be between 4 and 10 characters long",
-            groups = {AccountCreationValidator.class})
+            groups = {AccountCreationValidationGroup.class})
     private String password;
     private LocalDateTime joinDateTime = LocalDateTime.now();
 

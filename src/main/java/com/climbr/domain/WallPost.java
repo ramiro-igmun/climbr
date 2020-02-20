@@ -21,7 +21,7 @@ public class WallPost extends AbstractPersistable<Long> {
     private LocalDateTime postDateTime = LocalDateTime.now();
     @Column(length = 300)
     private String message;
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "parentPost")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "parentPost", cascade = CascadeType.ALL)
     private Picture picture;
 
     @OneToMany(mappedBy = "parentPost")

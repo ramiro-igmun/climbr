@@ -1,13 +1,10 @@
 package com.climbr.controllers;
 
 import com.climbr.domain.Account;
-import com.climbr.domain.Validators.ProfileEditValidator;
 import com.climbr.services.AccountService;
 import com.climbr.services.WallPostService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -23,35 +20,50 @@ public class UserPageController {
     this.accountService = accountService;
   }
 
-  @GetMapping("/{userProfileString}")
-  public String getUserPage(Model model, HttpSession httpSession, @PathVariable String userProfileString) {
-    Account account = accountService.findByProfileString(userProfileString);
-    Account currentUser = (Account) httpSession.getAttribute("currentUser");
-    if (account == null){
-      return "redirect:/home";
-    }
-    model.addAttribute("account", account);
+  public void addModelAttributes(Model model, Account account, Account currentUser) {
     model.addAttribute("currentUser", currentUser);
+    model.addAttribute("account", account);
     model.addAttribute("users", accountService.getAllUsers());
-    model.addAttribute("wallPosts", wallPostService.getAccountWallPosts(account));
     model.addAttribute("followers", accountService.getFollowers(account));
     model.addAttribute("followed", accountService.getFollowing(account));
-    model.addAttribute("isCurrentUserFollowing",accountService.isCurrentUserFollowing(account));
-    model.addAttribute("isFollowerOfCurrentUser",accountService.isFollowerOfCurrentUser(account));
+    model.addAttribute("isCurrentUserFollowing", accountService.isCurrentUserFollowing(account));
+    model.addAttribute("isFollowerOfCurrentUser", accountService.isFollowerOfCurrentUser(account));
+  }
 
+  @GetMapping("/{userProfileString}")
+  public String getUserPage(Model model, @PathVariable String userProfileString) {
+    Account account = accountService.findByProfileString(userProfileString);
+    Account currentUser = accountService.getCurrentUserAccountIfAuthenticated();
+    if (account == null) {
+      return "redirect:/home";
+    }
+    addModelAttributes(model, account, currentUser);
+    model.addAttribute("wallPosts", wallPostService.getAccountWallPosts(account));
+    return "userpage";
+  }
+
+  @GetMapping("/{userProfileString}/pictures")
+  public String getUserPicturesPage(Model model, @PathVariable String userProfileString){
+    Account account = accountService.findByProfileString(userProfileString);
+    Account currentUser = accountService.getCurrentUserAccountIfAuthenticated();
+    if (account == null) {
+      return "redirect:/home";
+    }
+    addModelAttributes(model, account, currentUser);
+    model.addAttribute("wallPosts", wallPostService.getAccountPicturesWallPosts(account));
     return "userpage";
   }
 
   @GetMapping("/user")
-  public String findUserPage(@RequestParam("profileString") String profileString){
+  public String findUserPage(@RequestParam("profileString") String profileString) {
     return "redirect:/" + profileString;
   }
 
   @PostMapping("/{profileString}/unfollow")
   public String deleteFollowerFollowing(
           @RequestParam("accountId") Long accountId,
-          @PathVariable("profileString") String profileString){
-    accountService.deleteFollowerFollowing(accountId,accountService.getCurrentUserAccountInSecuredContext().getId());
+          @PathVariable("profileString") String profileString) {
+    accountService.deleteFollowerFollowing(accountId, accountService.getCurrentUserAccountIfAuthenticated().getId());
     return "redirect:/" + profileString;
   }
 

@@ -9,7 +9,7 @@
   <header th:replace="/fragments/template :: header(currentUser = ${currentUser})"></header>
 
   <main>
-    <aside th:replace="/fragments/template :: asideLeft(account = ${account})"></aside>
+    <aside th:replace="/fragments/template :: asideLeft(currentUser = ${currentUser}, account = ${account})"></aside>
 
     <section class="mainColumn" id="wall">
 
@@ -47,12 +47,12 @@
         </footer>
       </article>
 
-      <section th:replace="fragments/WallPostsFragment :: wallPosts(wallPosts = ${comments}, account = ${account})">
+      <section th:replace="fragments/WallPostsFragment :: wallPosts(wallPosts = ${comments}, account = ${account}, currentUser = ${currentUser})">
       </section>
 
     </section>
 
-    <aside th:replace="/fragments/template :: asideRight(${followers}, ${followed}, ${users})" >
+    <aside th:replace="/fragments/template :: asideRight(${followers}, ${followed}, ${users})">
     </aside>
 
   </main>

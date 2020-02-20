@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,31 +20,27 @@ public class AccountService {
 
   private final AccountRepository accountRepository;
   private final FollowingFollowerRepository followingFollowerRepository;
-  private HttpSession httpSession;
 
-  public AccountService(AccountRepository accountRepository, FollowingFollowerRepository followingFollowerRepository, HttpSession httpSession) {
+  public AccountService(AccountRepository accountRepository, FollowingFollowerRepository followingFollowerRepository) {
     this.accountRepository = accountRepository;
     this.followingFollowerRepository = followingFollowerRepository;
-    this.httpSession = httpSession;
   }
 
-  public List<Account> getAllUsers(){
+  public List<Account> getAllUsers() {
     return accountRepository.findAll();
   }
 
-  //TODO refactor with a try catch on getting security context
-  public Account getCurrentUserAccountInSecuredContext() {
-    if (httpSession.getAttribute("currentUser") == null) {
+  public Account getCurrentUserAccountIfAuthenticated() {
+    try {
       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
       ClimbRatUserDetails currentUserDetails = (ClimbRatUserDetails) auth.getPrincipal();
-      Account currentUser = currentUserDetails.getCurrentUser();
-      httpSession.setAttribute("currentUser", currentUser);
-      return currentUser;
+      return currentUserDetails.getCurrentUser();
+    } catch (ClassCastException e) {
+      return null;
     }
-    return (Account) httpSession.getAttribute("currentUser");
   }
 
-  public Account findByProfileString(String profileString){
+  public Account findByProfileString(String profileString) {
     Optional<Account> optionalAccount = accountRepository.findByProfileString(profileString);
     return optionalAccount.orElseThrow(() -> new UsernameNotFoundException("not found:" + profileString));
   }
@@ -58,38 +53,38 @@ public class AccountService {
     return followingFollowerRepository.getFollowing(user);
   }
 
-  public boolean isFollowerOfCurrentUser(Account account){
-    Account currentUser = (Account) httpSession.getAttribute("currentUser");
-    if (currentUser == null){
+  public boolean isFollowerOfCurrentUser(Account account) {
+    Account currentUser = getCurrentUserAccountIfAuthenticated();
+    if (currentUser == null) {
       return false;
     }
-    return followingFollowerRepository.isFollowerOfUser(currentUser,account);
+    return followingFollowerRepository.isFollowerOfUser(currentUser, account);
   }
 
-  public boolean isCurrentUserFollowing(Account account){
-    Account currentUser = (Account) httpSession.getAttribute("currentUser");
-    if (currentUser == null){
+  public boolean isCurrentUserFollowing(Account account) {
+    Account currentUser = getCurrentUserAccountIfAuthenticated();
+    if (currentUser == null) {
       return false;
     }
     return followingFollowerRepository.isFollowerOfUser(account, currentUser);
   }
 
   @Transactional
-  public void deleteFollowerFollowing(Long accountId, Long currentUserId){
-    followingFollowerRepository.deleteFollowerFollowing(accountId,currentUserId);
+  public void deleteFollowerFollowing(Long accountId, Long currentUserId) {
+    followingFollowerRepository.deleteFollowerFollowing(accountId, currentUserId);
   }
 
   public void startFollowing(Long accountId) {
     FollowingFollower followingFollower = new FollowingFollower();
-    followingFollower.setFollower(getCurrentUserAccountInSecuredContext());
+    followingFollower.setFollower(getCurrentUserAccountIfAuthenticated());
     followingFollower.setFollowing(accountRepository.getOne(accountId));
-    followingFollower.setId(new FollowingFollowerKey(getCurrentUserAccountInSecuredContext().getId(),accountId));
+    followingFollower.setId(new FollowingFollowerKey(getCurrentUserAccountIfAuthenticated().getId(), accountId));
     followingFollowerRepository.save(followingFollower);
   }
 
   @Transactional
   public void updateUserProfile(String newUserName, String newProfileString) {
-    Account currentUser = getCurrentUserAccountInSecuredContext();
+    Account currentUser = getCurrentUserAccountIfAuthenticated();
     if (!newUserName.isBlank()) {
       currentUser.setUserName(newUserName);
     }
@@ -97,6 +92,9 @@ public class AccountService {
       currentUser.setProfileString(newProfileString);
     }
     accountRepository.save(currentUser);
-    httpSession.setAttribute("currentUser", currentUser);
+  }
+
+  public void saveUser(Account user) {
+    accountRepository.save(user);
   }
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<section th:fragment="wallPosts(wallPosts, account)">
+<section th:fragment="wallPosts(wallPosts, account, currentUser)">
   <article class="post" th:each="wallPost: ${wallPosts}">
     <header>
       <a th:href="@{/{profileString}(profileString = ${wallPost.author.profileString})}">
@@ -29,13 +29,21 @@
         <input class="smallIcon" type="image" src="/icons/likes.svg" alt="submit">
         <span class="counter" th:text="${#lists.size(wallPost.likes)}"></span>
       </form>
-      <div class="commentCount">
+      <div th:if="${wallPost.parentPost == null}" class="commentCount">
         <a th:href="@{/{profileString}/wallpost/{wallpostId}(profileString = ${wallPost.author.profileString},
             wallpostId = ${wallPost.id})}">
           <img class="smallIcon" src="/icons/dialogue.svg" alt="comments">
         </a>
         <span class="counter" th:text="${#lists.size(wallPost.comments)}"></span>
       </div>
+      <form th:if="${wallPost.author == currentUser}" class="makeProfilePicture"
+            th:action="@{/wallpost/{wallpostId}(wallpostId = ${wallPost.id})}" method="post">
+        <input type="submit" value="Delete">
+      </form>
+      <form th:if="${wallPost.picture != null && wallPost.picture.account == currentUser}" class="makeProfilePicture"
+            th:action="@{/picture/{id}(id=${wallPost.picture.id})}" method="post">
+        <input type="submit" value="Make profile Picture">
+      </form>
     </footer>
   </article>
 </section>

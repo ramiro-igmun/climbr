@@ -15,27 +15,33 @@
 
   <!--Header-->
   <header th:fragment="header(currentUser)">
-    <a th:href="@{/home}"><div class="climbr">climbr</div></a>
+    <a th:href="@{/home}">
+      <div class="climbr">climbr</div>
+    </a>
+    <nav class="userNav">
+      <a th:if="${currentUser!=null}" class="topMenu" href="/logout">logout</a>
+      <a th:if="${currentUser==null}"class="topMenu" href="/login">login</a>
+    </nav>
     <div id="currentUser" th:if="${currentUser!=null}">
       <span th:text="${currentUser.userName}"></span>
       <span class="alias" th:text="${'@' + currentUser.profileString}"></span>
-      <nav class="userNav">
-        <a class="topMenu" href="/home"><img class="topMenuIcon" src="/icons/home.svg" alt="home"><span>Home</span></a>
-        <a class="topMenu" th:href="@{/{currentUser}(currentUser = ${currentUser.profileString})}">
-          <img class="topMenuIcon" src="/icons/profile.svg" alt="profile"><span>Profile</span>
-        </a>
-      </nav>
     </div>
   </header>
 
   <!--  Left column: user profile picture and options-->
-  <aside class="mainColumn" id="asideLeft" th:fragment="asideLeft(account)">
+  <aside class="mainColumn" id="asideLeft" th:fragment="asideLeft(currentUser, account)">
     <img class="profilePicture" alt="profile picture" src="/img/defaultProfile.jpg"
          th:src="@{{url}(url=${account.profilePicture==null?'/img/defaultProfile.jpg':'/picture/' + account.profilePicture.id})}">
     <nav>
-      <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/picture.svg"
-                                                alt="picture"><span>Pictures</span></a>
+      <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/home.svg" alt="home"><span>Home</span></a>
+      <a class="sideMenuItem" th:href="@{/{profileString}/pictures(profileString = ${account.profileString})}">
+        <img class="icon" src="/icons/picture.svg" alt="picture"><span>Pictures</span>
+      </a>
       <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/likes.svg" alt="likes"><span>Likes</span></a>
+      <a th:if="${currentUser == account}" class="sideMenuItem"
+         th:href="@{/{currentUser}(currentUser = ${currentUser.profileString})}">
+        <img class="icon" src="/icons/profile.svg" alt="profile"><span>Profile</span>
+      </a>
     </nav>
   </aside>
 

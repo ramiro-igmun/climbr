@@ -9,7 +9,7 @@
   <header th:replace="fragments/template :: header(currentUser = ${currentUser})"></header>
 
   <main>
-    <aside th:replace="fragments/template :: asideLeft(account = ${currentUser})"></aside>
+    <aside th:replace="fragments/template :: asideLeft(currentUser = ${currentUser}, account = ${currentUser})"></aside>
 
     <section class="mainColumn" id="wall">
       <article class="post presentation">
