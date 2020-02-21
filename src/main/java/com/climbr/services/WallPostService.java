@@ -15,7 +15,8 @@ import java.util.List;
 public class WallPostService {
 
   private final WallPostRepository wallPostRepository;
-  private final Sort sort = Sort.by("postDateTime").descending();
+  private final Sort sortDesc = Sort.by("postDateTime").descending();
+  private final Sort sortAsc = Sort.by("postDateTime").ascending();
 
 
   public WallPostService(WallPostRepository wallPostRepository) {
@@ -44,21 +45,26 @@ public class WallPostService {
 
   public List<WallPost> getHomePageWallPosts(Account currentUser){
     List<Long> wallPostsIds = wallPostRepository.getPageHomeWallPostIds(currentUser, getPage());
-    return getWallPostsWithLikesAndComments(wallPostsIds);
+    return getWallPostsWithLikesAndComments(wallPostsIds,sortDesc);
   }
 
   public Object getAccountPicturesWallPosts(Account account) {
     List<Long> picturePostsIds = wallPostRepository.findByAuthorAndHasPicture(account,getPage());
-    return getWallPostsWithLikesAndComments(picturePostsIds);
+    return getWallPostsWithLikesAndComments(picturePostsIds,sortDesc);
   }
 
   public List<WallPost> getAccountWallPosts(Account account){
     List<Long> accountPostsIds = wallPostRepository.findByAuthor(account,getPage());
-    return getWallPostsWithLikesAndComments(accountPostsIds);
+    return getWallPostsWithLikesAndComments(accountPostsIds,sortDesc);
   }
   public List<WallPost> getWallPostComments(WallPost wallPost){
     List<Long> commentPostsIds = wallPostRepository.findByParentPost(wallPost, getPage());
-    return  getWallPostsWithLikesAndComments(commentPostsIds);
+    return  getWallPostsWithLikesAndComments(commentPostsIds,sortAsc);
+  }
+
+  public List<WallPost> getLikedWallPosts(Account account){
+    List<Long> likedPostIds = wallPostRepository.findByUserIdLikes(account.getId(),getPage());
+    return getWallPostsWithLikesAndComments(likedPostIds,sortDesc);
   }
 
   /*
@@ -66,13 +72,13 @@ public class WallPostService {
    * done. One fetches the likes and the other the comments
    */
 
-  private List<WallPost> getWallPostsWithLikesAndComments(List<Long> wallPostsIds) {
+  private List<WallPost> getWallPostsWithLikesAndComments(List<Long> wallPostsIds, Sort sort) {
     List<WallPost> wallPosts = wallPostRepository.getSortedWallPostsWithLikes(wallPostsIds, sort);
     return wallPostRepository.getSortedWallPostsWithComments(wallPosts,sort);
   }
 
   private Pageable getPage() {
-    return PageRequest.of(0,25, sort);
+    return PageRequest.of(0,25);
   }
 
   @Transactional//TODO is this annotation necessary??

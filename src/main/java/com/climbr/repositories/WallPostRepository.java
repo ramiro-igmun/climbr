@@ -28,6 +28,9 @@ public interface WallPostRepository extends JpaRepository<WallPost, Long> {
   @Query("SELECT w.id FROM WallPost w WHERE w.author = ?1 AND w.picture.id IS NOT NULL")
   List<Long> findByAuthorAndHasPicture(Account author, Pageable pageable);
 
+  @Query(value = "SELECT LIKED_WALL_POSTS_ID FROM WALL_POST_LIKES WHERE LIKES_ID = ?1",nativeQuery = true)
+  List<Long> findByUserIdLikes(Long userId, Pageable pageable);
+
   @Query("SELECT w.id FROM WallPost w WHERE w.author = ?1")
   List<Long> findByAuthor(Account author, Pageable pageable);
 

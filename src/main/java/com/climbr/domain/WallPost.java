@@ -24,7 +24,7 @@ public class WallPost extends AbstractPersistable<Long> {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "parentPost", cascade = CascadeType.ALL)
     private Picture picture;
 
-    @OneToMany(mappedBy = "parentPost")
+    @OneToMany(mappedBy = "parentPost", cascade = CascadeType.DETACH)
     private List<WallPost> comments;
     @ManyToOne(fetch = FetchType.LAZY)
     private WallPost parentPost;

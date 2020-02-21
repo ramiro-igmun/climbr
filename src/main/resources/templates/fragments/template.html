@@ -37,7 +37,9 @@
       <a class="sideMenuItem" th:href="@{/{profileString}/pictures(profileString = ${account.profileString})}">
         <img class="icon" src="/icons/picture.svg" alt="picture"><span>Pictures</span>
       </a>
-      <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/likes.svg" alt="likes"><span>Likes</span></a>
+      <a class="sideMenuItem" th:href="@{/{profileString}/likes(profileString = ${account.profileString})}">
+        <img class="icon" src="/icons/likes.svg" alt="likes"><span>Likes</span
+      ></a>
       <a th:if="${currentUser == account}" class="sideMenuItem"
          th:href="@{/{currentUser}(currentUser = ${currentUser.profileString})}">
         <img class="icon" src="/icons/profile.svg" alt="profile"><span>Profile</span>

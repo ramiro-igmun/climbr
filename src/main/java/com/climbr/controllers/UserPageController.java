@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 
 @Controller
 public class UserPageController {
@@ -43,7 +42,7 @@ public class UserPageController {
   }
 
   @GetMapping("/{userProfileString}/pictures")
-  public String getUserPicturesPage(Model model, @PathVariable String userProfileString){
+  public String getUserPictures(Model model, @PathVariable String userProfileString){
     Account account = accountService.findByProfileString(userProfileString);
     Account currentUser = accountService.getCurrentUserAccountIfAuthenticated();
     if (account == null) {
@@ -51,6 +50,18 @@ public class UserPageController {
     }
     addModelAttributes(model, account, currentUser);
     model.addAttribute("wallPosts", wallPostService.getAccountPicturesWallPosts(account));
+    return "userpage";
+  }
+
+  @GetMapping("/{userProfileString}/likes")
+  public String getUserLikedWallPosts(Model model, @PathVariable String userProfileString){
+    Account account = accountService.findByProfileString(userProfileString);
+    Account currentUser = accountService.getCurrentUserAccountIfAuthenticated();
+    if (account == null) {
+      return "redirect:/home";
+    }
+    addModelAttributes(model, account, currentUser);
+    model.addAttribute("wallPosts", wallPostService.getLikedWallPosts(account));
     return "userpage";
   }
 
