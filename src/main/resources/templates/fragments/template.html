@@ -3,9 +3,17 @@
 
 <head th:fragment="head">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
+        integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="#" th:href="@{/css/style1.css}">
   <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href=icons/favicon.ico/>
   <title>climbr</title>
@@ -14,71 +22,87 @@
 <body>
 
   <!--Header-->
-  <header th:fragment="header(currentUser)">
-    <a th:href="@{/home}">
-      <div class="climbr">climbr</div>
-    </a>
-    <nav class="userNav">
-      <a th:if="${currentUser!=null}" class="topMenu" href="/logout">logout</a>
-      <a th:if="${currentUser==null}"class="topMenu" href="/login">login</a>
-    </nav>
-    <div id="currentUser" th:if="${currentUser!=null}">
-      <span th:text="${currentUser.userName}"></span>
-      <span class="alias" th:text="${'@' + currentUser.profileString}"></span>
+  <header class="container border-bottom" th:fragment="header(currentUser)">
+    <div class="row">
+      <h1 class="col-8 d-flex display-4 m-0 climbr">
+        <a class="text-decoration-none text-secondary" th:href="@{/home}">
+          climbr
+        </a>
+      </h1>
+      <div class="col-4 d-flex align-items-end justify-content-end">
+        <div class="mr-4" th:if="${currentUser!=null}">
+          <span th:text="${currentUser.userName}"></span>
+          <span class="text-secondary" th:text="${'@' + currentUser.profileString}"></span>
+        </div>
+        <nav class="small mb-1">
+          <a th:if="${currentUser!=null}" href="/logout">logout</a>
+          <a th:if="${currentUser==null}" href="/login">login</a>
+        </nav>
+      </div>
     </div>
   </header>
 
   <!--  Left column: user profile picture and options-->
-  <aside class="mainColumn" id="asideLeft" th:fragment="asideLeft(currentUser, account)">
-    <img class="profilePicture" alt="profile picture" src="/img/defaultProfile.jpg"
+  <aside class="col-md-2 m-1" th:fragment="asideLeft(currentUser, account)">
+    <img class="img-thumbnail w-100 rounded-lg mt-2" alt="profile picture" src="#"
          th:src="@{{url}(url=${account.profilePicture==null?'/img/defaultProfile.jpg':'/picture/' + account.profilePicture.id})}">
     <nav>
-      <a class="sideMenuItem" href="/home"><img class="icon" src="/icons/home.svg" alt="home"><span>Home</span></a>
-      <a class="sideMenuItem" th:href="@{/{profileString}/pictures(profileString = ${account.profileString})}">
-        <img class="icon" src="/icons/picture.svg" alt="picture"><span>Pictures</span>
+      <a class="btn btn-outline-secondary w-100 text-left mt-2" href="/home"><i class="fas fa-home"></i>  Home</a>
+      <a class="btn btn-outline-secondary w-100 text-left mt-2"
+         th:href="@{/{profileString}/pictures(profileString = ${account.profileString})}">
+        <i class="fas fa-image"></i>  Picture
       </a>
-      <a class="sideMenuItem" th:href="@{/{profileString}/likes(profileString = ${account.profileString})}">
-        <img class="icon" src="/icons/likes.svg" alt="likes"><span>Likes</span
-      ></a>
-      <a th:if="${currentUser == account}" class="sideMenuItem"
+      <a class="btn btn-outline-secondary w-100 text-left mt-2"
+         th:href="@{/{profileString}/likes(profileString = ${account.profileString})}">
+        <i class="fas fa-thumbs-up"></i>  Likes
+      </a>
+      <a th:if="${currentUser == account}" class="btn btn-outline-secondary w-100 text-left mt-2"
          th:href="@{/{currentUser}(currentUser = ${currentUser.profileString})}">
-        <img class="icon" src="/icons/profile.svg" alt="profile"><span>Profile</span>
+        <i class="fas fa-portrait"></i>  Profile
       </a>
     </nav>
   </aside>
 
   <!--Right column find account and list followers and following-->
-  <aside class="mainColumn" id="asideRight" th:fragment="asideRight(followers, followed, users)">
+  <aside class="col-md m-1" th:fragment="asideRight(followers, followed, users)">
     <form th:action="@{/user}" method="get">
-      <input type="text" name="profileString" id="findUser" placeholder="Find User" list="users" autocomplete="off">
+      <input class="form-control mt-2" type="text" name="profileString" id="findUser" placeholder="Find User"
+             list="users" autocomplete="off">
       <datalist id="users">
         <option th:each="user: ${users}" th:text="${user.userName} + '@' + ${user.profileString}"
                 th:value="${user.profileString}"></option>
       </datalist>
       <input type="submit" style="display: none">
     </form>
-    <section>
-      <h3>Followers:</h3>
-      <ul>
-        <li th:each="follower: ${followers}">
-          <a th:href="@{/{alias}(alias=${follower.profileString})}">
+    <section class="card mt-5">
+      <div class="card-header">
+        <h5>Followers</h5>
+      </div>
+      <div class="card-body p-0" style="height: 15rem; overflow: auto;">
+        <div class="list-group">
+          <a th:each="follower: ${followers}" th:href="@{/{alias}(alias=${follower.profileString})}"
+             class="list-group-item list-group-item-action">
             <span th:text="${follower.userName}"></span>
-            <span class="alias" th:href="@{/{alias}(alias=${follower.profileString})}"
+            <span class="text-secondary small" th:href="@{/{alias}(alias=${follower.profileString})}"
                   th:text="${'@' + follower.profileString}"></span>
           </a>
-        </li>
-      </ul>
+        </div>
+      </div>
     </section>
-    <section>
-      <h3>Following:</h3>
-      <ul>
-        <li th:each="following: ${followed}">
-          <a th:href="@{/{alias}(alias=${following.profileString})}">
+    <section class="card mt-5">
+      <div class="card-header">
+        <h5>Following</h5>
+      </div>
+      <div class="card-body p-0" style="height: 15rem; overflow: auto;">
+        <div class="list-group">
+          <a th:each="following: ${followed}" th:href="@{/{alias}(alias=${following.profileString})}"
+             class="list-group-item list-group-item-action">
             <span th:text="${following.userName}"></span>
-            <span class="alias" th:text="${'@' + following.profileString}"></span>
+            <span class="text-secondary small" th:href="@{/{alias}(alias=${following.profileString})}"
+                  th:text="${'@' + following.profileString}"></span>
           </a>
-        </li>
-      </ul>
+        </div>
+      </div>
     </section>
   </aside>
 

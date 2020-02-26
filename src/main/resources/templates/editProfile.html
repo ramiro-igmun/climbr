@@ -8,39 +8,48 @@
 <body>
   <header th:replace="fragments/template :: header(currentUser = ${currentUser})"></header>
 
-  <main>
-    <aside th:replace="fragments/template :: asideLeft(currentUser = ${currentUser}, account = ${currentUser})"></aside>
+  <div class="container">
+    <div class="row" style="height: 90vh;">
 
-    <section class="mainColumn" id="wall">
-      <article class="post presentation">
-        <header>
-          <div class="userName">
-            <span th:text="${currentUser.userName}"></span>
-            <span class="alias" th:text="${'@' + currentUser.profileString}"></span>
+      <aside th:replace="fragments/template :: asideLeft(currentUser = ${currentUser}, account = ${currentUser})"></aside>
+
+      <div id="centerColumn" class="col-md-7 m-1 h-100" style="overflow: auto;">
+
+        <article class="media border mt-2 mb-2 pt-3 pr-4 pb-2 pl-4 rounded-lg shadow-sm">
+          <div class="media-body">
+
+            <header class="mb-4">
+              <h4>Edit Profile</h4>
+            </header>
+
+            <form id="profileForm" th:action="@{/{userProfile}/profile(userProfile = ${currentUser.profileString})}"
+                  method="post" th:object="${editedProfile}">
+
+              <div class="form-group">
+                <label for="userName">New User Name:</label>
+                <input class="form-control" id="userName" type="text" name="userName"
+                       th:placeholder="${currentUser.userName}">
+                <div class="alert-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="profileString">New Nickname:</label>
+                <input class="form-control" id="profileString" type="text" name="profileString"
+                       th:placeholder="${currentUser.profileString}">
+                <div class="alert-danger" th:if="${#fields.hasErrors('profileString')}" th:errors="*{profileString}"></div>
+              </div>
+
+              <br/>
+              <button class="btn btn-primary btn-sm" type="submit">Update</button>
+            </form>
+
           </div>
-        </header>
-        <section class="userInfo">
-          <form id="profileForm" th:action="@{/{userProfile}/profile(userProfile = ${currentUser.profileString})}"
-                method="post" th:object="${editedProfile}">
+        </article>
+      </div>
 
-            <label for="userName">New User Name:</label>
-            <input id="userName" type="text" th:field="*{userName}" th:placeholder="${currentUser.userName}">
-            <span class="error" th:if="${#fields.hasErrors('userName')}" th:errors = "*{userName}"></span>
+    </div>
+  </div>
 
-            <label for="profileString">New Nickname:</label>
-            <input id="profileString" type="text" name="profileString" th:placeholder="${currentUser.profileString}">
-            <span class="error" th:if="${#fields.hasErrors('profileString')}" th:errors = "*{profileString}"></span>
-            <br/>
-            <input type="submit">
-          </form>
-        </section>
-        <footer class="userInfo">
-
-        </footer>
-      </article>
-    </section>
-
-  </main>
   <footer></footer>
 </body>
 

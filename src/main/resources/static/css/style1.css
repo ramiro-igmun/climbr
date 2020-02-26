@@ -1,0 +1,33 @@
+body{
+    background-color: #f9f9f9;
+}
+
+.media{
+    background-color: white;
+}
+
+.header-background{
+    background-color: #ebebeb;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 4.2rem;
+}
+
+#centerColumn::-webkit-scrollbar{
+    display: none;
+}
+
+.climbr{
+    font-family: 'Quicksand', SansSerif, serif;
+    font-weight:bold ;
+}
+
+.time{
+    padding-top: 0.4rem;
+}
+
+.likeForm label:hover{
+    cursor: pointer;
+}

@@ -8,50 +8,63 @@
 <body>
   <header th:replace="fragments/template :: header(currentUser = ${currentUser})"></header>
 
-  <main>
-    <aside th:replace="fragments/template :: asideLeft(currentUser = ${currentUser}, account = ${account})"></aside>
+  <div class="container">
+    <div class="row" style="height: 90vh;">
 
-    <section class="mainColumn" id="wall">
-      <article class="post presentation">
-        <header>
-          <div class="userName">
-            <span th:text="${account.userName}"></span>
-            <span class="alias" th:text="${'@' + account.profileString}"></span>
-          </div>
-          <section class="buttonRight" th:if="${currentUser != null && currentUser != account}">
-            <form class="followForm" th:if="${isCurrentUserFollowing}"
-                  th:action="@{/{profileString}/unfollow (profileString = ${account.profileString})}" method="post">
-              <input type="hidden" name="accountId" th:value="${account.id}"/>
-              <button class="roundButton following" type="submit">Following</button>
-            </form>
-            <form class="followForm" th:if="${!isCurrentUserFollowing}"
-                  th:action="@{/{profileString}/follow (profileString = ${account.profileString})}" method="post">
-              <input type="hidden" name="accountId" th:value="${account.id}"/>
-              <button class="roundButton follow" type="submit">Follow</button>
-            </form>
-          </section>
-          <a th:if="${currentUser == account}"
-             th:href="@{/{profileString}/profile (profileString = ${currentUser.profileString})}">
-            <button class="roundButton editButton">Edit</button>
-          </a>
-          <div class="following_you" th:if="${isFollowerOfCurrentUser}">Following you</div>
-        </header>
-        <section class="userInfo">
-          <div th:text="'Joined on ' + ${#temporals.monthName(account.joinDateTime) + ', '
+      <aside th:replace="fragments/template :: asideLeft(currentUser = ${currentUser}, account = ${account})"></aside>
+
+      <div id="centerColumn" class="col-md-7 m-1 h-100" style="overflow: auto;">
+
+        <article class="media border border-secondary mt-2 mb-2 pt-2 pr-4 pb-2 pl-4 rounded-lg shadow-sm bg-light"
+                 th:if="!${#httpServletRequest.getRequestURI().contains('pictures')}
+                 and !${#httpServletRequest.getRequestURI().contains('likes')}">
+          <div class="media-body">
+            <header class="mb-2">
+              <div class="d-inline">
+                <a class="text-decoration-none" style="color: black;" href="">
+                  <h3 class="d-inline" th:text="${account.userName}"></h3>
+                  <h4 class="d-inline text-secondary" th:text="${'@' + account.profileString}"></h4>
+                </a>
+              </div>
+              <section class="d-inline" th:if="${currentUser != null && currentUser != account}">
+                <form class="float-right" th:if="${isCurrentUserFollowing}"
+                      th:action="@{/{profileString}/unfollow (profileString = ${account.profileString})}" method="post">
+                  <input type="hidden" name="accountId" th:value="${account.id}"/>
+                  <button class="btn btn-sm btn-outline-success" type="submit">Following</button>
+                </form>
+                <form class="float-right" th:if="${!isCurrentUserFollowing}"
+                      th:action="@{/{profileString}/follow (profileString = ${account.profileString})}" method="post">
+                  <input type="hidden" name="accountId" th:value="${account.id}"/>
+                  <button class="btn btn-sm btn-outline-primary" type="submit">Follow</button>
+                </form>
+              </section>
+              <a th:if="${currentUser == account}"
+                 th:href="@{/{profileString}/profile (profileString = ${currentUser.profileString})}">
+                <button class="btn btn-sm btn-outline-secondary float-right">Edit</button>
+              </a>
+              <div class="text-secondary small" th:if="${isFollowerOfCurrentUser}">Following you</div>
+              <section class="text-muted">
+                <div th:text="'Joined on ' + ${#temporals.monthName(account.joinDateTime) + ', '
           + #temporals.year(account.joinDateTime)}"></div>
-        </section>
-        <footer class="userInfo">
-          <span>Followers: <strong style="color: black" th:text="${#lists.size(followers)}+'&ensp;'"></strong></span>
-          <span>Following: <strong style="color: black" th:text="${#lists.size(followed)}"></strong></span>
-        </footer>
-      </article>
-      <section th:replace="fragments/WallPostsFragment :: wallPosts(wallPosts = ${wallPosts}, account = ${account}, currentUser = ${currentUser})">
-      </section>
-    </section>
+              </section>
+            </header>
 
-    <aside th:replace="fragments/template :: asideRight(${followers}, ${followed}, ${users})">
-    </aside>
-  </main>
+            <footer class="text-muted">
+              <span>Followers: <strong class="text-dark" th:text="${#lists.size(followers)}+'&ensp;'"></strong></span>
+              <span>Following: <strong class="text-dark" th:text="${#lists.size(followed)}"></strong></span>
+            </footer>
+
+          </div>
+        </article>
+        <section
+                th:replace="fragments/WallPostsFragment :: wallPosts(wallPosts = ${wallPosts}, account = ${account}, currentUser = ${currentUser})">
+        </section>
+      </div>
+
+      <aside th:replace="fragments/template :: asideRight(${followers}, ${followed}, ${users})">
+      </aside>
+    </div>
+  </div>
   <footer></footer>
 </body>
 

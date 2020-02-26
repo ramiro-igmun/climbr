@@ -6,38 +6,52 @@
 </head>
 
 <body>
+  <section class="header-background"></section>
   <header th:replace="fragments/template :: header(currentUser = ${currentUser})"></header>
 
-  <main>
-    <aside th:replace="fragments/template :: asideLeft(currentUser = ${currentUser}, account = ${currentUser})"></aside>
+  <div class="container">
+    <div class="row" style="height: 90vh;">
 
-    <section class="mainColumn" id="wall">
+      <aside th:replace="fragments/template :: asideLeft(currentUser = ${currentUser}, account = ${currentUser})"></aside>
 
-      <article class="post">
-        <header>
-          <span th:text="${currentUser.userName}"></span>
-          <span class="alias" th:text="${'@' + currentUser.profileString}"></span>
-        </header>
-        <form id="newPostForm" th:action="@{/wallpost/new}" method="post" enctype="multipart/form-data">
-          <textarea name="message" id="newPostMessage" rows="5" placeholder="¿Qué te cuentas?"></textarea>
-          <input type="hidden" name="parentPost" th:value="null">
-        </form>
-        <footer>
-          <input type="submit" value="Post" form="newPostForm">
-          <input accept="image/png, image/jpeg" form="newPostForm" id="postImageUpload" name="postImage" type="file">
-        </footer>
-      </article>
+      <div id="centerColumn" class="col-md-7 m-1 h-100" style="overflow: auto;">
 
-      <section th:replace="fragments/WallPostsFragment :: wallPosts(wallPosts = ${wallPosts}, account = ${currentUser}, currentUser = ${currentUser})">
-      </section>
+        <article class="media border mt-2 mb-2 pt-3 pr-4 pb-2 pl-4 rounded-lg shadow-sm">
+          <div class="media-body">
+            <header class="mb-2">
+              <a class="text-decoration-none" style="color: black;" href="">
+                <h5 class="d-inline" th:text="${currentUser.userName}"></h5>
+                <span class="text-secondary" th:text="${'@' + currentUser.profileString}"></span>
+              </a>
+            </header>
+            <form id="newPostForm" th:action="@{/wallpost/new}" method="post" enctype="multipart/form-data">
+              <textarea style="resize: none" name="message" class="form-control" rows="5" placeholder="¿Qué te cuentas?"></textarea>
+              <input type="hidden" name="parentPost" th:value="null">
+            </form>
+            <footer class="p-3 row">
+              <div class="col-8 custom-file">
+                <input class="custom-file-input" accept="image/png, image/jpeg" form="newPostForm" id="postImageUpload"
+                name="postImage" type="file">
+                <label class="custom-file-label d-inline" for="postImageUpload">Upload File</label>
+              </div>
+              <div class="col-2"></div>
+              <input class="col-2 btn btn-primary btn-sm" type="submit" value="Post" form="newPostForm">
+            </footer>
+          </div>
+        </article>
 
-    </section>
+        <section th:replace="fragments/WallPostsFragment :: wallPosts(wallPosts = ${wallPosts}, account = ${currentUser}, currentUser = ${currentUser})">
+        </section>
 
-    <aside th:replace="fragments/template :: asideRight(${followers}, ${followed}, ${users})">
-    </aside>
+      </div>
 
-  </main>
-  <footer></footer>
+      <aside th:replace="fragments/template :: asideRight(${followers}, ${followed}, ${users})">
+      </aside>
+
+    </div>
+    <footer></footer>
+  </div>
+
 </body>
 
 </html>

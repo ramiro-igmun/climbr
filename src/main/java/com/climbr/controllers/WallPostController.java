@@ -2,7 +2,6 @@ package com.climbr.controllers;
 
 import com.climbr.domain.Account;
 import com.climbr.domain.WallPost;
-import com.climbr.repositories.WallPostRepository;
 import com.climbr.services.AccountService;
 import com.climbr.services.PictureService;
 import com.climbr.services.WallPostService;
@@ -48,15 +47,19 @@ public class WallPostController {
   }
 
   @PostMapping("/wallpost/{wallpostId}")
-  public String deleteWallpost(@PathVariable Long wallpostId, HttpServletRequest httpServletRequest){
+  public String deleteWallpost(@PathVariable Long wallpostId,
+                               @RequestParam("anchor") int anchor,
+                               HttpServletRequest httpServletRequest){
     wallPostService.deleteWallPost(wallpostId);
-    return "redirect:" + httpServletRequest.getHeader("referer");
+    return "redirect:" + httpServletRequest.getHeader("referer")+ "#" + anchor;
   }
 
   @PostMapping("/wallpost/like")
-  public String addLike(@RequestParam("likedWallPost") Long likedWallPost, HttpServletRequest httpServletRequest){
+  public String addLike(@RequestParam("likedWallPost") Long likedWallPost,
+                        @RequestParam("anchor") int anchor,
+                        HttpServletRequest httpServletRequest){
     wallPostService.addLikeToWallPost(likedWallPost, accountService.getCurrentUserAccountIfAuthenticated());
-    return "redirect:" + httpServletRequest.getHeader("referer");
+    return "redirect:" + httpServletRequest.getHeader("referer") + "#" + anchor;
   }
 
   @PostMapping("/wallpost/new")

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 @Controller
 public class UserPageController {
@@ -30,7 +32,8 @@ public class UserPageController {
   }
 
   @GetMapping("/{userProfileString}")
-  public String getUserPage(Model model, @PathVariable String userProfileString) {
+  public String getUserPage(Model model, @PathVariable String userProfileString, HttpServletRequest httpServletRequest) {
+    System.out.println(httpServletRequest.getRequestURI());
     Account account = accountService.findByProfileString(userProfileString);
     Account currentUser = accountService.getCurrentUserAccountIfAuthenticated();
     if (account == null) {
@@ -67,6 +70,7 @@ public class UserPageController {
 
   @GetMapping("/user")
   public String findUserPage(@RequestParam("profileString") String profileString) {
+
     return "redirect:/" + profileString;
   }
 

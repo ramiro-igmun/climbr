@@ -1,62 +1,78 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="/fragments/template :: head">
+<head th:replace="fragments/template :: head">
   <title>Title</title>
 </head>
 
 <body>
-  <header th:replace="/fragments/template :: header(currentUser = ${currentUser})"></header>
+  <header th:replace="fragments/template :: header(currentUser = ${currentUser})"></header>
 
-  <main>
-    <aside th:replace="/fragments/template :: asideLeft(currentUser = ${currentUser}, account = ${account})"></aside>
+  <div class="container">
+    <div class="row" style="height: 90vh;">
 
-    <section class="mainColumn" id="wall">
+      <aside th:replace="fragments/template :: asideLeft(currentUser = ${currentUser}, account = ${account})"></aside>
 
-      <article class="post">
-        <header>
-          <span th:text="${mainWallPost.author.userName}">Name</span>
-          <a class="alias" th:href="@{/{profileString}(profileString = ${mainWallPost.author.profileString})}"
-             th:text="'@' + ${mainWallPost.author.profileString}">@alias</a>
-          <time th:text="${#temporals.format(mainWallPost.postDateTime, 'dd/MM/yyyy HH:mm')}">11/12/2019</time>
-        </header>
-        <div th:if="${mainWallPost.picture != null}">
-          <img class="postPicture" alt="Post picture" src=""
-               th:src="@{/picture/{id}(id=${mainWallPost.picture.id})}">
-        </div>
-        <section th:text="${mainWallPost.message}" class="postMessage"></section>
-        <footer>
-          <form class="likeForm" th:action="@{/wallpost/like}" method="post">
-            <input type="hidden" class="likeInput" name="likedWallPost" th:value="${mainWallPost.id}">
-            <input type="hidden" name="currentURL" th:value="${#httpServletRequest.requestURI}">
-            <input class="smallIcon" type="image" src="/icons/likes.svg" alt="submit">
-            <span class="counter" th:text="${#lists.size(mainWallPost.likes)}"></span>
-          </form>
-          <div class="commentCount">
-            <img class="smallIcon" src="/icons/dialogue.svg" alt="comments">
-            <span class="counter" th:text="${#lists.size(comments)}"></span>
+      <div id="centerColumn" class="col-md-7 m-1 h-100" style="overflow: auto;">
+
+        <article class="media border mt-2 mb-2 pt-3 pr-4 pb-2 pl-4 rounded-lg shadow-sm">
+          <div class="media-body">
+            <header class="mb-2">
+              <a class="text-decoration-none" style="color: black;"
+                 th:href="@{/{profileString}(profileString = ${mainWallPost.author.profileString})}">
+                <h5 class="d-inline" th:text="${mainWallPost.author.userName}"></h5>
+                <span class="text-secondary" th:text="${'@' + mainWallPost.author.profileString}"></span>
+              </a>
+              <time class="text-muted float-right small time"
+                    th:text="${#temporals.format(mainWallPost.postDateTime, 'dd/MM/yyyy HH:mm')}">10-5-2019
+              </time>
+            </header>
+            <div th:if="${mainWallPost.picture != null}">
+              <img class="w-100 mb-3" alt="Post picture" src="#"
+                   th:src="@{/picture/{id}(id=${mainWallPost.picture.id})}">
+            </div>
+            <p th:text="${mainWallPost.message}" class="mb-1"></p>
+            <footer class="text-muted">
+              <form class="likeForm d-inline mr-2" th:action="@{/wallpost/like}" method="post">
+                <input type="hidden" id="likeInput" name="likedWallPost" th:value="${mainWallPost.id}">
+                <input type="hidden" name="anchor" th:value="0">
+                <label th:for="likeSubmit"><i class="far fa-thumbs-up"
+                                              th:text="${'  ' + #lists.size(mainWallPost.likes)}"></i></label>
+                <input th:id="likeSubmit" type="submit" class="d-none">
+              </form>
+              <div class="d-inline">
+                <i class="far fa-comment" th:text="${'  ' + #lists.size(mainWallPost.comments)}"></i>
+              </div>
+            </footer>
+            <form id="newPostForm" th:action="@{/wallpost/new}" method="post" enctype="multipart/form-data">
+              <textarea style="resize: none" name="message" class="form-control" rows="5"
+                        placeholder="Comentario"></textarea>
+              <input type="hidden" name="parentPost" th:value="${mainWallPost.id}">
+            </form>
+            <footer class="p-3 row">
+              <div class="col-8 custom-file">
+                <input class="custom-file-input" accept="image/png, image/jpeg" form="newPostForm" id="postImageUpload"
+                       name="postImage" type="file">
+                <label class="custom-file-label d-inline" for="postImageUpload">Upload File</label>
+              </div>
+              <div class="col-2"></div>
+              <input class="col-2 btn btn-primary btn-sm" type="submit" value="Post" form="newPostForm">
+            </footer>
           </div>
-        </footer>
-        <form id="newPostForm" th:action="@{/wallpost/new}" method="post" enctype="multipart/form-data">
-          <textarea name="message" id="newPostMessage" rows="5" placeholder="Comentario"></textarea>
-          <input type="hidden" name="parentPost" th:value="${mainWallPost.id}">
-        </form>
-        <footer>
-          <input type="submit" value="Post" form="newPostForm">
-          <input accept="image/png, image/jpeg" form="newPostForm" id="postImageUpload" name="postImage" type="file">
-        </footer>
-      </article>
+        </article>
 
-      <section th:replace="fragments/WallPostsFragment :: wallPosts(wallPosts = ${comments}, account = ${account}, currentUser = ${currentUser})">
-      </section>
+        <section th:replace="fragments/WallPostsFragment :: wallPosts(wallPosts = ${comments}, account = ${account}, currentUser = ${currentUser})">
+        </section>
 
-    </section>
+      </div>
 
-    <aside th:replace="/fragments/template :: asideRight(${followers}, ${followed}, ${users})">
-    </aside>
+      <aside th:replace="fragments/template :: asideRight(${followers}, ${followed}, ${users})">
+      </aside>
 
-  </main>
-  <footer></footer>
+    </div>
+
+    <footer></footer>
+
 </body>
 
 </html>

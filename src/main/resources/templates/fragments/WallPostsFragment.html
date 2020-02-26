@@ -2,48 +2,51 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <section th:fragment="wallPosts(wallPosts, account, currentUser)">
-  <article class="post" th:each="wallPost: ${wallPosts}">
-    <header>
-      <a th:href="@{/{profileString}(profileString = ${wallPost.author.profileString})}">
-        <span th:text="${wallPost.author.userName}">Name</span>
-        <span class="alias" th:text="'@' + ${wallPost.author.profileString}">@alias</span>
-      </a>
-      <span th:if="${wallPost.parentPost != null}">
-            <a th:href="@{/{profileString}/wallpost/{wallpostId}(profileString = ${account.profileString},
+  <article th:id="${iStat.index}" class="media border mt-2 mb-2 pt-3 pr-4 pb-2 pl-4 rounded-lg shadow-sm" th:each="wallPost, iStat: ${wallPosts}">
+    <div class="media-body">
+        <header class="mb-2">
+          <a class="text-decoration-none" style="color: black;" th:href="@{/{profileString}(profileString = ${wallPost.author.profileString})}">
+            <h5 class="d-inline" th:text="${wallPost.author.userName}"></h5>
+            <span class="text-secondary" th:text="${'@' + wallPost.author.profileString}"></span>
+          </a>
+          <span th:if="${wallPost.parentPost != null}">
+            <a class="text-decoration-none" th:href="@{/{profileString}/wallpost/{wallpostId}(profileString = ${wallPost.parentPost.author.profileString},
             wallpostId = ${wallPost.parentPost.id})}">
-              <span th:text="${'> ' + wallPost.parentPost.author.userName}"></span>
-              <span class="alias" th:text="'@' + ${wallPost.parentPost.author.profileString}">@alias</span>
+              <span class="text-secondary" th:text="${'> ' + wallPost.parentPost.author.userName}"></span>
+              <span class="text-secondary" th:text="'@' + ${wallPost.parentPost.author.profileString}">@alias</span>
             </a>
           </span>
-      <time th:text="${#temporals.format(wallPost.postDateTime, 'dd/MM/yyyy HH:mm')}">11/12/2019</time>
-    </header>
-    <div th:if="${wallPost.picture != null}">
-      <img class="postPicture" alt="Post picture" src=""
-           th:src="@{/picture/{id}(id=${wallPost.picture.id})}">
-    </div>
-    <section th:text="${wallPost.message}" class="postMessage"></section>
-    <footer>
-      <form class="likeForm" th:action="@{/wallpost/like}" method="post">
-        <input type="hidden" id="likeInput" name="likedWallPost" th:value="${wallPost.id}">
-        <input type="hidden" name="currentURL" th:value="${#httpServletRequest.requestURI}">
-        <input class="smallIcon" type="image" src="/icons/likes.svg" alt="submit">
-        <span class="counter" th:text="${#lists.size(wallPost.likes)}"></span>
-      </form>
-      <div th:if="${wallPost.parentPost == null}" class="commentCount">
-        <a th:href="@{/{profileString}/wallpost/{wallpostId}(profileString = ${wallPost.author.profileString},
-            wallpostId = ${wallPost.id})}">
-          <img class="smallIcon" src="/icons/dialogue.svg" alt="comments">
-        </a>
-        <span class="counter" th:text="${#lists.size(wallPost.comments)}"></span>
+          <time class="text-muted float-right small time" th:text="${#temporals.format(wallPost.postDateTime, 'dd/MM/yyyy HH:mm')}">10-5-2019</time>
+        </header>
+      <div th:if="${wallPost.picture != null}">
+        <img class="w-100 mb-3" alt="Post picture" src="#"
+             th:src="@{/picture/{id}(id=${wallPost.picture.id})}">
       </div>
-      <form th:if="${wallPost.author == currentUser}" class="makeProfilePicture"
-            th:action="@{/wallpost/{wallpostId}(wallpostId = ${wallPost.id})}" method="post">
-        <input type="submit" value="Delete">
-      </form>
-      <form th:if="${wallPost.picture != null && wallPost.picture.account == currentUser}" class="makeProfilePicture"
-            th:action="@{/picture/{id}(id=${wallPost.picture.id})}" method="post">
-        <input type="submit" value="Make profile Picture">
-      </form>
-    </footer>
+      <p th:text="${wallPost.message}" class="mb-1"></p>
+      <footer class="text-muted">
+        <form class="likeForm d-inline mr-2" th:action="@{/wallpost/like}" method="post">
+          <input type="hidden" id="likeInput" name="likedWallPost" th:value="${wallPost.id}">
+          <input type="hidden" name="anchor" th:value="${iStat.index}">
+          <label th:for="likeSubmit + ${iStat.index}"><i class="far fa-thumbs-up" th:text="${'  ' + #lists.size(wallPost.likes)}"></i></label>
+          <input th:id="likeSubmit + ${iStat.index}" type="submit" class="d-none">
+        </form>
+        <div class="d-inline" th:if="${wallPost.parentPost == null}">
+          <a class="text-muted" th:href="@{/{profileString}/wallpost/{wallpostId}(profileString = ${wallPost.author.profileString},
+            wallpostId = ${wallPost.id})}">
+            <i class="far fa-comment" th:text="${'  ' + #lists.size(wallPost.comments)}"></i>
+          </a>
+        </div>
+        <form th:if="${wallPost.author == currentUser}" class="d-inline float-right"
+              th:action="@{/wallpost/{wallpostId}(wallpostId = ${wallPost.id})}" method="post">
+          <input type="hidden" name="anchor" th:value="${iStat.index - 1}">
+          <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+        </form>
+        <form th:if="${wallPost.picture != null && wallPost.picture.account == currentUser}" class="d-inline float-right"
+              th:action="@{/picture/{id}(id=${wallPost.picture.id})}" method="post">
+          <input type="hidden" name="anchor" th:value="${iStat.index}">
+          <button type="submit" class="btn btn-sm btn-outline-secondary mr-1">Make profile picture</button>
+        </form>
+      </footer>
+    </div>
   </article>
 </section>
