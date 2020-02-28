@@ -37,13 +37,13 @@ public class Account extends AbstractPersistable<Long> {
     private LocalDateTime joinDateTime = LocalDateTime.now();
 
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Picture profilePicture;
 
-    @OneToMany(mappedBy = "account")
-    private List<Picture> pictures;
+    //@OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    //private List<Picture> pictures;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<WallPost> wallPosts;
 
     @OneToMany(mappedBy = "follower")

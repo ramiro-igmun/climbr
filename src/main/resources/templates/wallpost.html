@@ -61,7 +61,8 @@
           </div>
         </article>
 
-        <section th:replace="fragments/WallPostsFragment :: wallPosts(wallPosts = ${comments}, account = ${account}, currentUser = ${currentUser})">
+        <section
+                th:replace="fragments/WallPostsFragment :: wallPosts(wallPosts = ${comments}, account = ${account}, currentUser = ${currentUser})">
         </section>
 
       </div>
@@ -72,6 +73,8 @@
     </div>
 
     <footer></footer>
+  </div>
+  <div th:replace="fragments/template :: scripts"></div>
 
 </body>
 

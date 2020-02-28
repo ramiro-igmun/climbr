@@ -44,21 +44,53 @@
 
   <!--  Left column: user profile picture and options-->
   <aside class="col-md-2 m-1" th:fragment="asideLeft(currentUser, account)">
-    <img class="img-thumbnail w-100 rounded-lg mt-2" alt="profile picture" src="#"
-         th:src="@{{url}(url=${account.profilePicture==null?'/img/defaultProfile.jpg':'/picture/' + account.profilePicture.id})}">
+    <button class="p-0 border-0 mt-2" data-toggle="modal" data-target="#profilePicture">
+      <img class="img-thumbnail w-100 rounded-lg" alt="profile picture" src="#"
+           th:src="@{{url}(url=${account.profilePicture==null?'/img/defaultProfile.jpg':'/picture/' + account.profilePicture.id})}">
+    </button>
+
+    <!-- Select Profile picture modal popup  -->
+    <div th:if="${currentUser==account}" class="modal fade" id="profilePicture" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog" role="form">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ModalLabel">Choose Profile Picture</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="updatePicture" action="/picture/update" method="post" enctype="multipart/form-data">
+              <div class="custom-file">
+                <input class="custom-file-input" accept="image/png, image/jpeg" id="profileImageUpload"
+                       name="profilePicture" type="file">
+                <label class="custom-file-label d-inline" for="profileImageUpload">Upload Image</label>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" form="updatePicture">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <nav>
-      <a class="btn btn-outline-secondary w-100 text-left mt-2 climbr-font" href="/home"><i class="fas fa-home"></i>  Home</a>
+      <a class="btn btn-outline-secondary w-100 text-left mt-2 climbr-font" href="/home"><i class="fas fa-home"></i>
+        Home</a>
       <a class="btn btn-outline-secondary w-100 text-left mt-2 climbr-font"
          th:href="@{/{profileString}/pictures(profileString = ${account.profileString})}">
-        <i class="fas fa-image"></i>  Picture
+        <i class="fas fa-image"></i> Picture
       </a>
       <a class="btn btn-outline-secondary w-100 text-left mt-2 climbr-font"
          th:href="@{/{profileString}/likes(profileString = ${account.profileString})}">
-        <i class="fas fa-thumbs-up"></i>  Likes
+        <i class="fas fa-thumbs-up"></i> Likes
       </a>
       <a th:if="${currentUser == account}" class="btn btn-outline-secondary w-100 text-left mt-2 climbr-font"
          th:href="@{/{currentUser}(currentUser = ${currentUser.profileString})}">
-        <i class="fas fa-portrait"></i>  Profile
+        <i class="fas fa-portrait"></i> Profile
       </a>
     </nav>
   </aside>
@@ -105,6 +137,16 @@
       </div>
     </section>
   </aside>
-
+  <div th:fragment="scripts">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+  </div>
 </body>
 </html>

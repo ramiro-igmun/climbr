@@ -41,7 +41,7 @@
           <input type="hidden" name="anchor" th:value="${iStat.index - 1}">
           <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
         </form>
-        <form th:if="${wallPost.picture != null && wallPost.picture.account == currentUser}" class="d-inline float-right"
+        <form th:if="${wallPost.picture != null && wallPost.author == currentUser}" class="d-inline float-right"
               th:action="@{/picture/{id}(id=${wallPost.picture.id})}" method="post">
           <input type="hidden" name="anchor" th:value="${iStat.index}">
           <button type="submit" class="btn btn-sm btn-outline-secondary mr-1">Make profile picture</button>

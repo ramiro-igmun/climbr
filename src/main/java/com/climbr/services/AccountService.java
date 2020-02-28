@@ -43,7 +43,7 @@ public class AccountService {
     }
   }
 
-  public Account findByProfileString(String profileString) {
+   public Account findByProfileString(String profileString) {
     Optional<Account> optionalAccount = accountRepository.findByProfileString(profileString);
     return optionalAccount.orElseThrow(() -> new UsernameNotFoundException("not found:" + profileString));
   }
@@ -98,7 +98,9 @@ public class AccountService {
   }
 
   public void saveUser(Account user) {
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
+    if (user.getId()==null) {//checks if the user is new to encrypt the password
+      user.setPassword(passwordEncoder.encode(user.getPassword()));
+    }
     accountRepository.save(user);
   }
 }

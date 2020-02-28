@@ -15,8 +15,8 @@ public class Picture extends AbstractPersistable<Long> {
   private String mediaType;
   private Long size;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  private Account account;
+  //@ManyToOne(fetch = FetchType.LAZY)
+  //private Account account;
 
   @OneToOne(fetch = FetchType.LAZY)
   private WallPost parentPost;
