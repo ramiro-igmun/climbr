@@ -1,7 +1,7 @@
 package com.climbr.domain;
 
-import com.climbr.domain.Validators.AccountCreationValidationGroup;
-import com.climbr.domain.Validators.ProfileEditValidationGroup;
+import com.climbr.validators.AccountCreationValidationGroup;
+import com.climbr.validators.ProfileEditValidationGroup;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -46,9 +46,9 @@ public class Account extends AbstractPersistable<Long> {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<WallPost> wallPosts;
 
-    @OneToMany(mappedBy = "follower")
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
     private List<FollowingFollower> followers;
-    @OneToMany(mappedBy = "following")
+    @OneToMany(mappedBy = "following", cascade = CascadeType.ALL)
     private List<FollowingFollower> following;
 
     @ManyToMany(mappedBy = "likes")

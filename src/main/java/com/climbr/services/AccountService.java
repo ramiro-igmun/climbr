@@ -45,7 +45,7 @@ public class AccountService {
 
    public Account findByProfileString(String profileString) {
     Optional<Account> optionalAccount = accountRepository.findByProfileString(profileString);
-    return optionalAccount.orElseThrow(() -> new UsernameNotFoundException("not found:" + profileString));
+    return optionalAccount.orElse(null);
   }
 
   public List<Account> getFollowers(Account user) {

@@ -1,4 +1,4 @@
-package com.climbr.domain.Validators;
+package com.climbr.validators;
 
 public interface ProfileEditValidationGroup {
 }

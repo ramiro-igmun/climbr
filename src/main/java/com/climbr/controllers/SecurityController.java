@@ -1,7 +1,7 @@
 package com.climbr.controllers;
 
 import com.climbr.domain.Account;
-import com.climbr.domain.Validators.AccountCreationValidationGroup;
+import com.climbr.validators.AccountCreationValidationGroup;
 import com.climbr.services.AccountService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;

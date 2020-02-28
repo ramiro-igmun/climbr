@@ -1,7 +1,7 @@
 package com.climbr.controllers;
 
 import com.climbr.domain.Account;
-import com.climbr.domain.Validators.ProfileEditValidationGroup;
+import com.climbr.validators.ProfileEditValidationGroup;
 import com.climbr.services.AccountService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
