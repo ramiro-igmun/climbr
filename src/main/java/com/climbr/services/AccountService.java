@@ -9,6 +9,7 @@ import com.climbr.security.ClimbRatUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +21,12 @@ public class AccountService {
 
   private final AccountRepository accountRepository;
   private final FollowingFollowerRepository followingFollowerRepository;
+  private final PasswordEncoder passwordEncoder;
 
-  public AccountService(AccountRepository accountRepository, FollowingFollowerRepository followingFollowerRepository) {
+  public AccountService(AccountRepository accountRepository, FollowingFollowerRepository followingFollowerRepository, PasswordEncoder passwordEncoder) {
     this.accountRepository = accountRepository;
     this.followingFollowerRepository = followingFollowerRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
   public List<Account> getAllUsers() {
@@ -95,6 +98,7 @@ public class AccountService {
   }
 
   public void saveUser(Account user) {
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
     accountRepository.save(user);
   }
 }

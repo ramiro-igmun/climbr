@@ -1,12 +1,16 @@
-body{
+body {
     background-color: #f9f9f9;
 }
 
-.media{
+.media {
     background-color: white;
 }
 
-.header-background{
+.climbr-font{
+    font-family: 'Quicksand', SansSerif, serif;
+}
+
+.header-background {
     background-color: #ebebeb;
     position: absolute;
     top: 0;
@@ -15,19 +19,44 @@ body{
     height: 4.2rem;
 }
 
-#centerColumn::-webkit-scrollbar{
+#centerColumn::-webkit-scrollbar {
     display: none;
 }
 
-.climbr{
-    font-family: 'Quicksand', SansSerif, serif;
-    font-weight:bold ;
+.main-title {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
-.time{
+.main-title .content{
+    position: absolute;
+}
+
+.main-title h1 {
+    font-size: 6rem;
+    margin-bottom: 0;
+    color: #616161;
+}
+
+.main-title nav{
+    padding-left: 3rem;
+}
+
+.login{
+    margin-left: 4rem;
+}
+
+.climbr {
+    font-weight: bold;
+}
+
+.time {
     padding-top: 0.4rem;
 }
 
-.likeForm label:hover{
+.likeForm label:hover {
     cursor: pointer;
 }

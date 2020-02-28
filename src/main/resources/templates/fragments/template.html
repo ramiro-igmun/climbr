@@ -24,7 +24,7 @@
   <!--Header-->
   <header class="container border-bottom" th:fragment="header(currentUser)">
     <div class="row">
-      <h1 class="col-8 d-flex display-4 m-0 climbr">
+      <h1 class="col-8 d-flex display-4 m-0 climbr climbr-font">
         <a class="text-decoration-none text-secondary" th:href="@{/home}">
           climbr
         </a>
@@ -47,16 +47,16 @@
     <img class="img-thumbnail w-100 rounded-lg mt-2" alt="profile picture" src="#"
          th:src="@{{url}(url=${account.profilePicture==null?'/img/defaultProfile.jpg':'/picture/' + account.profilePicture.id})}">
     <nav>
-      <a class="btn btn-outline-secondary w-100 text-left mt-2" href="/home"><i class="fas fa-home"></i>  Home</a>
-      <a class="btn btn-outline-secondary w-100 text-left mt-2"
+      <a class="btn btn-outline-secondary w-100 text-left mt-2 climbr-font" href="/home"><i class="fas fa-home"></i>  Home</a>
+      <a class="btn btn-outline-secondary w-100 text-left mt-2 climbr-font"
          th:href="@{/{profileString}/pictures(profileString = ${account.profileString})}">
         <i class="fas fa-image"></i>  Picture
       </a>
-      <a class="btn btn-outline-secondary w-100 text-left mt-2"
+      <a class="btn btn-outline-secondary w-100 text-left mt-2 climbr-font"
          th:href="@{/{profileString}/likes(profileString = ${account.profileString})}">
         <i class="fas fa-thumbs-up"></i>  Likes
       </a>
-      <a th:if="${currentUser == account}" class="btn btn-outline-secondary w-100 text-left mt-2"
+      <a th:if="${currentUser == account}" class="btn btn-outline-secondary w-100 text-left mt-2 climbr-font"
          th:href="@{/{currentUser}(currentUser = ${currentUser.profileString})}">
         <i class="fas fa-portrait"></i>  Profile
       </a>
@@ -76,7 +76,7 @@
     </form>
     <section class="card mt-5">
       <div class="card-header">
-        <h5>Followers</h5>
+        <h5 class="text-muted mb-0 climbr-font">Followers</h5>
       </div>
       <div class="card-body p-0" style="height: 15rem; overflow: auto;">
         <div class="list-group">
@@ -91,7 +91,7 @@
     </section>
     <section class="card mt-5">
       <div class="card-header">
-        <h5>Following</h5>
+        <h5 class="text-muted mb-0 climbr-font">Following</h5>
       </div>
       <div class="card-body p-0" style="height: 15rem; overflow: auto;">
         <div class="list-group">
