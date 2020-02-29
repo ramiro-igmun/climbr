@@ -18,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@Profile("production")
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   private final UserDetailsService climbRatUserDetailsService;
