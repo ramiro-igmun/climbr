@@ -60,3 +60,15 @@ body {
 .likeForm label:hover {
     cursor: pointer;
 }
+
+@media (max-width: 990px){
+    .right-column, .left-nav {
+        display: none;
+    }
+}
+
+@media (max-width: 770px){
+    .left-column, .currentUser{
+        display: none;
+    }
+}

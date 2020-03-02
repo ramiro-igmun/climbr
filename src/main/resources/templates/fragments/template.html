@@ -24,13 +24,13 @@
   <!--Header-->
   <header class="container border-bottom" th:fragment="header(currentUser)">
     <div class="row">
-      <h1 class="col-8 d-flex display-4 m-0 climbr climbr-font">
+      <h1 class="col d-flex display-4 m-0 climbr climbr-font">
         <a class="text-decoration-none text-secondary" th:href="@{/home}">
           climbr
         </a>
       </h1>
-      <div class="col-4 d-flex align-items-end justify-content-end">
-        <div class="mr-4" th:if="${currentUser!=null}">
+      <div class="col d-flex align-items-end justify-content-end">
+        <div class="currentUser mr-4" th:if="${currentUser!=null}">
           <span th:text="${currentUser.userName}"></span>
           <span class="text-secondary" th:text="${'@' + currentUser.profileString}"></span>
         </div>
@@ -43,7 +43,7 @@
   </header>
 
   <!--  Left column: user profile picture and options-->
-  <aside class="col-md-2 m-1" th:fragment="asideLeft(currentUser, account)">
+  <aside class="col-2 m-1 left-column" th:fragment="asideLeft(currentUser, account)">
     <button class="p-0 border-0 mt-2" data-toggle="modal" data-target="#profilePicture">
       <img class="img-thumbnail w-100 rounded-lg" alt="profile picture" src="#"
            th:src="@{{url}(url=${account.profilePicture==null?'/img/defaultProfile.jpg':'/picture/' + account.profilePicture.id})}">
@@ -79,24 +79,24 @@
 
     <nav>
       <a class="btn btn-outline-secondary w-100 text-left mt-2 climbr-font" href="/home"><i class="fas fa-home"></i>
-        Home</a>
+        <span class="left-nav">Home</span></a>
       <a class="btn btn-outline-secondary w-100 text-left mt-2 climbr-font"
          th:href="@{/{profileString}/pictures(profileString = ${account.profileString})}">
-        <i class="fas fa-image"></i> Picture
+        <i class="fas fa-image"></i> <span class="left-nav">Pictures</span>
       </a>
       <a class="btn btn-outline-secondary w-100 text-left mt-2 climbr-font"
          th:href="@{/{profileString}/likes(profileString = ${account.profileString})}">
-        <i class="fas fa-thumbs-up"></i> Likes
+        <i class="fas fa-thumbs-up"></i> <span class="left-nav">Likes</span>
       </a>
       <a th:if="${currentUser == account}" class="btn btn-outline-secondary w-100 text-left mt-2 climbr-font"
          th:href="@{/{currentUser}(currentUser = ${currentUser.profileString})}">
-        <i class="fas fa-portrait"></i> Profile
+        <i class="fas fa-portrait"></i> <span class="left-nav">Profile</span>
       </a>
     </nav>
   </aside>
 
   <!--Right column find account and list followers and following-->
-  <aside class="col-md m-1" th:fragment="asideRight(followers, followed, users)">
+  <aside class="col-sm m-1 right-column" th:fragment="asideRight(followers, followed, users)">
     <form th:action="@{/user}" method="get">
       <input class="form-control mt-2" type="text" name="profileString" id="findUser" placeholder="Find User"
              list="users" autocomplete="off">
