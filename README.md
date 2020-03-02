@@ -12,10 +12,10 @@ Climbr is a social network project made using Spring Boot.
   
   There are some mock users and posts added to the database for testing purposes:
   
-  * User: _Jon_ Password: _jon_
-  * User: _Eva_ Password: _eva_
-  * User: _Ana_ Password: _ana_
-  * User: _Tom_ Password: _tom_
+  * User: _Jon_ Password: _jonn_
+  * User: _Eva_ Password: _evaa_
+  * User: _Ana_ Password: _anaa_
+  * User: _Tom_ Password: _tomm_
 
  1) **Running the app**
   
