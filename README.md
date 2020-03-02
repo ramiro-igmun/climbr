@@ -12,13 +12,12 @@ Climbr is a social network project made using Spring Boot.
   
   There are some mock users and posts added to the database for testing purposes:
   
-  * User: _Jon_ Password:_jonny_
-  * User: _Eva_ Password:_evita_
-  * User: _Ana_ Password:_anita_
-  * User: _Joaquin_ Password:_joako_
+  * User: _Jon_ Password: _jonny_
+  * User: _Eva_ Password: _evita_
+  * User: _Ana_ Password: _anita_
+  * User: _Joaquin_ Password: _joako_
 
-  
-1) **Running the app**
+ 1) **Running the app**
   
     You can run the app from the command line after installing Maven on your computer with the following command
     from the project folder:

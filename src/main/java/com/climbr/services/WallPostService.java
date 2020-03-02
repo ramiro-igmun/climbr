@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -45,25 +46,40 @@ public class WallPostService {
 
   public List<WallPost> getHomePageWallPosts(Account currentUser){
     List<Long> wallPostsIds = wallPostRepository.getPageHomeWallPostIds(currentUser, getPage());
+    if (wallPostsIds.isEmpty()){
+      return Collections.emptyList();
+    }
     return getWallPostsWithLikesAndComments(wallPostsIds,sortDesc);
   }
 
   public Object getAccountPicturesWallPosts(Account account) {
     List<Long> picturePostsIds = wallPostRepository.findByAuthorAndHasPicture(account,getPage());
+    if (picturePostsIds.isEmpty()){
+      return Collections.emptyList();
+    }
     return getWallPostsWithLikesAndComments(picturePostsIds,sortDesc);
   }
 
   public List<WallPost> getAccountWallPosts(Account account){
     List<Long> accountPostsIds = wallPostRepository.findByAuthor(account,getPage());
+    if (accountPostsIds.isEmpty()){
+      return Collections.emptyList();
+    }
     return getWallPostsWithLikesAndComments(accountPostsIds,sortDesc);
   }
   public List<WallPost> getWallPostComments(WallPost wallPost){
     List<Long> commentPostsIds = wallPostRepository.findByParentPost(wallPost, getPage());
+    if (commentPostsIds.isEmpty()){
+      return Collections.emptyList();
+    }
     return  getWallPostsWithLikesAndComments(commentPostsIds,sortAsc);
   }
 
   public List<WallPost> getLikedWallPosts(Account account){
     List<Long> likedPostIds = wallPostRepository.findByUserIdLikes(account.getId(),getPage());
+    if (likedPostIds.isEmpty()){
+      return Collections.emptyList();
+    }
     return getWallPostsWithLikesAndComments(likedPostIds,sortDesc);
   }
 
@@ -86,7 +102,7 @@ public class WallPostService {
     Long currentUserId = currentUser.getId();
     if(!likeExists(wallPostId,currentUserId)
             && isLikeOfCurrentUser(wallPostId, currentUserId)){
-    wallPostRepository.setWallPostLike(wallPostId, currentUserId);
+      wallPostRepository.setWallPostLike(wallPostId, currentUserId);
     }
   }
 
