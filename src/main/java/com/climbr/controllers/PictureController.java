@@ -1,7 +1,6 @@
 package com.climbr.controllers;
 
 import com.climbr.domain.Picture;
-import com.climbr.services.AccountService;
 import com.climbr.services.PictureService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -15,11 +14,9 @@ import java.io.IOException;
 public class PictureController {
 
   private final PictureService pictureService;
-  private final AccountService accountService;
 
-  public PictureController(PictureService pictureService, AccountService accountService) {
+  public PictureController(PictureService pictureService) {
     this.pictureService = pictureService;
-    this.accountService = accountService;
   }
 
   @GetMapping(value = "/picture/{pictureId}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
@@ -39,7 +36,7 @@ public class PictureController {
   @PostMapping("/picture/update")
   public String updateProfilePicture(HttpServletRequest httpServletRequest, @RequestParam MultipartFile profilePicture) throws IOException {
     if (!profilePicture.isEmpty()) {
-      Picture picture = pictureService.savePicture(profilePicture, null, accountService.getCurrentUserAccountIfAuthenticated());
+      Picture picture = pictureService.savePicture(profilePicture, null);
       pictureService.makeProfilePicture(picture.getId());
     }
     return "redirect:" + httpServletRequest.getHeader("referer");

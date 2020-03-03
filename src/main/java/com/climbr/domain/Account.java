@@ -40,9 +40,6 @@ public class Account extends AbstractPersistable<Long> {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Picture profilePicture;
 
-    //@OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    //private List<Picture> pictures;
-
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<WallPost> wallPosts;
 

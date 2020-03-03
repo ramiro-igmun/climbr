@@ -1,7 +1,9 @@
 package com.climbr.services;
 
 import com.climbr.domain.Account;
+import com.climbr.domain.Picture;
 import com.climbr.domain.WallPost;
+import com.climbr.repositories.PictureRepository;
 import com.climbr.repositories.WallPostRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,12 +18,16 @@ import java.util.List;
 public class WallPostService {
 
   private final WallPostRepository wallPostRepository;
+  private final PictureRepository pictureRepository;
+  private final PictureService pictureService;
   private final Sort sortDesc = Sort.by("postDateTime").descending();
   private final Sort sortAsc = Sort.by("postDateTime").ascending();
 
 
-  public WallPostService(WallPostRepository wallPostRepository) {
+  public WallPostService(WallPostRepository wallPostRepository, PictureRepository pictureRepository, PictureService pictureService) {
     this.wallPostRepository = wallPostRepository;
+    this.pictureRepository = pictureRepository;
+    this.pictureService = pictureService;
   }
 
   public WallPost getWallPost(Long wallPostId){
@@ -33,7 +39,14 @@ public class WallPostService {
   }
 
   @Transactional
-  public void deleteWallPost(Long wallPostId){
+  public void deleteWallPost(Long wallPostId, Account currentUser){
+    WallPost wallPost = wallPostRepository.getById(wallPostId);
+    pictureRepository.findByParentPost(wallPost).ifPresent(picture -> {
+      Picture profilePicture = currentUser.getProfilePicture();
+      if (profilePicture.getId().intValue() == picture.getId().intValue()){
+        pictureService.makeProfilePicture(0L);
+      }
+    });
     wallPostRepository.deleteById(wallPostId);
   }
 

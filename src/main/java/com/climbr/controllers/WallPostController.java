@@ -50,7 +50,7 @@ public class WallPostController {
   public String deleteWallpost(@PathVariable Long wallpostId,
                                @RequestParam("anchor") int anchor,
                                HttpServletRequest httpServletRequest){
-    wallPostService.deleteWallPost(wallpostId);
+    wallPostService.deleteWallPost(wallpostId, accountService.getCurrentUserAccountIfAuthenticated());
     return "redirect:" + httpServletRequest.getHeader("referer")+ "#" + anchor;
   }
 
@@ -77,7 +77,7 @@ public class WallPostController {
     WallPost post = new WallPost(accountService.getCurrentUserAccountIfAuthenticated(), message, parentPost);
     wallPostService.saveWallPost(post);
     if (!image.isEmpty()) {
-      pictureService.savePicture(image, post, accountService.getCurrentUserAccountIfAuthenticated());
+      pictureService.savePicture(image, post);
     }
     return "redirect:" + httpServletRequest.getHeader("referer");
   }

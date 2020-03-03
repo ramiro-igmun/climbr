@@ -33,7 +33,12 @@ public class PictureService {
 
   @Transactional
   public void makeProfilePicture(Long pictureID){
-    Picture picture = pictureRepository.getOne(pictureID);
+    Picture picture;
+    if (pictureID == 0){
+      picture = null;
+    }else {
+      picture = pictureRepository.getOne(pictureID);
+    }
     Account currentUser = accountRepository.getOne(accountService.getCurrentUserAccountIfAuthenticated().getId());
     Picture oldProfilePicture = currentUser.getProfilePicture();
     if (oldProfilePicture != null) {
@@ -46,9 +51,8 @@ public class PictureService {
     accountService.saveUser(currentUser);
   }
 
-  public Picture savePicture(MultipartFile image, WallPost post, Account currentUser) throws IOException {
+  public Picture savePicture(MultipartFile image, WallPost post) throws IOException {
     Picture picture = new Picture();
-    //picture.setAccount(currentUser);
     picture.setContent(image.getBytes());
     picture.setMediaType(image.getContentType());
     picture.setName(image.getOriginalFilename());
