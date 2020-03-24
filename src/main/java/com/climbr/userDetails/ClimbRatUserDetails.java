@@ -1,4 +1,4 @@
-package com.climbr.security;
+package com.climbr.userDetails;
 
 import com.climbr.domain.Account;
 import org.springframework.security.core.GrantedAuthority;

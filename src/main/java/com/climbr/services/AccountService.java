@@ -5,7 +5,7 @@ import com.climbr.domain.FollowingFollower;
 import com.climbr.domain.FollowingFollowerKey;
 import com.climbr.repositories.AccountRepository;
 import com.climbr.repositories.FollowingFollowerRepository;
-import com.climbr.security.ClimbRatUserDetails;
+import com.climbr.userDetails.ClimbRatUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
